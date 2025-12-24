@@ -9,7 +9,7 @@ from farmacia.estoque import Estoque
 from farmacia.produto import Produto 
 from core.funcionario import Funcionario
 estoque = Estoque()
-
+print('___')
 tadala = Produto('p1', 'tadala', 10.0, 'cimed')
 nebacetin = Produto('p2', 'nebacetin', 8.5, 'cimed')
 dipirona = Produto('p3','dipirona',2.3,'aveloz')
