@@ -1,4 +1,5 @@
 #implementacao de classe abstrata Funcionario
+
 from .pessoa import Pessoa
 class Funcionario(Pessoa):
     def __init__(self,nome,cpf,data_nascimento,salario_base,id):
