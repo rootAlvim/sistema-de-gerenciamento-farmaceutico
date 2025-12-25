@@ -8,18 +8,35 @@
 from farmacia.estoque import Estoque 
 from farmacia.produto import Produto 
 from core.funcionario import Funcionario
-estoque = Estoque()
-print('___')
-tadala = Produto('p1', 'tadala', 10.0, 'cimed')
-nebacetin = Produto('p2', 'nebacetin', 8.5, 'cimed')
-dipirona = Produto('p3','dipirona',2.3,'aveloz')
 funcionario = Funcionario('João', '12345678900', '1990-01-01','1200','1')
+estoque = Estoque()
+while True:
+        print("\n1 - Registrar produto")
+        print("2 - Registrar venda")
+        print("3 - Consultar estoque")
+        print("0 - Sair")
 
-funcionario.registrar_produto(estoque, tadala, 5)
-funcionario.registrar_produto(estoque, nebacetin, 3)
-funcionario.registrar_produto(estoque,dipirona,10)
-print("Estoque inicial:", funcionario.consultar_estoque(estoque))
+        opcao = input("Opção: ")
 
-funcionario.registrar_venda(estoque, tadala, 5)
-funcionario.registrar_venda(estoque,dipirona,3)
-print("Estoque após venda:", funcionario.consultar_estoque(estoque))
+        if opcao == "1":
+            nome = input('Nome do produto: ')
+            id = input("ID do produto: ")
+            preco = input('Preço do produto: ')
+            fabricante = input('Fabricante do produto: ')
+            qtd = int(input("Quantidade: "))
+            p = Produto(id,nome,preco,fabricante)
+            funcionario.registrar_produto(estoque,p,qtd)
+
+        elif opcao == "2":
+            
+            if p is not None:
+                nome = input('Digite o nome do produto: ')
+                qtd = int(input("Quantidade: "))
+                funcionario.registrar_venda(estoque, p , qtd)
+            else:
+                print('Não ha estoque')
+            
+        
+        elif opcao == "3":
+            print(funcionario.consultar_estoque(estoque))
+            break    

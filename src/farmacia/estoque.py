@@ -19,8 +19,10 @@ class Estoque:
             print(f'Produto vendido!!')
             return True
         print(f'Produto em Falta')
-
     def consultar(self):
-        return {
+        if not self.produtos:
+            return f'Estoque vazio'
+        else:
+            return {
             produto.nome: qtd for produto, qtd in self.produtos.items()
-        }
+            }
