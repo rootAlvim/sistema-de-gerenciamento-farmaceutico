@@ -6,7 +6,8 @@ class Funcionario(Pessoa):
         super().__init__(nome,cpf,data_nascimento)
         self.__salario_base = salario_base
         self.__id = id
-        self.__autenticado = True
+        self.__autenticado = True 
+        
     def get_salario_base(self):
         '''Retorna salario do funcionario'''
         return self.__salario_base
