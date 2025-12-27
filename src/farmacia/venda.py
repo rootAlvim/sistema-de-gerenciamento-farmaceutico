@@ -26,5 +26,9 @@ class Venda:
     
     def setPrecoTotal(self, funcionario: Funcionario, valor: Decimal):
         '''Setter para alterar preco total da venda. Recebe um objeto do tipo Funcionario e um valor do tipo Decimal. Adiciona a atual modificacao ao Log de Alteracoes'''
-        # A ser implementada
-        pass
+        if valor > 0:
+            self.__precoTotal = valor
+            log = f'Data:{datetime.now()};Funcionario:{funcionario};Valor:{valor}'
+            self.__logAlteracoes.append(log)
+
+        raise ValueError("O valor de preço total deve ser maior que 0")
