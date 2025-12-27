@@ -7,7 +7,6 @@ class Funcionario(Pessoa):
         self.__salario_base = salario_base
         self.__id = id
         self.__autenticado = True
-        
     def get_salario_base(self):
         '''Retorna salario do funcionario'''
         return self.__salario_base
