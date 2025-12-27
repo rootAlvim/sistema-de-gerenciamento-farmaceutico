@@ -1,0 +1,1 @@
+print(funcionario.consultar(estoque))

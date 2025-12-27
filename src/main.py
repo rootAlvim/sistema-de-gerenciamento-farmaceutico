@@ -8,8 +8,14 @@
 from farmacia.estoque import Estoque 
 from farmacia.produto import Produto 
 from core.funcionario import Funcionario
-funcionario = Funcionario('João', '12345678900', '1990-01-01','1200','1')
 estoque = Estoque()
+p1 = Produto(1,'dipirona',1,'fabricante')
+funcionario = Funcionario('João', '12345678900', '1990-01-01','1200','1')
+print(funcionario.get_isautenticado())
+funcionario.adicionar_produto(p1,2,estoque)
+funcionario.vender_produto(1,1,estoque)
+print(funcionario.consultar(estoque))
+'''estoque = Estoque()
 while True:
         print("\n1 - Registrar produto")
         print("2 - Registrar venda")
@@ -39,4 +45,4 @@ while True:
         
         elif opcao == "3":
             print(funcionario.consultar_estoque(estoque))
-            break    
+            break    '''
