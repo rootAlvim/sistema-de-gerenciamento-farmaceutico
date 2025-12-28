@@ -1,4 +1,3 @@
-
 from .produto import Produto
 from core.funcionario import Funcionario
 
