@@ -47,6 +47,22 @@ class Funcionario(Pessoa):
             return "Estoque vazio"
 
         return {
+        
             dados["produto"].nome: dados["quantidade"]
             for dados in estoque.get_produtos().values()
         }
+    def subTotal(self, estoque):
+        produtos_estoque = estoque.get_produtos()
+        '''total = 0
+
+        for registro in produtos_estoque.values():
+            produto = registro["produto"]
+            quantidade = registro["quantidade"]
+            total += produto.preco * quantidade
+
+        return total'''
+        for dados in produtos_estoque.values():
+            produto = dados["produto"]
+            quantidade = dados["quantidade"]
+            subtotal = produto.preco * quantidade
+            print(f"{produto.nome} - R$ {subtotal:.2f}")
