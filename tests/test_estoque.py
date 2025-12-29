@@ -1,4 +1,5 @@
 # teste de implementacoes
+# python -m tests.test_estoque
 from src.core.funcionario import Funcionario
 from src.farmacia.estoque import Estoque
 from src.farmacia.produto import Produto
