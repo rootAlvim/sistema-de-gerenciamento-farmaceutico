@@ -4,11 +4,14 @@ class Produto:
     def __init__(self, nome, preco, fabricante):
         self.__id = None
         self.nome = nome
-        self.preco = preco
+        self.__preco = preco
         self.fabricante = fabricante
+        self.__logAlteracoes = []
 
     def getId(self):
         return self.__id
+    def getPreco(self):
+        return self.__preco
     
     def setIdUnico(self, farmacia: Farmacia):
         if not self.__id:
