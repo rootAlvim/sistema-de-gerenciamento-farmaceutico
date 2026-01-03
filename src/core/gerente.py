@@ -1,6 +1,7 @@
 #implementacao de classe Gerente
 from src.core.funcionario import Funcionario
-from Mixins_Interfaces.funcionalidades_gerente import FuncionalidadesGerente
+from src.core.mixins_interfaces.funcionalidades_gerente import FuncionalidadesGerente
+
 class Gerente(Funcionario,FuncionalidadesGerente):
     def __init__(self,nome,cpf,data_nascimento,salario_base,id):
         super().__init__(nome,cpf,data_nascimento,salario_base,id, cargo = 'Gerente')

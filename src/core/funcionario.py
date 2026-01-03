@@ -1,8 +1,9 @@
 #implementacao de classe abstrata Funcionario
 from datetime import datetime
 from src.core.pessoa import Pessoa
-from Mixins_Interfaces.adicionar_produto import Adicionar_ProdutoMixin
-from Mixins_Interfaces.vender_produto import Vender_ProdutoMixin
+from src.core.mixins_interfaces.adicionar_produto import Adicionar_ProdutoMixin
+from src.core.mixins_interfaces.vender_produto import Vender_ProdutoMixin
+
 class Funcionario(Pessoa,Adicionar_ProdutoMixin,Vender_ProdutoMixin):
     def __init__(self,nome:str,cpf:str,data_nascimento:datetime,salario_base:float,id:int, cargo:str):
         super().__init__(nome,cpf,data_nascimento)
