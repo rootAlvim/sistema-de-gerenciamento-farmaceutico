@@ -5,15 +5,12 @@ from src.core.mixins_interfaces.adicionar_produto import Adicionar_ProdutoMixin
 from src.core.mixins_interfaces.vender_produto import Vender_ProdutoMixin
 
 class Funcionario(Pessoa,Adicionar_ProdutoMixin,Vender_ProdutoMixin):
-    def __init__(self,nome:str,cpf:str,data_nascimento:datetime,salario_base:float,id:int, cargo:str):
+    def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:float, id:int):
         super().__init__(nome,cpf,data_nascimento)
         self.__salario_base = salario_base
         self.__id = id
         self.__autenticado = True 
-        self.cargo = cargo
         
-        
-    
     def get_salario_base(self):
         '''Retorna salario do funcionario'''
         return self.__salario_base

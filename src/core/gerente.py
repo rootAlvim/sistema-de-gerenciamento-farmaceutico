@@ -4,7 +4,7 @@ from src.core.mixins_interfaces.funcionalidades_gerente import FuncionalidadesGe
 
 class Gerente(Funcionario,FuncionalidadesGerente):
     def __init__(self,nome,cpf,data_nascimento,salario_base,id):
-        super().__init__(nome,cpf,data_nascimento,salario_base,id, cargo = 'Gerente')
+        super().__init__(nome,cpf,data_nascimento,salario_base,id)
 
     def cadrastar_funcionario(self):
         pass
