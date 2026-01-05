@@ -5,7 +5,7 @@ def getIdProduto(obj, maxIds = 1000):
     id = randint(1, maxIds)
     counter = 0
     while id in obj.allIds:
-        if counter > len(obj.allIds):
+        if counter > maxIds:
             raise ValueError("Numero maximo de ID alcancado")
         id = randint(1, maxIds)
         counter += 1
