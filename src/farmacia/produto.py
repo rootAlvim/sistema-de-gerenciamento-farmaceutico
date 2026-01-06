@@ -1,12 +1,13 @@
 from src.utils.gerador_id import getIdProduto
 from decimal import Decimal
 from datetime import datetime
+
 class Produto:
     allIds = []
     def __init__(self, nome : str, preco : Decimal, fabricante : str, id : int = None, logAlteracoes : list = None):
         self.__id = id if id else getIdProduto(self)
         self.nome = nome
-        self.__preco = preco
+        self.__preco = Decimal(preco)
         self.fabricante = fabricante
         self.__logAlteracoes = logAlteracoes if logAlteracoes else []
 
@@ -32,4 +33,4 @@ class Produto:
         self.__logAlteracoes.append(log)
     
     def __repr__(self):
-        return f'Produto({self.nome}, {self.__preco}, {self.fabricante}, {self.__id}, {self.__logAlteracoes})'
+        return rf'Produto("{self.nome}", {self.__preco}, "{self.fabricante}", {self.__id}, {self.__logAlteracoes})'
