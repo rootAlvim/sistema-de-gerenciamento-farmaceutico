@@ -9,6 +9,10 @@ class Pessoa(ABC):
         self.__cpf = cpf
         self.__data_nascimento = data_nascimento or datetime.now()
 
+    @abstractmethod
+    def __str__(self):
+        pass
+    
     def get_cpf(self):
         '''Retorna CPF da pessoa'''
         return self.__cpf
