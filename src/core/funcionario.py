@@ -23,16 +23,12 @@ class Funcionario(Pessoa,Adicionar_ProdutoMixin,Vender_ProdutoMixin):
         '''Retorna True para autenticado False para não autenticado'''
         return self.__autenticado
     
+    def __str__(self):
+        return f"Funcionário {self.__id} | Nome: {self.nome} | Cargo: {self.__class__.__name__} | Salário: R$ {self.__salario_base:.2f}"
+    
     def subTotal(self, estoque):
         produtos_estoque = estoque.get_produtos()
         total = 0
-
-        '''for registro in produtos_estoque.values():
-            produto = registro["produto"]
-            quantidade = registro["quantidade"]
-            total += produto.preco * quantidade
-
-        return total'''
         for dados in produtos_estoque.values():
             produto = dados["produto"]
             quantidade = dados["quantidade"]
