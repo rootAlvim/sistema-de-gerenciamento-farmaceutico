@@ -33,7 +33,7 @@ class Estoque:
             #return f"ID: {id_produto} | Nome: {id.id} | Quantidade: {quantidade}"
             print(f'ID: {id.getId()} | Nome: {id.nome}| Quantidade: {quantidade} | Preço: {id.getPreco()} | Fabricante: {id.fabricante}')
         else:
-            print('Produto Não encontrado')
+            print(f'Produto com Id:[{id_produto}] Não encontrado')
 
     def consultar_produto_por_nome(self, nome):
         for registro in self.__produtos.values():
@@ -44,6 +44,6 @@ class Estoque:
             #return f"Quantidade de {produto.getId()}: {quantidade:.2f}"
             print(f'ID: {produto.getId()} | Nome: {produto.nome}| Quantidade: {quantidade} | Preço: {produto.getPreco()} | Fabricante: {produto.fabricante}')
         else:
-            print('Produto não encontrado')
+            print(f'Produto [{nome}] não encontrado')
 
     
