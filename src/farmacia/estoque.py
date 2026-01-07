@@ -28,10 +28,10 @@ class Estoque:
      
     def consultar_produto_por_id(self, id_produto):
         if id_produto in self.__produtos:
-            nome = self.__produtos[id_produto]["produto"]
+            id = self.__produtos[id_produto]["produto"]
             quantidade = self.__produtos[id_produto]["quantidade"]
-            #return f"ID: {id_produto} | Nome: {nome.nome} | Quantidade: {quantidade}"
-            print(f'{nome} | Quantidade: {quantidade}')
+            #return f"ID: {id_produto} | Nome: {id.id} | Quantidade: {quantidade}"
+            print(f'ID: {id.getId()} | Nome: {id.nome}| Quantidade: {quantidade} | Preço: {id.getPreco()} | Fabricante: {id.fabricante}')
         else:
             print('Produto Não encontrado')
 
@@ -42,7 +42,7 @@ class Estoque:
 
         if produto.nome == nome:
             #return f"Quantidade de {produto.getId()}: {quantidade:.2f}"
-            print(f'{produto} | Quantidade: {quantidade}')
+            print(f'ID: {produto.getId()} | Nome: {produto.nome}| Quantidade: {quantidade} | Preço: {produto.getPreco()} | Fabricante: {produto.fabricante}')
         else:
             print('Produto não encontrado')
 
