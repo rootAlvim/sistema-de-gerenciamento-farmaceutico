@@ -21,6 +21,10 @@ class Produto:
         precoTruncado = self.__preco.quantize(Decimal('0.01'))
         return precoTruncado
     
+    def getLogAlteracoes(self):
+        '''Retorna lista de tuplas sobre alterações de Produto'''
+        return self.__logAlteracoes
+    
     def setPreco(self, preco : Decimal, gerente):
         '''Recebe como parametro o novo valor de preco em Decimal e um objeto de Gerente. Altera o preco de Produto.'''
         validar_gerente(gerente)
@@ -29,7 +33,7 @@ class Produto:
             raise ValueError('Preco deve ser maior que 0')
         
         self.__preco = preco
-        log = f'Data:{datetime.now()};Gerente:{gerente};Preco:{preco}'
+        log =(f'Data:{datetime.now()}',f'{gerente.__repr__()}',f'Preco:{preco}')
         self.__logAlteracoes.append(log)
     
     def __repr__(self):

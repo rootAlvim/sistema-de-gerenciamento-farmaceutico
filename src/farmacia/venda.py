@@ -32,7 +32,7 @@ class Venda:
         return self.__produtos
     
     def getLogAlteracoes(self):
-        '''Retorna lista com strings de alterações do Objeto'''
+        '''Retorna lista de tuplas sobre alterações de Venda'''
         return self.__logAlteracoes
     
     def getCliente(self):
@@ -48,7 +48,7 @@ class Venda:
             raise PermissionError('Venda já finalizada. Não é mais possível adicionar cliente')
         
         self.__cliente = cliente
-        log = f'Data:{datetime.now()};Funcionario:{funcionario};Cliente:{cliente}'
+        log =(f'Data:{datetime.now()}',f'{funcionario.__repr__()}',f'{cliente.__repr__()}')
         self.__logAlteracoes.append(log)
     
     def adicionarProduto(self, produto, quantidade : int):
@@ -76,7 +76,7 @@ class Venda:
             raise PermissionError('Venda já foi finalizada.')
         
         self.__precoTotal = self.__subTotal()
-        log = f'Data:{datetime.now()};Funcionario:{funcionario};Preco:{self.__precoTotal}'
+        log = (f'Data:{datetime.now()}',f'Funcionario:{funcionario.__repr__()}',f'Preco:{self.__precoTotal}')
         self.__logAlteracoes.append(log)
     
     def __subTotal(self):
