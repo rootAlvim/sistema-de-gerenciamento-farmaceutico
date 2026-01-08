@@ -10,3 +10,24 @@ def validar_formato_cpf(cpf: str):
     if re.match(padrao, cpf):
         return True
     return False
+
+def validar_funcionario(funcionario):
+    from src.core.funcionario import Funcionario
+    if not isinstance(funcionario, Funcionario):
+        raise TypeError('Método deve receber um objeto do tipo Funcionario (Gerente ou Atendente)')
+    
+def validar_cliente(cliente):
+    from src.core.cliente import Cliente
+    if not isinstance(cliente, Cliente):
+        raise TypeError('Método deve receber um objeto do tipo Cliente')
+    
+def validar_produto(produto):
+    from src.farmacia.produto import Produto
+    if not isinstance(produto, Produto):
+        raise TypeError('Método deve receber um objeto do tipo Produto')
+    
+def validar_gerente(gerente):
+    from src.core.gerente import Gerente
+    if not isinstance(gerente, Gerente):
+        raise ValueError('Metodo deve receber um objeto do tipo Gerente')
+    
