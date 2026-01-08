@@ -1,10 +1,10 @@
 #implementacao de classe Farmacia
 from decimal import Decimal
-from src.core.funcionario import Funcionario
 from src.core.atendente import Atendente
 from src.core.gerente import Gerente
 from src.farmacia.venda import Venda
 from src.farmacia.estoque import Estoque
+from src.utils.validacoes import validar_funcionario
 from random import randint
 
 class Farmacia:
@@ -22,8 +22,9 @@ class Farmacia:
         '''Retorna uma lista contendo todos os objetos de Venda registrados'''
         return self.__listaVendas
     
-    def criarVenda(self, funcionario: Funcionario):
+    def criarVenda(self, funcionario):
         '''Cria um objeto do tipo Venda. Adiciona obejto em Lista de Vendas e retorna seu indice'''
+        validar_funcionario(funcionario)
         self.__idVendas += 1
         venda = Venda(self.__idVendas, funcionario)
         self.__listaVendas.append(venda)
