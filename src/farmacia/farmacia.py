@@ -7,7 +7,7 @@ from random import randint
 class Farmacia:
     def __init__(self, nome : str):
         self.nome = nome
-        self.__listaVendas = []
+        self.__vendas = []
         self._estoque = Estoque()
         self.gerente = None
         self.funcionarios = []
@@ -18,7 +18,14 @@ class Farmacia:
 
     def getListaVendas(self):
         '''Retorna uma lista contendo todos os objetos de Venda registrados'''
-        return self.__listaVendas
+        return self.__vendas
+    
+    def getVendaPorId(self, id):
+        '''Retorna objeto de Venda caso exista uma venda com o mesmo Id'''
+        from src.farmacia.venda import Venda
+        for venda in self.__vendas:
+            if venda.getId() == id:
+                return venda
     
     def getClientes(self):
         '''Retorna uma lista contendo todos os objetos de Cliente registrados'''
@@ -40,9 +47,9 @@ class Farmacia:
         validar_funcionario(funcionario)
         self.__idVendas += 1
         venda = Venda(self.__idVendas, funcionario)
-        self.__listaVendas.append(venda)
+        self.__vendas.append(venda)
 
-        return self.__listaVendas.index(venda)
+        return venda.getId()
      
     def registrarGerente(self, nome, cpf, data_nasc, salario):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
