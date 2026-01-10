@@ -33,7 +33,7 @@ class Produto:
             raise ValueError('Preco deve ser maior que 0')
         
         self.__preco = Decimal(preco)
-        log =(f'Data:{datetime.now()}',f'{gerente.__repr__()}',f'Preco:{self.getPreco()}')
+        log =(f'setPreco()', f'Data:{datetime.now()}',f'{gerente.__repr__()}',f'Preco:{self.getPreco()}')
         self.__logAlteracoes.append(log)
     
     def __repr__(self):
