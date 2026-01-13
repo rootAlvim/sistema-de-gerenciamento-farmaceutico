@@ -67,6 +67,7 @@ class Farmacia:
         self.__idVendas += 1
         venda = Venda(self.__idVendas, funcionario)
         self.__vendas.append(venda)
+        funcionario.setNovaVenda(venda)
 
         log =(f'criarVenda()', f'Data:{datetime.now()}',f'{venda.__repr__()}')
         self.__logAlteracoes.append(log)
