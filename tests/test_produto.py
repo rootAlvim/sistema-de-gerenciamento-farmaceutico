@@ -5,7 +5,7 @@ from src.farmacia.farmacia import Farmacia
 
 farmacia = Farmacia("Pague mais")
 
-farmacia.registrarGerente("Teste Gerente", '598.487.125-08', '02072004', 1899)
+farmacia._registrarGerente("Teste Gerente", '598.487.125-08', '02072004', 1899)
 
 produto_teste = Produto('Amitril',2.90,'Cimed')
 print(produto_teste.getPreco()) # teste de gerador de id
