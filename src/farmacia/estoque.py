@@ -1,6 +1,8 @@
+from src.utils.validacoes import validar_produto
+
 class Estoque:
     def __init__(self):
-        self.__produtos = {} 
+        self.__produtos = {}
 
     def get_produtos(self):
         return self.__produtos
@@ -45,5 +47,14 @@ class Estoque:
             print(f'ID: {produto.getId()} | Nome: {produto.nome}| Quantidade: {quantidade} | Preço: {produto.getPreco()} | Fabricante: {produto.fabricante}')
         else:
             print(f'Produto [{nome}] não encontrado')
+
+    def produto_disponibilidade(self, produto, quantidade):
+        '''Checar se produto em quantidade passada está disponível para ser vendido. Retorna valor booleano.'''
+        validar_produto(produto)
+        produto_estoque = self.__produtos.get(produto.getId())
+        if produto_estoque:
+            if produto_estoque.get("quantidade") >= quantidade:
+                return True
+
 
     
