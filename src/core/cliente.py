@@ -4,7 +4,7 @@ from datetime import datetime
 class Cliente(Pessoa):
     def __init__(self,nome:str,cpf:str, id_cliente:str = None,data_nascimento=None,):
         super().__init__(nome,cpf,data_nascimento)
-        self.__id_cliente = id_cliente if id_cliente else cpf
+        self.__id_cliente = cpf
         self.__compras = []
         self.__dataCadastro = datetime.now()
 
