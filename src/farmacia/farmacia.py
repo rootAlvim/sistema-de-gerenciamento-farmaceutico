@@ -60,21 +60,21 @@ class Farmacia:
         '''Retorna lista de tuplas sobre alterações em Farmacia'''
         return self.__logAlteracoes
 
-    def criarVenda(self, funcionario):
+    def _criarVenda(self, funcionario):
         '''Cria um objeto do tipo Venda. Adiciona obejto em Lista de Vendas e retorna seu indice'''
         from src.farmacia.venda import Venda
         validar_funcionario(funcionario)
         self.__idVendas += 1
         venda = Venda(self.__idVendas, funcionario)
         self.__vendas.append(venda)
-        funcionario.setNovaVenda(venda)
+        funcionario.setVendaRealizada(venda)
 
         log =(f'criarVenda()', f'Data:{datetime.now()}',f'{venda.__repr__()}')
         self.__logAlteracoes.append(log)
 
         return venda.getId()
      
-    def registrarGerente(self, nome, cpf, data_nasc, salario):
+    def _registrarGerente(self, nome, cpf, data_nasc, salario):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
         from src.core.gerente import Gerente
         self.__idGerentes += 1
@@ -83,7 +83,7 @@ class Farmacia:
         log =(f'registrarGerente()', f'Data:{datetime.now()}',f'{self.__gerente.__repr__()}')
         self.__logAlteracoes.append(log)
         
-    def registrarAtendente(self, nome, cpf, data_nasc, salario):
+    def _registrarAtendente(self, nome, cpf, data_nasc, salario):
         '''Recebe como parametros atributos de um Atendente e cria um novo objeto do tipo Atendente. Retorna seu id.'''
         from src.core.atendente import Atendente
         self.__idAtendentes += 1
@@ -96,15 +96,17 @@ class Farmacia:
 
         return atendente.get_id()
     
-    def registrarCliente(self, nome : str, cpf : str, data_nascimento = None):
-        '''Recebe como parametros atributos de um Cliente e cria um novo objeto do tipo Cliente. Retorna seu indice na lista de clientes.'''
+    def _registrarCliente(self, funcionario, nome : str, cpf : str, data_nascimento = None):
+        '''Recebe como parametros um objeto de Funcionario e atributos de um Cliente, e cria um novo objeto do tipo Cliente. Retorna Id do novo cliente.'''
+        validar_funcionario(funcionario)
+
         from src.core.cliente import Cliente
         cliente = Cliente(nome, cpf, data_nascimento)
 
         self.__clientes.append(cliente)
 
-        log =(f'registrarCliente()', f'Data:{datetime.now()}',f'{cliente.__repr__()}')
+        log =(f'registrarCliente()', f'Data:{datetime.now()}', f'{funcionario.__repr__()}', f'{cliente.__repr__()}')
         self.__logAlteracoes.append(log)
 
-        return self.__clientes.index(cliente)
+        return cliente.get_cpf()
 
