@@ -13,6 +13,7 @@ class Funcionario(Pessoa,Adicionar_ProdutoMixin,GerenciarVendaMixin):
         self.__farmacia = farmacia
         self.__autenticado = True 
         self.__vendasRealizadas = []
+        
     
     @abstractmethod
     def get_bonus(Self): #implementei esse metodo para que de fato classe Funcionario fosse abstrata e não pudesse ser instanciada
