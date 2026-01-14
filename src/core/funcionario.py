@@ -44,7 +44,7 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin):
         self.__vendasRealizadas.append(venda)
     
     def __str__(self):
-        return f"Funcionário {self.__id} | Nome: {self.nome} | Cargo: {self.__class__.__name__} | Salário: R$ {self.__salario_base:.2f}"
+        return f"ID {self.__id} | Nome: {self.nome} | Cargo: {self.__class__.__name__} | Salário: R$ {self.__salario_base:.2f}"
     
     def subTotal(self, estoque):
         produtos_estoque = estoque.get_produtos()
