@@ -5,8 +5,27 @@ from src.core.atendente import Atendente
 from src.core.cliente import Cliente
 from src.farmacia.produto import Produto
 from decimal import Decimal
+p1 = Produto('Dipirona-25mg-Comprimido',2.30,'Cimed')
+p2 = Produto('Dorflex-5mg-Comprimido',1.90,'Sanofi')
+farmacia = Farmacia("Farmácia Popular")
+atendente = farmacia._registrarAtendente('Jose','123.123.123-23','1-1-1990',900)
+venda = farmacia._criarVenda(atendente)
+venda.adicionarProduto(p1, 10)
+venda.adicionarProduto(p2, 1)
+cliente = farmacia._registrarCliente(atendente, "João", "123.456.789-00")
+venda.adicionarCliente(cliente)
+venda.finalizarVenda()
 
-farm = Farmacia("Pague mais")
+atendente2 = farmacia._registrarAtendente('Joaasse','123.123.123-23','1-1-1990',9200)
+venda2 = farmacia._criarVenda(atendente2)
+cliente2 = farmacia._registrarCliente(atendente2, "Carlos", "222.111.111-11")
+venda2.adicionarCliente(cliente2)
+venda2.adicionarProduto(p2, 1)
+venda2.finalizarVenda()
+
+print(farmacia.getListaVendas())
+print(venda.getLogAlteracoes())
+'''farm = Farmacia("Pague mais")
 id_funcionario1 = farm._registrarAtendente('teste', '055.678.501-08', datetime(2000, 8, 25), 1500.0)
 
 #teste de id automatico
@@ -47,4 +66,4 @@ print(farm.getVendaPorId(id_venda1).getPrecoTotal())
 print('\n')
 logs = farm.getVendaPorId(id_venda1).getLogAlteracoes() # testando logs
 for log in logs:
-    print(log, end=2*'\n')
+    print(log, end=2*'\n')'''
