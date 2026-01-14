@@ -41,10 +41,10 @@ class Estoque:
             produto = registro["produto"]
             quantidade = registro["quantidade"]
 
-        if produto.nome == nome:
-            return produto.nome,quantidade #Tupla: (Nome,Quantidade)
-        else:
-            return False
+            if produto.nome == nome:
+                return produto.nome,quantidade #Tupla: (Nome,Quantidade)
+        
+        return False
 
     def produto_disponibilidade(self, produto, quantidade):
         '''Checar se produto em quantidade passada está disponível para ser vendido. Retorna valor booleano.'''
@@ -53,6 +53,7 @@ class Estoque:
         if produto_estoque:
             if produto_estoque.get("quantidade") >= quantidade:
                 return True
+        return False
 
 
     
