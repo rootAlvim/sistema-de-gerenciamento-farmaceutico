@@ -7,11 +7,11 @@ from src.farmacia.produto import Produto
 from decimal import Decimal
 
 farm = Farmacia("Pague mais")
-id_funcionario1 = farm.registrarAtendente('teste', '055.678.501-08', datetime(2000, 8, 25), 1500.0)
+id_funcionario1 = farm._registrarAtendente('teste', '055.678.501-08', datetime(2000, 8, 25), 1500.0)
 
 #teste de id automatico
 print(farm.getListaVendas())
-id_venda1 = farm.criarVenda(farm.getFuncionarioPorId(id_funcionario1))
+id_venda1 = farm._criarVenda(farm.getFuncionarioPorId(id_funcionario1))
 # print(farm.getListaVendas()[0].getId())
 # farm.criarVenda(atendente)
 # print(farm.getListaVendas()[1].getId())

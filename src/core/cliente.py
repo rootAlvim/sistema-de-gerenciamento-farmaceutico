@@ -4,17 +4,23 @@ from datetime import datetime
 class Cliente(Pessoa):
     def __init__(self,nome:str,cpf:str, id_cliente:str = None,data_nascimento=None,):
         super().__init__(nome,cpf,data_nascimento)
-        self.__id_cliente = id_cliente if id_cliente else cpf
-        self.__compras = [] # precisei implementar para testar venda
+        self.__id_cliente = cpf
+        self.__compras = []
+        self.__dataCadastro = datetime.now()
 
     def get_id_cliente (self):
+        '''Retorna Id do cliente.'''
         return self.__id_cliente
     
-    def getCompras(self):    # precisei implementar para testar venda
+    def getDataCadastro(self):
+        '''Retorna data de cadastro do cliente.'''
+        return self.__dataCadastro
+    
+    def getCompras(self):
         '''Retorna lista de compras'''
         return self.__compras
 
-    def _addCompra(self, compra): # precisei implementar para testar venda
+    def _addCompra(self, compra):
         '''Método protegido usado por Venda automaticamente quando cliente é adicionado.'''
         self.__compras.append(compra)
     

@@ -5,17 +5,18 @@ from src.farmacia.produto import Produto
 
 farmacia = Farmacia("Pague mais")
 
-farmacia.registrarGerente("Teste Gerente", '598.487.125-08', '02072004', 1899) # teste registro de gerente
+farmacia._registrarGerente("Teste Gerente", '598.487.125-08', '02072004', 1899) # teste registro de gerente
 print(farmacia.getGerente())
 
-id_funcionario = farmacia.registrarAtendente("Teste Atendente", '64785412698', '01061999', 1550) # teste registro de Atendente
+id_funcionario = farmacia._registrarAtendente("Teste Atendente", '64785412698', '01061999', 1550) # teste registro de Atendente
 print(farmacia.getFuncionarioPorId(id_funcionario))
 
-farmacia.registrarCliente("Teste Cliente", '142.648.139-26') # teste registro cliente
+farmacia.getFuncionarioPorId(id_funcionario).registrar_cliente(farmacia, "Teste Cliente", '142.648.139-26') # teste registro cliente 
+
 print(farmacia.getClientes())
 print(farmacia.getClientePorCpf('142.648.139-26')) # teste pegar cliente por cpf
 
-id_venda1 = farmacia.criarVenda(farmacia.getFuncionarioPorId(id_funcionario)) # teste criar Venda
+id_venda1 = farmacia._criarVenda(farmacia.getFuncionarioPorId(id_funcionario)) # teste criar Venda
 print(farmacia.getListaVendas())
 
 print(farmacia.getVendaPorId(id_venda1)) #teste pegar venda por id

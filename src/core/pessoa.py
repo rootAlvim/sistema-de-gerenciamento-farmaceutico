@@ -9,7 +9,7 @@ class Pessoa(ABC):
             raise ValueError ("CPF inválido")
         
         self.nome = nome
-        self.__cpf = cpf
+        self.__cpf = validar_formato_cpf(cpf)
         self.__data_nascimento = data_nascimento or datetime.now()
 
     @abstractmethod
@@ -29,5 +29,7 @@ class Pessoa(ABC):
         if validar_formato_cpf(cpf):
             self.__cpf = cpf
             return True
+
         raise ValueError ("CPF inválido")
+
 

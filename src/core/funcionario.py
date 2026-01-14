@@ -2,11 +2,14 @@
 from datetime import datetime
 from abc import abstractmethod
 from src.core.pessoa import Pessoa
-from src.core.mixins_interfaces.adicionar_produto import Adicionar_ProdutoMixin
+from src.core.mixins_interfaces.adicionar_produto import AdicionarProdutoMixin
 from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
+from src.core.mixins_interfaces.registrar_cliente import RegistrarClienteMixin
 
-class Funcionario(Pessoa,Adicionar_ProdutoMixin,GerenciarVendaMixin):
+
+class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin):
     def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:float, id:int,farmacia):
+
         super().__init__(nome,cpf,data_nascimento)
         self.__salario_base = salario_base
         self.__id = id
@@ -36,7 +39,8 @@ class Funcionario(Pessoa,Adicionar_ProdutoMixin,GerenciarVendaMixin):
     def getVendasRealizadas(self):
         return self.__vendasRealizadas
     
-    def setNovaVenda(self, venda):
+    def setVendaRealizada(self, venda):
+        '''Adiciona nova venda realizada a lista de vendas do funcionario.'''
         self.__vendasRealizadas.append(venda)
     
     def __str__(self):
