@@ -77,8 +77,9 @@ class Farmacia:
 
         self.__logAlteracoes.append(log)
 
-        return venda.getId()
-     
+        #return venda.getId()
+        return venda
+    
     def _registrarGerente(self, nome, cpf, data_nasc, salario):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
         from src.core.gerente import Gerente
@@ -93,7 +94,7 @@ class Farmacia:
         self.__logAlteracoes.append(log)
         return self.__gerente
         
-    def _registrarAtendente(self, nome, cpf, data_nasc, salario):
+    def _registrarAtendente(self, nome : str , cpf : str, data_nasc : datetime , salario : Decimal):
         '''Recebe como parametros atributos de um Atendente e cria um novo objeto do tipo Atendente. Retorna seu id.'''
         from src.core.atendente import Atendente
         self.__idAtendentes += 1
@@ -109,7 +110,8 @@ class Farmacia:
 
         self.__logAlteracoes.append(log)
 
-        return atendente.get_id()
+        #return atendente.get_id()
+        return atendente
     
     def _registrarCliente(self, funcionario, nome : str, cpf : str, data_nascimento = None):
         '''Recebe como parametros um objeto de Funcionario e atributos de um Cliente, e cria um novo objeto do tipo Cliente. Retorna Id do novo cliente.'''
@@ -127,6 +129,7 @@ class Farmacia:
 
         self.__logAlteracoes.append(log)
         
-        return cliente.get_cpf()
+        #return cliente.get_cpf()
+        return cliente
 
 
