@@ -10,9 +10,10 @@ class Gerente(Funcionario,FuncionalidadesGerente):
 
     def get_bonus(Self):
         pass
+
     def cadrastar_funcionario(self):
         pass
-    
+
     def excluir_funcionario(self,funcionario):
         '''Remove o funcionario desejado da lista de funcionarios'''
         # Implementaçao a ser discutida!!
@@ -31,3 +32,5 @@ class Gerente(Funcionario,FuncionalidadesGerente):
         
     def __repr__(self):
         return f'Gerente("{self.nome}", {self.get_cpf()}, "{self.get_data_nascimento()}", {self.get_salario_base()}, {self.get_id()})'
+
+
