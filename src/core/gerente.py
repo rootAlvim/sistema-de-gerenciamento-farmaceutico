@@ -1,4 +1,5 @@
 #implementacao de classe Gerente
+from datetime import datetime
 from src.core.funcionario import Funcionario
 from src.core.mixins_interfaces.funcionalidades_gerente import FuncionalidadesGerente
 from decimal import Decimal
@@ -11,9 +12,9 @@ class Gerente(Funcionario,FuncionalidadesGerente):
     def get_bonus(Self):
         pass
 
-    def cadrastar_funcionario(self):
-        pass
-
+    def cadrastar_funcionario(self, nome : str , cpf : str, data_nasc : datetime , salario : Decimal):
+        return self.getfarmacia()._registrarAtendente(nome,cpf,data_nasc,salario)
+    '''Cadrasta funcionario e retorna o objeto criado'''
     def excluir_funcionario(self,funcionario):
         '''Remove o funcionario desejado da lista de funcionarios'''
         # Implementaçao a ser discutida!!
