@@ -8,7 +8,8 @@ gerente = farmacia._registrarGerente('Nikolas','890.987.098-21','17-09-2000',890
 cliente = farmacia._registrarCliente(funcionario,'Lucia','123.123.234-45') #Registra Cliente
 p1 = Produto('Dipirona-25mg-Comprimido',2.30,'Cimed')
 p2 = Produto('Dorflex-5mg-Comprimido',1.90,'Sanofi')
-venda_teste = farmacia._criarVenda(gerente)
+#venda_teste = farmacia._criarVenda(gerente)
+venda_teste = gerente.registrar_venda(farmacia)
 venda_teste.adicionarCliente(cliente)
 venda_teste.adicionarProduto(p1,12)
 venda_teste.finalizarVenda()
