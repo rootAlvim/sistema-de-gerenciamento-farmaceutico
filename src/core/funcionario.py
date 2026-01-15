@@ -7,7 +7,7 @@ from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
 from src.core.mixins_interfaces.registrar_cliente import RegistrarClienteMixin
 
 
-class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin):
+class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClienteMixin):
     def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:float, id:int,farmacia):
 
         super().__init__(nome,cpf,data_nascimento)
