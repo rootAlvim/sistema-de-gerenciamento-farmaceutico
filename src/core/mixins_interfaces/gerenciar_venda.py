@@ -1,8 +1,9 @@
 class GerenciarVendaMixin:
     def registrar_venda(self, farmacia):
         '''Registra nova venda em farmacia. Retorna o Id da venda.'''
-        id = farmacia._criarVenda(self)
-        return id
+        return farmacia._criarVenda(self)
+        #id = farmacia._criarVenda(self)
+        #return id
     
     def adicionar_produto_venda(self, farmacia, produto, quantidade):
         '''Adiciona produto em venda, ultima realizada por funcionario, caso produto esteja disponivel no estoque.'''
