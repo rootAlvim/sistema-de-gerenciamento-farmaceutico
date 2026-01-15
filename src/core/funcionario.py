@@ -24,6 +24,7 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClie
         pass
     def getfarmacia(self):
         return self.__farmacia
+    
     def get_salario_base(self):
         '''Retorna salario do funcionario'''
         return self.__salario_base
