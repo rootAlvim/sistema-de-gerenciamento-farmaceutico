@@ -3,7 +3,6 @@ from decimal import Decimal
 from datetime import datetime
 from src.farmacia.estoque import Estoque
 from src.utils.validacoes import validar_funcionario
-from random import randint
 
 class Farmacia:
     def __init__(self, nome : str):
@@ -77,8 +76,8 @@ class Farmacia:
 
         self.__logAlteracoes.append(log)
 
-        #return venda.getId()
-        return venda
+        return venda.getId()
+        #return venda
     
     def _registrarGerente(self, nome, cpf, data_nasc, salario):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
@@ -92,13 +91,13 @@ class Farmacia:
             f'{self.__gerente.__repr__()}'
         )
         self.__logAlteracoes.append(log)
-        return self.__gerente
+        #return self.__gerente
         
     def _registrarAtendente(self, nome : str , cpf : str, data_nasc : datetime , salario : Decimal):
         '''Recebe como parametros atributos de um Atendente e cria um novo objeto do tipo Atendente. Retorna seu id.'''
         from src.core.atendente import Atendente
         self.__idAtendentes += 1
-        atendente = Atendente(nome, cpf, data_nasc, salario, self.__idAtendentes,self) #Classe farmacia passa a si propia na criacao de atendente, pois dessa forma atendente pode usar metodos de farmacia, sem quebrar encapsulamento
+        atendente = Atendente(nome, cpf, data_nasc, salario, self.__idAtendentes,self)
         
         self.__funcionarios.append(atendente)
 
@@ -110,8 +109,8 @@ class Farmacia:
 
         self.__logAlteracoes.append(log)
 
-        #return atendente.get_id()
-        return atendente
+        return atendente.get_id()
+        #return atendente
     
     def _registrarCliente(self, funcionario, nome : str, cpf : str, data_nascimento = None):
         '''Recebe como parametros um objeto de Funcionario e atributos de um Cliente, e cria um novo objeto do tipo Cliente. Retorna Id do novo cliente.'''
@@ -129,7 +128,7 @@ class Farmacia:
 
         self.__logAlteracoes.append(log)
         
-        #return cliente.get_cpf()
-        return cliente
+        return cliente.get_cpf()
+        # return cliente
 
 

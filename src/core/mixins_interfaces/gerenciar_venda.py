@@ -1,13 +1,11 @@
 class GerenciarVendaMixin:
-    def registrar_venda(self, farmacia):
-        '''Registra nova venda em farmacia. Retorna o Id da venda.'''
-        return farmacia._criarVenda(self)
-        #id = farmacia._criarVenda(self)
-        #return id
+    def registrar_venda(self):
+        '''Registra nova venda em farmacia. E adiciona Venda em lista de vendas do funcionario.'''
+        return self.getFarmacia()._criarVenda(self)
     
-    def adicionar_produto_venda(self, farmacia, produto, quantidade):
+    def adicionar_produto_venda(self, produto, quantidade):
         '''Adiciona produto em venda, ultima realizada por funcionario, caso produto esteja disponivel no estoque.'''
-        estoque = farmacia._estoque
+        estoque = self.getFarmacia()._estoque
         if estoque.produto_disponibilidade(produto, quantidade):
             self.getVendasRealizadas()[-1].adicionarProduto(produto, quantidade)
             estoque.remover_produto(produto.getId(), quantidade)
@@ -19,5 +17,5 @@ class GerenciarVendaMixin:
 
     def finalizar_venda(self):
         '''Finaliza ultima venda realizada pelo funcionario.'''
-        self.getVendasRealizadas()[-1].setPrecoTotal(self)
+        self.getVendasRealizadas()[-1].finalizarVenda()
         

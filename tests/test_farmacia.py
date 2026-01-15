@@ -3,33 +3,7 @@ from src.farmacia.farmacia import Farmacia
 from src.farmacia.produto import Produto
 
 farmacia = Farmacia("Pague mais")
-funcionario =  farmacia._registrarAtendente('Alvim','130.654.134-42','28-07-2006',900) #Registra Atendente
-gerente = farmacia._registrarGerente('Nikolas','890.987.098-21','17-09-2000',890) #Registra Gerente
-cliente = farmacia._registrarCliente(funcionario,'Lucia','123.123.234-45') #Registra Cliente
-p1 = Produto('Dipirona-25mg-Comprimido',2.30,'Cimed')
-p2 = Produto('Dorflex-5mg-Comprimido',1.90,'Sanofi')
-#venda_teste = farmacia._criarVenda(gerente)
-venda_teste = gerente.registrar_venda(farmacia)
-venda_teste.adicionarCliente(cliente)
-venda_teste.adicionarProduto(p1,12)
-venda_teste.finalizarVenda()
-print(venda_teste.getCliente()) #Cliente da venda
-print(venda_teste.getFuncionario())#Funcionario da venda
-print(venda_teste.getId()) #Id da venda
-print(venda_teste.getProdutos()) #Produtos vendidos
-print(venda_teste.getPrecoTotal()) #preco total da venda
-#Testando gets e sets
-print(50*'=')
-print(f'Gerente: {farmacia.getGerente()}')
-print(f'Funcionarios: {farmacia.getFuncionarios()}')
-print(f'Funcionario por id {farmacia.getFuncionarioPorId(funcionario.get_id())}')
-print(farmacia.getListaVendas())
-#print(farmacia.getVendaPorId(venda.id))
-print(f'Clientes: {farmacia.getClientes()}')
-print(f'Cliente por cpf: {farmacia.getClientePorCpf(cliente.get_cpf())}')
-#print(f'Log de alteracoes: {farmacia.getLogAlteracoes()}')
-print(50*'=')
-'''
+
 farmacia._registrarGerente("Teste Gerente", '598.487.125-08', '02072004', 1899) # teste registro de gerente
 print(farmacia.getGerente())
 
@@ -61,4 +35,34 @@ print('\n')
 logs = farmacia.getLogAlteracoes()
 for log in logs:
     print(log, end=2*'\n')
-'''
+
+
+
+
+
+# funcionario =  farmacia._registrarAtendente('Alvim','130.654.134-42','28-07-2006',900) #Registra Atendente
+# gerente = farmacia._registrarGerente('Nikolas','890.987.098-21','17-09-2000',890) #Registra Gerente
+# cliente = farmacia._registrarCliente(funcionario,'Lucia','123.123.234-45') #Registra Cliente
+# p1 = Produto('Dipirona-25mg-Comprimido',2.30,'Cimed')
+# p2 = Produto('Dorflex-5mg-Comprimido',1.90,'Sanofi')
+# #venda_teste = farmacia._criarVenda(gerente)
+# venda_teste = gerente.registrar_venda(farmacia)
+# venda_teste.adicionarCliente(cliente)
+# venda_teste.adicionarProduto(p1,12)
+# venda_teste.finalizarVenda()
+# print(venda_teste.getCliente()) #Cliente da venda
+# print(venda_teste.getFuncionario())#Funcionario da venda
+# print(venda_teste.getId()) #Id da venda
+# print(venda_teste.getProdutos()) #Produtos vendidos
+# print(venda_teste.getPrecoTotal()) #preco total da venda
+# #Testando gets e sets
+# print(50*'=')
+# print(f'Gerente: {farmacia.getGerente()}')
+# print(f'Funcionarios: {farmacia.getFuncionarios()}')
+# print(f'Funcionario por id {farmacia.getFuncionarioPorId(funcionario.get_id())}')
+# print(farmacia.getListaVendas())
+# #print(farmacia.getVendaPorId(venda.id))
+# print(f'Clientes: {farmacia.getClientes()}')
+# print(f'Cliente por cpf: {farmacia.getClientePorCpf(cliente.get_cpf())}')
+# #print(f'Log de alteracoes: {farmacia.getLogAlteracoes()}')
+# print(50*'=')

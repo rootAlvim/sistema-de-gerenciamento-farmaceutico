@@ -2,7 +2,7 @@
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
 from src.utils.gerador_id import getIdProduto
-from src.utils.validacoes import validar_cliente, validar_funcionario, validar_produto
+from src.utils.validacoes import validar_cliente, validar_produto
 
 class Venda:
     allIds = []
@@ -40,20 +40,18 @@ class Venda:
         return self.__cliente
     
     def adicionarCliente(self, cliente):
-        '''Adiciona um cliente em Venda. Recebe objetos de funcionario e cliente. ___> nao prescisa passar funcionario pois ja esta associado a venda'''
-        #validar_funcionario(funcionario)
+        '''Adiciona um cliente em Venda. Recebe objeto de cliente.'''
         validar_cliente(cliente)
 
         if self.__precoTotal :
             raise PermissionError('Venda já finalizada. Não é mais possível adicionar cliente')
         
         self.__cliente = cliente
-        #self.__cliente._addCompra(self)
+        self.__cliente._addCompra(self)
 
         log =(
             f'adicionarCliente()', 
             f'Data:{datetime.now()}',
-            #f'{funcionario.__repr__()}',
             f'{cliente.__repr__()}'
         )
 
@@ -63,34 +61,31 @@ class Venda:
         '''Adiciona produto em Venda, caso produto já exista, a sua quantidade é somada. Recebe como parâmetro um objeto do tipo Produto e uma quantidade inteira. Não é possível adicionar produto se venda tiver sido finalizada'''
         validar_produto(produto) 
         
-        if self.__precoTotal : #Verifica se precototal ja foi preenchido
+        if self.__precoTotal :
             raise PermissionError('Venda já finalizada. Não é mais possível adicionar produtos')
         
-        if int(quantidade) <= 0: #Verifica se a quantidade do produto e menor ou igual a 0 
+        if int(quantidade) <= 0:
             raise ValueError('Quantidade deve ser maior que 0')
         
-        '''for index, itemVenda in enumerate(self.__produtos):
+        for index, itemVenda in enumerate(self.__produtos):
             if produto.__repr__() in itemVenda:
                 self.__produtos[index] = (produto.__repr__(), itemVenda[1] + quantidade)
-                return True'''
-        
-        for i , (p,q) in enumerate(self.__produtos): #Como self.__produtos e uma tupla (prod,qntd) entao necessita de p,q
-            if p == produto: #Se produto ja existir soma a quantidade a ele e substitui uma nova tupla, pois tuplas sao imutaveis
-                self.__produtos[i] = (p,q+quantidade)
-                return
+                return True
                 
-        self.__produtos.append((produto, quantidade)) #Se nao encontrar produto no loop , simplismente joga pra lista o produto e sua quantidade e uma tupla
-        
-    '''def setPrecoTotal(self, funcionario):
-        Altera preco total da venda com base em produtos já adicionados e suas quantidades. Recebe um objeto do tipo Funcionario. Esse metodo sinaliza a finalizacao da compra
-        validar_funcionario(funcionario)
-        
-        if self.__precoTotal:
-            raise PermissionError('Venda já foi finalizada.')
-        
+        self.__produtos.append((produto.__repr__(), quantidade))
+
+    def finalizarVenda(self):
+        '''Altera preco total da venda com base em produtos já adicionados e suas quantidades. Recebe um objeto do tipo Funcionario. Esse metodo sinaliza a finalização da compra.'''
+        if self.__precoTotal :
+            raise PermissionError("Venda já finalizada")
+
         self.__precoTotal = self.__subTotal()
-        log = (f'setPrecoTotal()', f'Data:{datetime.now()}',f'Funcionario:{funcionario.__repr__()}',f'Preco:{self.__precoTotal}')
-        self.__logAlteracoes.append(log)'''
+        log = (
+            f'finalizarVenda()', 
+            f'Data:{datetime.now()}',
+            f'Preco:{self.__precoTotal}')
+
+        self.__logAlteracoes.append(log)
     
     def __subTotal(self):
         '''Método privado para calcular subtotal da venda.'''
@@ -99,23 +94,12 @@ class Venda:
         for itemVenda in self.__produtos:
             try:
                 produto = eval(itemVenda[0])
-            except Exception as e:
-                raise TypeError(f"Erro ao instanciar Produto: {e}")
+            except Exception as erro:
+                raise TypeError(f"Erro ao instanciar Produto: {erro}")
 
             subTotal += produto.getPreco() * itemVenda[1]
 
         return subTotal
-    
-    def finalizarVenda(self):
-        if self.__precoTotal :
-            raise PermissionError("Venda já finalizada")
-
-        total = Decimal("0")
-        for produto, quantidade in self.__produtos:
-            total += produto.getPreco() * quantidade
-
-        self.__precoTotal = total
-        self.__logAlteracoes.append(("venda_finalizada", datetime.now(), total))
         
     def __repr__(self):
         return f'Venda({self.__id}, {self.__funcionario.__repr__()})'

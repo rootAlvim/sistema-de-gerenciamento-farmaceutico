@@ -18,7 +18,7 @@ class Estoque:
                 "quantidade": quantidade
             }
 
-    def remover_produto(self, produto): 
+    def remover_produto(self, produto, quantidade = None):
         '''Remove produto, passando como parametro o objeto produto'''
         validar_produto(produto)
         produtos_estoque = self.__produtos

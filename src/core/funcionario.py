@@ -22,7 +22,7 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClie
     def get_bonus(Self): #implementei esse metodo para que de fato classe Funcionario fosse abstrata e não pudesse ser instanciada
         '''Retorna bonus salarial de acordo com o funcionario'''
         pass
-    def getfarmacia(self):
+    def getFarmacia(self):
         return self.__farmacia
     
     def get_salario_base(self):
