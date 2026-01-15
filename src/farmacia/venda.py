@@ -63,22 +63,23 @@ class Venda:
         '''Adiciona produto em Venda, caso produto já exista, a sua quantidade é somada. Recebe como parâmetro um objeto do tipo Produto e uma quantidade inteira. Não é possível adicionar produto se venda tiver sido finalizada'''
         validar_produto(produto) 
         
-        if self.__precoTotal :
+        if self.__precoTotal : #Verifica se precototal ja foi preenchido
             raise PermissionError('Venda já finalizada. Não é mais possível adicionar produtos')
         
-        if int(quantidade) <= 0:
+        if int(quantidade) <= 0: #Verifica se a quantidade do produto e menor ou igual a 0 
             raise ValueError('Quantidade deve ser maior que 0')
         
         '''for index, itemVenda in enumerate(self.__produtos):
             if produto.__repr__() in itemVenda:
                 self.__produtos[index] = (produto.__repr__(), itemVenda[1] + quantidade)
                 return True'''
-        for i , (p,q) in enumerate(self.__produtos):
-            if p == produto:
+        
+        for i , (p,q) in enumerate(self.__produtos): #Como self.__produtos e uma tupla (prod,qntd) entao necessita de p,q
+            if p == produto: #Se produto ja existir soma a quantidade a ele e substitui uma nova tupla, pois tuplas sao imutaveis
                 self.__produtos[i] = (p,q+quantidade)
                 return
                 
-        self.__produtos.append((produto, quantidade))
+        self.__produtos.append((produto, quantidade)) #Se nao encontrar produto no loop , simplismente joga pra lista o produto e sua quantidade e uma tupla
         
     '''def setPrecoTotal(self, funcionario):
         Altera preco total da venda com base em produtos já adicionados e suas quantidades. Recebe um objeto do tipo Funcionario. Esse metodo sinaliza a finalizacao da compra
@@ -104,6 +105,7 @@ class Venda:
             subTotal += produto.getPreco() * itemVenda[1]
 
         return subTotal
+    
     def finalizarVenda(self):
         if self.__precoTotal :
             raise PermissionError("Venda já finalizada")
