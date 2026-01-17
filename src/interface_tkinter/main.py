@@ -25,3 +25,9 @@ while escolha > 0:
 
     elif escolha == 6:
         print(interface.farmacia.getGerente())
+
+    elif escolha == 7:
+        interface.registrarProduto()
+
+    elif escolha == 8:
+        print(interface.farmacia._estoque.get_produtos())
