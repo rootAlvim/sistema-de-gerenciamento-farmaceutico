@@ -13,3 +13,15 @@ while escolha > 0:
         
     elif escolha == 2:
         print(interface.farmacia.nome)
+
+    elif escolha == 3:
+        interface.registrarAtendente()
+
+    elif escolha == 4:
+        print(interface.farmacia.getFuncionarios())
+
+    elif escolha == 5:
+        interface.registrarGerente()
+
+    elif escolha == 6:
+        print(interface.farmacia.getGerente())
