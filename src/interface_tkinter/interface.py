@@ -7,6 +7,41 @@ class Interface:
     def __init__(self):
         self.root = None
         self.farmacia = None
+    
+    def interface(self):
+        self.root = Tk()
+        self.root.geometry("500x300")
+        self.root.title('Interface')
+
+        botao_registrarFarmacia = Button(
+            self.root, 
+            text="Registrar Farmacia", 
+            padx=10, 
+            pady=10, 
+            command=self.registrarFarmacia).grid(row=0, column=0)
+        
+        botao_registrarGerente = Button(
+            self.root, 
+            text="Registrar Gerente", 
+            padx=10, 
+            pady=10, 
+            command=self.registrarGerente).grid(row=0, column=1)
+        
+        botao_registrarAtendente = Button(
+            self.root, 
+            text="Registrar Atendente", 
+            padx=10, 
+            pady=10, 
+            command=self.registrarAtendente).grid(row=2, column=0)
+        
+        botao_registrarProduto = Button(
+            self.root, 
+            text="Registrar Produto", 
+            padx=10, 
+            pady=10, 
+            command=self.registrarProduto).grid(row=2, column=1)
+        
+        self.root.mainloop()
 
     def __botaoRegistrar(self, texto, funcao):
         botao_registrar = Button(
@@ -19,6 +54,7 @@ class Interface:
 
     def registrarFarmacia(self):
         from src.farmacia.farmacia import Farmacia
+        self.root.destroy()
         self.root = Tk()
         self.root.geometry("500x300")
         self.root.title('Registrar Farmácia')
@@ -31,12 +67,14 @@ class Interface:
                 self.farmacia = Farmacia(nome)
                 campo_nome.delete(0, END)
                 self.root.destroy()
+                self.interface()
 
         self.__botaoRegistrar('Registrar Farmácia', instanciar).grid(row=1, column=0)
 
         self.root.mainloop()
 
     def registrarAtendente(self):
+        self.root.destroy()
         self.root = Tk()
         self.root.geometry("500x300")
         self.root.title('Registrar Atendente')
@@ -82,12 +120,14 @@ class Interface:
             campo_dataNasc.delete(0, END)
             campo_salario.delete(0, END)
             self.root.destroy()
+            self.interface()
 
         self.__botaoRegistrar('Registrar Atendente', instanciar).grid(row=4, column=1)
 
         self.root.mainloop()
 
     def registrarGerente(self):
+        self.root.destroy()
         self.root = Tk()
         self.root.geometry("500x300")
         self.root.title('Registrar Gerente')
@@ -139,6 +179,7 @@ class Interface:
             campo_dataNasc.delete(0, END)
             campo_salario.delete(0, END)
             self.root.destroy()
+            self.interface()
 
         self.__botaoRegistrar('Registrar Gerente', instanciar).grid(row=4, column=1)
 
@@ -146,6 +187,7 @@ class Interface:
 
     def registrarProduto(self):
         '''Cria objeto de produto e já adiciona em estoque''' # por enquanto fica essa solução apra produto
+        self.root.destroy()
         self.root = Tk()
         self.root.geometry("500x300")
         self.root.title('Registrar Produto')
@@ -190,6 +232,7 @@ class Interface:
             campo_fabricante.delete(0, END)
             campo_preco.delete(0, END)
             self.root.destroy()
+            self.interface()
 
         self.__botaoRegistrar('Registrar Produto', instanciar).grid(row=4, column=1)
 
