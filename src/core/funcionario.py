@@ -83,14 +83,20 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClie
             total += subtotal
         return total #Retorna subtotal do estoque 
     
-    def consultar_estoque(self,estoque):
-        if not estoque.get_produtos():
-            return False
+    def consultar_estoque(self):
+        # if not estoque.get_produtos():
+        #     return False
 
-        return {
+        # return {
         
-            dados["produto"].nome: dados["quantidade"]
-            for dados in estoque.get_produtos().values()
+        #     dados["produto"].nome: dados["quantidade"]
+        #     for dados in estoque.get_produtos().values()
+        # } 
+
+        # tiver mudar para usar em interface
+        return {
+            dados["produto"]: dados["quantidade"]
+            for dados in self.__farmacia._estoque.get_produtos().values()
         } 
     
     def consultar_produto_por_id(self, id_produto,estoque):
