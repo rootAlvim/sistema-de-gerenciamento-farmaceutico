@@ -51,6 +51,10 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClie
         self.__autenticado = True
         return True
 
+    def desautenticar(self):
+        '''Alterar atributo 'autenticado' para False.'''
+        self.__autenticado = False
+
     def setNovaSenha(self, senhaAntiga:str, senhaNova:str):
         '''Altera senha de funcionario. Recebe confirmacao de senha antiga e uma nova senha, ambas strings.'''
         if not senhaAntiga == self.__senha:
