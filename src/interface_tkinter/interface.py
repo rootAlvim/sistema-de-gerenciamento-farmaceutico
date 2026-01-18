@@ -141,7 +141,8 @@ class Interface:
             self.__root.destroy()
             self.interface()
 
-        self.__botaoPadrao('Logar', instanciar).grid(row=2, column=0)
+        self.__botaoPadrao('Logar', instanciar).grid(row=2, column=1)
+        self.__botaoPadrao("Voltar", self.interface).grid(row=2, column=2)
 
         self.__root.mainloop()
 
@@ -166,7 +167,7 @@ class Interface:
                 self.__root.destroy()
                 self.interface()
 
-        self.__botaoPadrao('Registrar Farmácia', instanciar).grid(row=1, column=0)
+        self.__botaoPadrao('Registrar Farmácia', instanciar).grid(row=1, column=1)
 
         self.__root.mainloop()
 
@@ -213,6 +214,7 @@ class Interface:
             self.interface()
 
         self.__botaoPadrao('Registrar Atendente', instanciar).grid(row=4, column=1)
+        self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
 
         self.__root.mainloop()
 
@@ -313,6 +315,7 @@ class Interface:
             self.interface()
 
         self.__botaoPadrao('Registrar Produto', instanciar).grid(row=4, column=1)
+        self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
 
         self.__root.mainloop()
 
