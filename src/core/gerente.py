@@ -6,15 +6,18 @@ from decimal import Decimal
 from src.utils.validacoes import validar_produto , validar_funcionario 
 
 class Gerente(Funcionario,FuncionalidadesGerente):
-    def __init__(self,nome,cpf,data_nascimento,salario_base, id: int,farmacia):
-        super().__init__(nome,cpf,data_nascimento,salario_base, id,farmacia)
+    def __init__(self,nome,cpf,data_nascimento,salario_base, id: int,farmacia, senha: str):
+        super().__init__(nome,cpf,data_nascimento,salario_base, id,farmacia, senha)
 
     def get_bonus(Self):
         pass
 
     def cadrastar_funcionario(self, nome : str , cpf : str, data_nasc : datetime , salario : Decimal):
-        return self.getfarmacia()._registrarAtendente(nome,cpf,data_nasc,salario)
-    '''Cadrasta funcionario e retorna o objeto criado'''
+        '''Cadrasta funcionario e retorna o objeto criado'''
+        from random import randint
+        senha = str(randint(10000, 99999))
+        return self.getFarmacia()._registrarAtendente(self,nome,cpf,data_nasc,salario,senha)
+    
 
     def excluir_funcionario(self,funcionario):
         '''Remove o funcionario desejado da lista de funcionarios'''

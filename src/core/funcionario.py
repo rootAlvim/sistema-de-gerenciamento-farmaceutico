@@ -6,15 +6,15 @@ from src.core.mixins_interfaces.adicionar_produto import AdicionarProdutoMixin
 from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
 from src.core.mixins_interfaces.registrar_cliente import RegistrarClienteMixin
 
-
 class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClienteMixin):
-    def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:float, id:int,farmacia):
+    def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:float, id:int,farmacia, senha:str):
 
         super().__init__(nome,cpf,data_nascimento)
         self.__salario_base = salario_base
         self.__id = id
+        self.__senha = senha
         self.__farmacia = farmacia
-        self.__autenticado = True 
+        self.__autenticado = False 
         self.__vendasRealizadas = []
         
     
@@ -39,6 +39,28 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClie
     
     def getVendasRealizadas(self):
         return self.__vendasRealizadas
+    
+    def setAutenticacao(self, id:int, senha:str):
+        '''Recebe Id e senha de Funcionario e verifica se são validos. Retorna true e altera atributo privado caso dados sejam verdadeiros.'''
+        if not id == self.__id:
+            raise ValueError("Id não correspondente")
+        
+        if not senha == self.__senha:
+            raise ValueError("Senha não correspondente")
+        
+        self.__autenticado = True
+        return True
+
+    def setNovaSenha(self, senhaAntiga:str, senhaNova:str):
+        '''Altera senha de funcionario. Recebe confirmacao de senha antiga e uma nova senha, ambas strings.'''
+        if not senhaAntiga == self.__senha:
+            raise ValueError("Confirmação de senha não corresponde à senha antiga")
+        
+        if not len(senhaNova) >= 5:
+            raise ValueError("Nova senha deve conter no mínimo 5 caracteres")
+        
+        self.__senha = senhaNova
+        return True
     
     def setVendaRealizada(self, venda):
         '''Adiciona nova venda realizada a lista de vendas do funcionario.'''

@@ -79,11 +79,11 @@ class Farmacia:
         return venda.getId()
         #return venda
     
-    def _registrarGerente(self, nome, cpf, data_nasc, salario):
+    def _registrarGerente(self, nome, cpf, data_nasc, salario, senha):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
         from src.core.gerente import Gerente
         self.__idGerentes += 1
-        self.__gerente = Gerente(nome, cpf, data_nasc, salario, self.__idGerentes,self)
+        self.__gerente = Gerente(nome, cpf, data_nasc, salario, self.__idGerentes,self, senha)
 
         log =(
             f'registrarGerente()', 
@@ -93,16 +93,17 @@ class Farmacia:
         self.__logAlteracoes.append(log)
         #return self.__gerente
         
-    def _registrarAtendente(self, nome : str , cpf : str, data_nasc : datetime , salario : Decimal):
-        '''Recebe como parametros atributos de um Atendente e cria um novo objeto do tipo Atendente. Retorna seu id.'''
+    def _registrarAtendente(self, gerente, nome : str , cpf : str, data_nasc : datetime , salario : Decimal, senha):
+        '''Recebe como parametros um objeto de Gerente para controle e atributos de um Atendente, e cria um novo objeto do tipo Atendente. Retorna seu id.'''
         from src.core.atendente import Atendente
         self.__idAtendentes += 1
-        atendente = Atendente(nome, cpf, data_nasc, salario, self.__idAtendentes,self)
+        atendente = Atendente(nome, cpf, data_nasc, salario, self.__idAtendentes,self, senha)
         
         self.__funcionarios.append(atendente)
 
         log =(
-            f'registrarAtendente()', 
+            f'registrarAtendente()',
+            f'{gerente.__repr__()}'
             f'Data:{datetime.now()}',
             f'{atendente.__repr__()}'
         )
