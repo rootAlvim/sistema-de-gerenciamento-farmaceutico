@@ -1,3 +1,4 @@
+# python -m tests.test_gerente
 from datetime import datetime
 from src.farmacia.farmacia import Farmacia
 from src.core.atendente import Atendente

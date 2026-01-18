@@ -12,8 +12,7 @@ class Farmacia:
         self.__gerente = None
         self.__funcionarios = []
         self.__clientes = []
-        self.__idGerentes = 0
-        self.__idAtendentes = 0
+        self.__idFuncionarios = 0
         self.__idVendas = 0
         self.__logAlteracoes = []
 
@@ -82,8 +81,8 @@ class Farmacia:
     def _registrarGerente(self, nome, cpf, data_nasc, salario, senha):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
         from src.core.gerente import Gerente
-        self.__idGerentes += 1
-        self.__gerente = Gerente(nome, cpf, data_nasc, salario, self.__idGerentes,self, senha)
+        self.__idFuncionarios += 1
+        self.__gerente = Gerente(nome, cpf, data_nasc, salario, self.__idFuncionarios,self, senha)
 
         log =(
             f'registrarGerente()', 
@@ -96,8 +95,8 @@ class Farmacia:
     def _registrarAtendente(self, gerente, nome : str , cpf : str, data_nasc : datetime , salario : Decimal, senha):
         '''Recebe como parametros um objeto de Gerente para controle e atributos de um Atendente, e cria um novo objeto do tipo Atendente. Retorna seu id.'''
         from src.core.atendente import Atendente
-        self.__idAtendentes += 1
-        atendente = Atendente(nome, cpf, data_nasc, salario, self.__idAtendentes,self, senha)
+        self.__idFuncionarios += 1
+        atendente = Atendente(nome, cpf, data_nasc, salario, self.__idFuncionarios,self, senha)
         
         self.__funcionarios.append(atendente)
 
