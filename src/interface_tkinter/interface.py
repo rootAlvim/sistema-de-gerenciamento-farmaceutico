@@ -16,47 +16,16 @@ class Interface:
         self.__root.geometry("500x300")
         self.__root.title('Interface')
 
-        botao_registrarFarmacia = Button(
-            self.__root, 
-            text="Registrar Farmacia", 
-            padx=10, 
-            pady=10, 
-            command=self.registrarFarmacia).grid(row=0, column=0)
+        if not self.__farmacia:
+            self.registrarFarmacia()
         
-        botao_registrarGerente = Button(
-            self.__root, 
-            text="Registrar Gerente", 
-            padx=10, 
-            pady=10, 
-            command=self.registrarGerente).grid(row=0, column=1)
-        
-        botao_login = Button(
-            self.__root, 
-            text="Login", 
-            padx=10, 
-            pady=10, 
-            command=self.login).grid(row=0, column=2)
+        if not self.__farmacia.getGerente():
+            self.registrarGerente()
 
-        botao_logout = Button(
-            self.__root, 
-            text="Logout", 
-            padx=10, 
-            pady=10, 
-            command=self.logout).grid(row=0, column=3)
-        
-        botao_registrarAtendente = Button(
-            self.__root, 
-            text="Registrar Atendente", 
-            padx=10, 
-            pady=10, 
-            command=self.registrarAtendente).grid(row=2, column=0)
-        
-        botao_registrarProduto = Button(
-            self.__root, 
-            text="Registrar Produto", 
-            padx=10, 
-            pady=10, 
-            command=self.registrarProduto).grid(row=2, column=1)
+        self.__botaoRegistrar("Login", self.login).grid(row=0, column=2)
+        self.__botaoRegistrar("Logout", self.logout).grid(row=0, column=3)
+        self.__botaoRegistrar("Registrar Atendente", self.registrarAtendente).grid(row=2, column=0)
+        self.__botaoRegistrar("RegistrarProduto", self.registrarProduto).grid(row=2, column=1)
 
         self.__root.mainloop()
 
