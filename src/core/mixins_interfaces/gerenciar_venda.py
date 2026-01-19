@@ -8,7 +8,7 @@ class GerenciarVendaMixin:
         estoque = self.getFarmacia()._estoque
         if estoque.produto_disponibilidade(produto, quantidade):
             self.getVendasRealizadas()[-1].adicionarProduto(produto, quantidade)
-            estoque.remover_produto(produto.getId(), quantidade)
+            estoque.remover_produto(self, produto.getId(), quantidade)
             return True
         raise ValueError("Produto indisponível no estoque")
 
