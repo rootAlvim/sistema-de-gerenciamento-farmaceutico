@@ -29,6 +29,9 @@ class Farmacia:
         for funcionario in self.__funcionarios:
             if funcionario.get_id() == id:
                 return funcionario
+            
+        if self.__gerente.getId() == id:
+            return self.__gerente
 
     def getListaVendas(self):
         '''Retorna uma lista contendo todos os objetos de Venda registrados.'''
