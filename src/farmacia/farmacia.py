@@ -30,7 +30,7 @@ class Farmacia:
             if funcionario.get_id() == id:
                 return funcionario
             
-        if self.__gerente.getId() == id:
+        if self.__gerente.get_id() == id:
             return self.__gerente
 
     def getListaVendas(self):

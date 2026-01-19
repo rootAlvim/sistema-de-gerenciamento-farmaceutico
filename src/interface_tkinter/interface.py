@@ -85,11 +85,11 @@ class Interface:
             messagebox.showinfo("Logout interrompido", f"Você não está logado.")
             return
         
-        if self.__usuarioTipoGerente():
-            self.__farmacia.getGerente().desautenticar() 
-            self.__idFuncionarioLogado = None
-            messagebox.showinfo("Logout Sucesso", f"Você foi deslogado do sistema.")
-            return
+        # if self.__usuarioTipoGerente():
+        #     self.__farmacia.getGerente().desautenticar() 
+        #     self.__idFuncionarioLogado = None
+        #     messagebox.showinfo("Logout Sucesso", f"Você foi deslogado do sistema.")
+        #     return
             
         self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).desautenticar() 
         self.__idFuncionarioLogado = None
@@ -120,8 +120,8 @@ class Interface:
             
             try:
                 funcionario = self.__farmacia.getFuncionarioPorId(int(id))
-                if self.__farmacia.getGerente().get_id() == int(id):
-                    funcionario = self.__farmacia.getGerente()                
+                # if self.__farmacia.getGerente().get_id() == int(id):
+                #     funcionario = self.__farmacia.getGerente()                
             except Exception as erro:
                 messagebox.showerror("Erro ao tentar logar.", f"{erro}")
                 self.login()
@@ -303,7 +303,7 @@ class Interface:
             quantidade = campo_qtd.get()
 
             try:
-                self.__farmacia._estoque.adicionar_produto(Produto(nome, Decimal(preco), fabricante), int(quantidade))
+                self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).adicionar_produto_estoque(Produto(nome, Decimal(preco), fabricante), int(quantidade))
             except Exception as erro:
                 messagebox.showerror("Erro ao tentar registrar Produto.", f"{erro}")
                 self.registrarProduto()
@@ -327,7 +327,7 @@ class Interface:
 
         self.__botaoPadrao("Voltar", self.interface).grid(row=0, column=0)
 
-        produtos = self.__farmacia.getGerente().consultar_estoque()
+        produtos = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).consultar_estoque()
         row_ = 1
         for produto, qtd in produtos.items():
             Label(self.__root, text=f"{produto} | Quantidade: {qtd}").grid(row=row_)
