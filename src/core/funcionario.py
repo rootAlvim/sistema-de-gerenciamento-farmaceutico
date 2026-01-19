@@ -74,7 +74,7 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClie
         return f"ID {self.__id} | Nome: {self.nome} | Cargo: {self.__class__.__name__} | Salário: R$ {self.__salario_base:.2f}"
     
     def subTotal(self, estoque):
-        produtos_estoque = estoque.get_produtos()
+        produtos_estoque = estoque.get_produtos(self)
         total = 0
         for dados in produtos_estoque.values():
             produto = dados["produto"]
@@ -96,14 +96,16 @@ class Funcionario(Pessoa,AdicionarProdutoMixin,GerenciarVendaMixin,RegistrarClie
         # tiver mudar para usar em interface
         return {
             dados["produto"]: dados["quantidade"]
-            for dados in self.__farmacia._estoque.get_produtos().values()
+            for dados in self.__farmacia._estoque.get_produtos(self).values()
         } 
     
-    def consultar_produto_por_id(self, id_produto,estoque):
-        return estoque.consultar_produto_por_id(id_produto)
+    def consultar_produto_por_id(self, id_produto):
+        '''Recebe id do produto e retorna seu objeto e quantidade em estoque.'''
+        return self.__farmacia._estoque.consultar_produto_por_id(self, id_produto)
 
-    def consultar_produto_por_nome(self, nome ,estoque):
-        return estoque.consultar_produto_por_nome(nome)
+    def consultar_produto_por_nome(self, nome):
+        '''Recebe nome do produto e retorna seu objeto e quantidade em estoque.'''
+        return self.__farmacia._estoque.consultar_produto_por_nome(self, nome)
     
     #def registrar_cliente(self,nome : str, cpf : str, data_nascimento = None):
          #self.__farmacia.registrarCliente(nome,cpf,data_nascimento)

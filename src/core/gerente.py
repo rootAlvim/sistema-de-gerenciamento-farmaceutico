@@ -18,7 +18,6 @@ class Gerente(Funcionario,FuncionalidadesGerente):
         senha = str(randint(10000, 99999))
         return self.getFarmacia()._registrarAtendente(self,nome,cpf,data_nasc,salario,senha)
     
-
     def excluir_funcionario(self,funcionario):
         '''Remove o funcionario desejado da lista de funcionarios'''
         # Implementaçao a ser discutida!!
@@ -29,7 +28,6 @@ class Gerente(Funcionario,FuncionalidadesGerente):
             return True
         return False
 
-        
     def alterar_preco_produto(self, produto, preco: Decimal,): #precisei implementar para testar algumas coisas em produto
         '''Alterar preço de produto. Recebe preço em Decimal e objeto de Produto'''
         validar_produto(produto)
