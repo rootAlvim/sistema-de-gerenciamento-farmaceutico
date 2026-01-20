@@ -6,7 +6,7 @@ from abc import ABC , abstractmethod
 class Pessoa(ABC):
     def __init__(self,nome:str,cpf:str,data_nascimento:Optional[datetime] = None):
         self.nome = nome
-        self.__cpf = validar_formato_cpf(cpf)
+        self.__cpf = validar_formato_cpf(cpf) # Valida CPF
         self.__data_nascimento = data_nascimento or datetime.now()
 
     @abstractmethod
