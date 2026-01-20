@@ -188,6 +188,7 @@ class Interface:
 
         Label(self.__root, text="Data de Nascimento:").grid(row=2)
         campo_dataNasc = Entry(self.__root, width=25, borderwidth=1)
+        Label(self.__root, text="Ex.: 00-00-0000").grid(row=2, column=3)
         campo_dataNasc.grid(row=2, column=1, columnspan=2)
 
         Label(self.__root, text="Salario:").grid(row=3)
@@ -238,6 +239,7 @@ class Interface:
 
         Label(self.__root, text="Data de Nascimento:").grid(row=2)
         campo_dataNasc = Entry(self.__root, width=25, borderwidth=1)
+        Label(self.__root, text="Ex.: 00-00-0000").grid(row=2, column=3)
         campo_dataNasc.grid(row=2, column=1, columnspan=2)
 
         Label(self.__root, text="Salario:").grid(row=3)
