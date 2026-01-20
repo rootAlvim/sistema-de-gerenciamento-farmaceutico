@@ -70,14 +70,21 @@ class Interface:
             self.interface()
         return True
 
-    def __botaoPadrao(self, texto, funcao):
+    def __botaoPadrao(self, texto, funcao, padx=10, pady=10):
         botao_padrao = Button(
             self.__root, 
             text=texto, 
-            padx=10, 
-            pady=10, 
+            padx=padx, 
+            pady=pady, 
             command=funcao)
         return botao_padrao
+    
+    def __removerWidgets(self, widgets):
+        for widget in widgets:
+            try:
+                widget.destroy()
+            except:
+                continue
     
     def logout(self):
         '''Reseta valor de idFuncionarioLogado para None.'''      
@@ -322,26 +329,56 @@ class Interface:
         self.__root.mainloop()
 
     def consultarEstoque(self):
+        from tkinter import ttk
         self.__inciarRoot()
         self.__root.title('Consultar estoque')
         self.__temFarmacia()
         self.__autenticacaoValidacao()
+        produto_labels = []
 
-        def consultar(): # em progresso
-            print('aaa')
+        def consultar():
+            consultar_por = menu.get()
+            valor = consulta_campo.get()
+            produto = None
 
-        consultar_por_nome = Entry(self.__root, width=25, borderwidth=1) # em progresso
-        consultar_por_nome.grid(row=0, column=0, columnspan=1) # em progresso
-        self.__botaoPadrao("Consultar", consultar).grid(row=0, column=2) # em progresso
-        self.__botaoPadrao("Voltar", self.interface).grid(row=0, column=3)
+            if not valor:
+                return
 
-        # em progresso
+            if consultar_por == "Id":
+                produto = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).consultar_produto_por_id(int(valor))
+            elif consultar_por == "Nome":
+                produto = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).consultar_produto_por_nome(valor)
+            
+            if produto:
+                self.__removerWidgets(produto_labels)
+
+                produto_label = Label(self.__root, text=f"{produto[0]} | Quantidade: {produto[1]}")
+                produto_label.grid(row=2, column=0, columnspan=3)
+                produto_labels.append(produto_label)
+                return
+            return
+
+        consulta_campo = Entry(self.__root, width=25, borderwidth=1)
+        consulta_campo.grid(row=1, column=0, columnspan=1)
+
+        Label(self.__root, text="Consultar por:").grid(row=0, column=2)
+        opcoes_consulta = ["Id", "Nome"]
+        menu = ttk.Combobox(self.__root, values=opcoes_consulta, state="readonly")
+        menu.set("Id")
+        menu.grid(row=1, column=2)
+
+        self.__botaoPadrao("Consultar", consultar, pady=4).grid(row=1, column=4)
+        self.__botaoPadrao("Limpar", self.consultarEstoque, pady=4).grid(row=1, column=5)
+        self.__botaoPadrao("Voltar", self.interface, pady=4).grid(row=1, column=6)
+
         produtos = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).consultar_estoque()
-        row_ = 1
+        row_ = 2
         for produto, qtd in produtos.items():
-            Label(self.__root, text=f"{produto} | Quantidade: {qtd}").grid(row=row_)
+            produto_label = Label(self.__root, text=f"{produto} | Quantidade: {qtd}")
+            produto_label.grid(row=row_, column=0, columnspan=3)
+            produto_labels.append(produto_label)
             row_ += 1
-
+            
         self.__root.mainloop()
 
     
