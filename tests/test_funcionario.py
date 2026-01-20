@@ -13,7 +13,7 @@ farmacia = Farmacia("Pague mais")
 # print(G.cadrastar_funcionario('Luciene','121.123.456-45','1-1-2020',1200))
 '''print(farmacia.getFuncionarios())
 G.excluir_funcionario(B)
-print(farmacia.getFuncionarios())'''
+print(farmacia.getFuncionarios())
 
 # print(farmacia._registrarCliente('Alvim','130.654.134-43','1-1-1990'))
 # print(farmacia._registrarCliente('Alvaro','130.654.134-43','1-1-1190'))
@@ -36,5 +36,7 @@ print(farmacia.getVendaPorId(id_venda).getCliente())
 
 print(farmacia.getVendaPorId(id_venda).getPrecoTotal())
 farmacia.getFuncionarioPorId(id_funcionario1).finalizar_venda() # finalizando venda via mixin de funcionario
-print(farmacia.getVendaPorId(id_venda).getPrecoTotal())
+print(farmacia.getVendaPorId(id_venda).getPrecoTotal())'''
 
+A = Atendente('a','123.123.345-43','1-1-1000',1,1,farmacia,'12')
+print(A.consultar_estoque())
