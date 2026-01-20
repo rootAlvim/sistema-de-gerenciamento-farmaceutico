@@ -29,6 +29,7 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
         '''Retorna salario do funcionario'''
         return self.__salario_base
     
+    
     def get_id(self):
         '''Retorna Id do funcionario'''
         return self.__id
