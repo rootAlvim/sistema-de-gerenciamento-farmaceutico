@@ -336,6 +336,13 @@ class Interface:
         self.__autenticacaoValidacao()
         produto_labels = []
 
+        def removerProduto(id_produto):
+            
+            self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).remover_produto(id_produto)
+            # except Exception as erro:
+            #     messagebox.showerror("Erro ao tentar remover Produto.", f"{erro}")
+            #     self.consultarEstoque()
+
         def consultar():
             consultar_por = menu.get()
             valor = consulta_campo.get()
@@ -376,6 +383,7 @@ class Interface:
         for produto, qtd in produtos.items():
             produto_label = Label(self.__root, text=f"{produto} | Quantidade: {qtd}")
             produto_label.grid(row=row_, column=0, columnspan=3)
+            self.__botaoPadrao("Remover", lambda: removerProduto(produto.getId()), pady=4).grid(row=row_, column=4)
             produto_labels.append(produto_label)
             row_ += 1
             
