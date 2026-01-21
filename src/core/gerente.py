@@ -8,10 +8,11 @@ from src.utils.validacoes import validar_produto , validar_funcionario
 class Gerente(Funcionario,FuncionalidadesGerente):
     def __init__(self,nome,cpf,data_nascimento,salario_base, id: int,farmacia, senha: str):
         super().__init__(nome,cpf,data_nascimento,salario_base, id,farmacia, senha)
+        self.__porcentagemBonusGerente = 0.1
 
     def get_bonus(self):
         '''Recebe bonus de 10% do salario base acrescentado ao bonus base de funcionario.'''
-        calculo = super().get_bonus() + (self.get_salario_base() * Decimal(0.1))
+        calculo = super().get_bonus() + (self.get_salario_base() * Decimal(self.__porcentagemBonusGerente))
         return calculo.quantize(Decimal('0.01'))   
 
     def cadrastar_funcionario(self, nome : str , cpf : str, data_nasc : datetime , salario : Decimal):
