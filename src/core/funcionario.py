@@ -1,15 +1,16 @@
 #implementacao de classe abstrata Funcionario
 from datetime import datetime
 from abc import abstractmethod
+from decimal import Decimal
 from src.core.pessoa import Pessoa
 from src.core.mixins_interfaces.gerenciar_estoque import GerenciarEstoqueMixin
 from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
 
 class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
-    def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:float, id:int,farmacia, senha:str):
+    def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:Decimal, id:int,farmacia, senha:str):
 
         super().__init__(nome,cpf,data_nascimento)
-        self.__salario_base = salario_base
+        self.__salario_base = Decimal(salario_base)
         self.__id = id
         self.__senha = senha
         self.__farmacia = farmacia
@@ -17,8 +18,8 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
         self.__vendasRealizadas = []
         
     def get_bonus(self):
-        '''Retorna um bonus salarial base de 1%'''
-        return self.__salario_base * 0.01
+        '''Retorna um bonus salarial base de 5%'''
+        return self.__salario_base * Decimal(0.05)
 
     def getFarmacia(self): 
         '''Retorna objeto farmacia '''
@@ -26,7 +27,7 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
     
     def get_salario_base(self):
         '''Retorna salario do funcionario'''
-        return self.__salario_base
+        return self.__salario_base.quantize(Decimal('0.01'))
     
     
     def get_id(self):

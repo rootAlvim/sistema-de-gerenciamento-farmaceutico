@@ -38,5 +38,5 @@ print(farmacia.getVendaPorId(id_venda).getPrecoTotal())
 farmacia.getFuncionarioPorId(id_funcionario1).finalizar_venda() # finalizando venda via mixin de funcionario
 print(farmacia.getVendaPorId(id_venda).getPrecoTotal())'''
 
-A = Atendente('a','123.123.345-43','1-1-1000',1,1,farmacia,'12')
-print(A.consultar_estoque())
+A = Atendente('a','123.123.345-43','1-1-1000',1784.61,1,farmacia,'12')
+print(A.get_bonus())
