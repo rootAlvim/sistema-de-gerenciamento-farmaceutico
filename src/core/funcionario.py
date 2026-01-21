@@ -22,8 +22,9 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
         '''Retorna bonus salarial de acordo com o funcionario'''
         pass
 
-    def getFarmacia(self):
-        return self.__farmacia
+    def getFarmacia(self): 
+        '''Retorna objeto farmacia '''
+        return self.__farmacia  
     
     def get_salario_base(self):
         '''Retorna salario do funcionario'''
@@ -39,14 +40,15 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
         return self.__autenticado
     
     def getVendasRealizadas(self):
+        '''Retorna lista de vendas realizadas'''
         return self.__vendasRealizadas
     
     def setAutenticacao(self, id:int, senha:str):
         '''Recebe Id e senha de Funcionario e verifica se são validos. Retorna true e altera atributo privado caso dados sejam verdadeiros.'''
-        if not id == self.__id:
+        if not id == self.__id: # Se o id passado não for igual ao id do funcionario
             raise ValueError("Id não correspondente")
         
-        if not senha == self.__senha:
+        if not senha == self.__senha: # Se a senha passada não for igual a senha do funcionario
             raise ValueError("Senha não correspondente")
         
         self.__autenticado = True
@@ -58,7 +60,7 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
 
     def setNovaSenha(self, senhaAntiga:str, senhaNova:str):
         '''Altera senha de funcionario. Recebe confirmacao de senha antiga e uma nova senha, ambas strings.'''
-        if not senhaAntiga == self.__senha:
+        if not senhaAntiga == self.__senha: # Verifica se a senha passada e a senha do usuarui 
             raise ValueError("Confirmação de senha não corresponde à senha antiga")
         
         if not len(senhaNova) >= 5:
