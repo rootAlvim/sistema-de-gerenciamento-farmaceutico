@@ -288,7 +288,7 @@ class Interface:
         produto_labels = []
 
         def removerProduto(id_produto, produto_label, botao_remover):
-            verificacao = messagebox.askyesno("Remover Produto", "Você realmente deseja remover produto?")
+            verificacao = messagebox.askyesno("Remover Produto", f"Você realmente deseja remover produto, id={id_produto}?")
 
             if not verificacao:
                 self.consultarEstoque()
