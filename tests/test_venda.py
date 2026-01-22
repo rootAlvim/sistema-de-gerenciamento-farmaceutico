@@ -10,7 +10,8 @@ p2 = Produto('Dorflex-5mg-Comprimido',1.90,'Sanofi')
 farmacia = Farmacia("Farmácia Popular")
 
 farm = Farmacia("Pague mais")
-id_funcionario1 = farm._registrarAtendente('teste', '055.678.501-08', datetime(2000, 8, 25), 1500.0)
+farm._registrarGerente('testegerente', '055.678.501-08', datetime(2000, 8, 25), 8599.78, '123456')
+id_funcionario1 = farm.getGerente().cadrastar_funcionario('teste', '055.678.501-08', datetime(2000, 8, 25), 1800)
 
 print(farm.getListaVendas())
 id_venda1 = farm._criarVenda(farm.getFuncionarioPorId(id_funcionario1))
@@ -41,6 +42,10 @@ print(farm.getVendaPorId(id_venda1).getPrecoTotal())
 # farm.getListaVendas()[0].adicionarProduto(produto_teste2, 2) # testando erro de tentar adicionar produto com venda finalizada
 
 # farm.getListaVendas()[0].adicionarCliente(atendente,Cliente('teste', '123.458.136-08', 12)) # testando add cliente apos venda finalizada
+print("----------------*---------------------")
+print(farm.getFuncionarioPorId(id_funcionario1).getVendasRealizadas())
+print(farm.getFuncionarioPorId(id_funcionario1).get_comissao())
+print("----------------*---------------------")
 print('\n')
 logs = farm.getVendaPorId(id_venda1).getLogAlteracoes() # testando logs
 for log in logs:
