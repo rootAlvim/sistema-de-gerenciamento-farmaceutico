@@ -286,6 +286,7 @@ class Interface:
         self.__temFarmacia()
         self.__autenticacaoValidacao()
         produto_labels = []
+        botoes_remover = []
 
         def removerProduto(id_produto, produto_label, botao_remover):
             verificacao = messagebox.askyesno("Remover Produto", f"Você realmente deseja remover produto, id={id_produto}?")
@@ -321,9 +322,12 @@ class Interface:
             
             if produto:
                 self.__removerWidgets(produto_labels)
+                self.__removerWidgets(botoes_remover)
 
                 produto_label = Label(self.__root, text=f"{produto[0]} | Quantidade: {produto[1]}")
                 produto_label.grid(row=2, column=0, columnspan=3)
+                botao_remover = self.__botaoPadrao("Remover", lambda: removerProduto(produto[0].getId(), produto_label, botao_remover), pady=4)
+                botao_remover.grid(row=2, column=4)
                 produto_labels.append(produto_label)
                 return
             return
@@ -348,7 +352,9 @@ class Interface:
             produto_label.grid(row=row_, column=0, columnspan=3)
             botao_remover = self.__botaoPadrao("Remover", lambda: removerProduto(produto.getId(), produto_label, botao_remover), pady=4)
             botao_remover.grid(row=row_, column=4)
+
             produto_labels.append(produto_label)
+            botoes_remover.append(botao_remover)
             row_ += 1
             
         self.__root.mainloop()
