@@ -416,6 +416,7 @@ class Interface:
     def __editarPrecoProduto(self, produto):
         self.__usuarioTipoGerente()
 
+
         Label(self.__root, text=f"Alterar preço do produto. Preço Atual: {produto.getPreco()}")
         campo_preco = Entry(self.__root, width=25, borderwidth=1)
         campo_preco.grid(row=1, column=0, columnspan=1)
