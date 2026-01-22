@@ -3,10 +3,8 @@ from datetime import datetime
 from abc import abstractmethod
 from decimal import Decimal
 from src.core.pessoa import Pessoa
-from src.core.mixins_interfaces.gerenciar_estoque import GerenciarEstoqueMixin
-from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
 
-class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
+class Funcionario(Pessoa):
     def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:Decimal, id:int,farmacia, senha:str):
 
         super().__init__(nome,cpf,data_nascimento)

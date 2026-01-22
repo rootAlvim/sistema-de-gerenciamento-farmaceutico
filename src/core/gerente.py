@@ -4,8 +4,9 @@ from src.core.funcionario import Funcionario
 from src.core.mixins_interfaces.funcionalidades_gerente import FuncionalidadesGerente
 from decimal import Decimal
 from src.utils.validacoes import validar_produto , validar_funcionario 
-
-class Gerente(Funcionario,FuncionalidadesGerente):
+from src.core.mixins_interfaces.gerenciar_estoque import GerenciarEstoqueMixin
+from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
+class Gerente(Funcionario,FuncionalidadesGerente,GerenciarEstoqueMixin,GerenciarVendaMixin):
     def __init__(self,nome,cpf,data_nascimento,salario_base, id: int,farmacia, senha: str):
         super().__init__(nome,cpf,data_nascimento,salario_base, id,farmacia, senha)
         self.__porcentagemBonusGerente = 0.1

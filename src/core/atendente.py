@@ -2,8 +2,8 @@
 from decimal import Decimal
 from src.core.funcionario import Funcionario
 from src.utils.validacoes import validar_gerente
-
-class Atendente(Funcionario):
+from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
+class Atendente(Funcionario,GerenciarVendaMixin):
     def __init__(self, nome, cpf, data_nascimento, salario_base, id: int,farmacia, senha:str):
         super().__init__(nome, cpf, data_nascimento, salario_base, id,farmacia, senha)
         self.__porcentagemBonusAtendente = 0.015
