@@ -48,6 +48,9 @@ class Gerente(Funcionario,FuncionalidadesGerente,GerenciarEstoqueMixin,Gerenciar
     def alterar_preco_produto(self, produto, preco: Decimal): #precisei implementar para testar algumas coisas em produto
         '''Alterar preço de produto. Recebe preço em Decimal e objeto de Produto'''
         validar_produto(produto) #Valida se foi passado um objeto funcionario
+        if not produto.getId() in self.getFarmacia()._estoque.get_produtos(self):
+            raise ValueError("Produto não existe em estoque")
+        
         produto.setPreco(self, preco)
         
     def __repr__(self):
