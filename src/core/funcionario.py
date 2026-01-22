@@ -6,7 +6,6 @@ from src.core.pessoa import Pessoa
 
 class Funcionario(Pessoa):
     def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:Decimal, id:int,farmacia, senha:str):
-
         super().__init__(nome,cpf,data_nascimento)
         self.__salario_base = Decimal(salario_base)
         self.__id = id
