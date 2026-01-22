@@ -434,12 +434,12 @@ class Interface:
                 return
             self.consultarEstoque()
 
-        Label(self.__root, text=f"Alterar preço do produto. Preço Atual: {produto.getPreco()}").grid(row=0, columnspan=1)
+        Label(self.__root, text=f"Alterar preço do produto. Preço Atual: {produto.getPreco()}").grid(row=0, columnspan=3)
         Label(self.__root, text=f"Novo Preço:").grid(row=1)
         campo_preco = Entry(self.__root, width=25, borderwidth=1)
         campo_preco.grid(row=1, column=1, columnspan=1)
 
-        self.__botaoPadrao("Alterar", setPreco).grid(row=2, column=1)
+        self.__botaoPadrao("Alterar", setPreco, pady=4).grid(row=2, column=1)
 
         self.__root.mainloop()
 
