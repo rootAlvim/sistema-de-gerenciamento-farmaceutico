@@ -281,30 +281,12 @@ class Interface:
 
     def consultarEstoque(self):
         from tkinter import ttk
-        self.__inciarRoot()
+        self.__inciarRoot(tamanho="800x400")
         self.__root.title('Consultar estoque')
         self.__temFarmacia()
         self.__autenticacaoValidacao()
         produto_labels = []
-
-        def removerProduto(id_produto, produto_label, botao_remover):
-            verificacao = messagebox.askyesno("Remover Produto", f"Você realmente deseja remover produto, id={id_produto}?")
-
-            if not verificacao:
-                self.consultarEstoque()
-                return
-            
-            try:
-                self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).remover_produto(id_produto)
-            except Exception as erro:
-                messagebox.showerror("Erro ao tentar remover Produto.", f"{erro}")
-                self.consultarEstoque()
-
-            try:
-                produto_label.destroy()
-                botao_remover.destroy()
-            except:
-                return
+        botoes_remover = []
 
         def consultar():
             consultar_por = menu.get()
@@ -321,9 +303,12 @@ class Interface:
             
             if produto:
                 self.__removerWidgets(produto_labels)
+                self.__removerWidgets(botoes_remover)
 
                 produto_label = Label(self.__root, text=f"{produto[0]} | Quantidade: {produto[1]}")
                 produto_label.grid(row=2, column=0, columnspan=3)
+                botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto[0].getId(), produto_label, botao_remover), pady=4)
+                botao_remover.grid(row=2, column=4)
                 produto_labels.append(produto_label)
                 return
             return
@@ -346,21 +331,27 @@ class Interface:
         for produto, qtd in produtos.items():
             produto_label = Label(self.__root, text=f"{produto} | Quantidade: {qtd}")
             produto_label.grid(row=row_, column=0, columnspan=3)
-            botao_remover = self.__botaoPadrao("Remover", lambda: removerProduto(produto.getId(), produto_label, botao_remover), pady=4)
-            botao_remover.grid(row=row_, column=4)
+
+            botao_editar_preco = self.__botaoPadrao("Edit Preço", lambda: self.__editarPrecoProduto(produto), pady=2, padx=6)
+            botao_editar_preco.grid(row=row_, column=4)
+
+            botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto.getId(), produto_label, botao_remover), pady=2)
+            botao_remover.grid(row=row_, column=5)
+
             produto_labels.append(produto_label)
+            botoes_remover.append(botao_remover)
             row_ += 1
             
         self.__root.mainloop()
 
 
-    def __inciarRoot(self):
+    def __inciarRoot(self, tamanho = "500x300"):
         try:
             self.__root.destroy()
         except:
             pass
         self.__root = Tk()
-        self.__root.geometry("500x300")
+        self.__root.geometry(tamanho)
 
     def __temFarmacia(self):
         if not self.__farmacia:
@@ -402,6 +393,42 @@ class Interface:
                 widget.destroy()
             except:
                 continue
+
+    def __removerProduto(self, id_produto, produto_label, botao_remover):
+            verificacao = messagebox.askyesno("Remover Produto", f"Você realmente deseja remover produto, id={id_produto}?")
+
+            if not verificacao:
+                self.consultarEstoque()
+                return
+            
+            try:
+                self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).remover_produto(id_produto)
+            except Exception as erro:
+                messagebox.showerror("Erro ao tentar remover Produto.", f"{erro}")
+                self.consultarEstoque()
+
+            try:
+                produto_label.destroy()
+                botao_remover.destroy()
+            except:
+                return
+            
+    def __editarPrecoProduto(self, produto):
+        self.__usuarioTipoGerente()
+
+        Label(self.__root, text=f"Alterar preço do produto. Preço Atual: {produto.getPreco()}")
+        campo_preco = Entry(self.__root, width=25, borderwidth=1)
+        campo_preco.grid(row=1, column=0, columnspan=1)
+
+        try:
+            self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).alterar_preco_produto(self, produto, Decimal(campo_preco.get()))
+        except Exception as erro:
+            messagebox.showerror("Erro ao tentar remover Produto.", f"{erro}")
+            self.__editarPrecoProduto(produto)
+            return
+        return
+
+
     
 
     

@@ -25,7 +25,7 @@ class Farmacia:
         return self.__funcionarios
 
     def getFuncionarioPorId(self, id):
-        '''Retorna objeto de Atendente caso exista um com o mesmo id recebido.'''
+        '''Retorna objeto de Funcionario caso exista um com o mesmo id recebido.'''
         for funcionario in self.__funcionarios:
             if funcionario.get_id() == id:
                 return funcionario
@@ -65,6 +65,7 @@ class Farmacia:
         '''Cria um objeto do tipo Venda. Adiciona obejto em Lista de Vendas e retorna seu indice'''
         from src.farmacia.venda import Venda
         validar_funcionario(funcionario)
+        
         self.__idVendas += 1
         venda = Venda(self.__idVendas, funcionario)
         self.__vendas.append(venda)
@@ -78,10 +79,8 @@ class Farmacia:
 
         self.__logAlteracoes.append(log)
 
-        return venda.getId()
-        #return venda
-    
-    
+        return venda.getId()   
+
     def _registrarGerente(self, nome, cpf, data_nasc, salario, senha):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
         from src.core.gerente import Gerente
@@ -93,8 +92,8 @@ class Farmacia:
             f'Data:{datetime.now()}',
             f'{self.__gerente.__repr__()}'
         )
+        
         self.__logAlteracoes.append(log)
-        #return self.__gerente
         
     def _registrarAtendente(self, gerente, nome : str , cpf : str, data_nasc : datetime , salario : Decimal, senha):
         '''Recebe como parametros um objeto de Gerente para controle e atributos de um Atendente, e cria um novo objeto do tipo Atendente. Retorna seu id.'''
@@ -115,7 +114,26 @@ class Farmacia:
         self.__logAlteracoes.append(log)
 
         return atendente.get_id()
-        #return atendente
+    
+    def _registrarRepositor(self, gerente, nome : str , cpf : str, data_nasc : datetime , salario : Decimal, senha):
+        '''Recebe como parametros um objeto de Gerente para controle e atributos de um Atendente, e cria um novo objeto do tipo Atendente. Retorna seu id.'''
+        validar_gerente(gerente)
+        from src.core.repositor import Repositor
+        self.__idFuncionarios += 1
+        repositor = Repositor(nome, cpf, data_nasc, salario, self.__idFuncionarios,self, senha)
+        
+        self.__funcionarios.append(repositor)
+
+        log =(
+            f'registrarRepositor()',
+            f'{gerente.__repr__()}'
+            f'Data:{datetime.now()}',
+            f'{repositor.__repr__()}'
+        )
+
+        self.__logAlteracoes.append(log)
+
+        return repositor.get_id()
     
     def _registrarCliente(self, funcionario, nome : str, cpf : str, data_nascimento = None):
         '''Recebe como parametros um objeto de Funcionario e atributos de um Cliente, e cria um novo objeto do tipo Cliente. Retorna Id do novo cliente.'''
@@ -134,6 +152,5 @@ class Farmacia:
         self.__logAlteracoes.append(log)
         
         return cliente.get_cpf()
-        # return cliente
 
 

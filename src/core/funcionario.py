@@ -3,19 +3,15 @@ from datetime import datetime
 from abc import abstractmethod
 from decimal import Decimal
 from src.core.pessoa import Pessoa
-from src.core.mixins_interfaces.gerenciar_estoque import GerenciarEstoqueMixin
-from src.core.mixins_interfaces.gerenciar_venda import GerenciarVendaMixin
 
-class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
+class Funcionario(Pessoa):
     def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:Decimal, id:int,farmacia, senha:str):
-
         super().__init__(nome,cpf,data_nascimento)
         self.__salario_base = Decimal(salario_base)
         self.__id = id
         self.__senha = senha
         self.__farmacia = farmacia
         self.__autenticado = False 
-        self.__vendasRealizadas = []
         
     def get_bonus(self):
         '''Retorna um bonus salarial base de 5%'''
@@ -29,7 +25,6 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
         '''Retorna salario do funcionario'''
         return self.__salario_base.quantize(Decimal('0.01'))
     
-    
     def get_id(self):
         '''Retorna Id do funcionario'''
         return self.__id
@@ -37,10 +32,6 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
     def get_isautenticado(self):
         '''Retorna True para autenticado False para não autenticado'''
         return self.__autenticado
-    
-    def getVendasRealizadas(self):
-        '''Retorna lista de vendas realizadas'''
-        return self.__vendasRealizadas
     
     def setAutenticacao(self, id:int, senha:str):
         '''Recebe Id e senha de Funcionario e verifica se são validos. Retorna true e altera atributo privado caso dados sejam verdadeiros.'''
@@ -68,19 +59,5 @@ class Funcionario(Pessoa,GerenciarEstoqueMixin,GerenciarVendaMixin):
         self.__senha = senhaNova
         return True
     
-    def setVendaRealizada(self, venda):
-        '''Adiciona nova venda realizada a lista de vendas do funcionario.'''
-        self.__vendasRealizadas.append(venda)
-    
     def __str__(self):
         return f"ID {self.__id} | Nome: {self.nome} | Cargo: {self.__class__.__name__} | Salário: R$ {self.__salario_base:.2f}"
-    
-    def subTotal(self, estoque):
-        produtos_estoque = estoque.get_produtos(self)
-        total = 0
-        for dados in produtos_estoque.values():
-            produto = dados["produto"]
-            quantidade = dados["quantidade"]
-            subtotal = produto.getPreco() * quantidade
-            total += subtotal
-        return total #Retorna subtotal do estoque 
