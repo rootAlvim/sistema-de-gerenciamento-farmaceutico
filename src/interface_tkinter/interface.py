@@ -35,6 +35,7 @@ class Interface:
         self.__botaoPadrao("Registrar Repositor", self.registrarRepositor).grid(row=3, column=0)
         self.__botaoPadrao("Registrar Produto", self.registrarProduto).grid(row=2, column=1)
         self.__botaoPadrao("Consultar Estoque", self.consultarEstoque).grid(row=3, column=1)
+        self.__botaoPadrao("Registrar Cliente", self.registrarCliente).grid(row=4, column=0)
 
         self.__root.mainloop()
 
@@ -236,7 +237,6 @@ class Interface:
         self.__inciarRoot()
         self.__root.title('Registrar Repositor')
         self.__temFarmacia()
-        self.__autenticacaoValidacao()
         self.__usuarioTipoGerente()
 
         Label(self.__root, text="Nome:").grid(row=0)
@@ -257,10 +257,10 @@ class Interface:
         campo_salario.grid(row=3, column=1, columnspan=2)
 
         def instanciar():
-            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarAtendente, 'nome')
+            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarRepositor, 'nome')
             cpf = campo_cpf.get()
             data_nascimento = datetime.strptime(campo_dataNasc.get(), "%d-%m-%Y") if campo_dataNasc.get() else None
-            salario = campo_salario.get() if campo_salario.get() else self.__campoVazioMessagem(self.registrarAtendente, 'salario')
+            salario = campo_salario.get() if campo_salario.get() else self.__campoVazioMessagem(self.registrarRepositor, 'salario')
 
             try:
                 self.__farmacia.getGerente().cadrastar_funcionario('repositor', nome, cpf, data_nascimento, Decimal(salario))
@@ -276,6 +276,47 @@ class Interface:
             self.interface()
 
         self.__botaoPadrao('Registrar Repositor', instanciar).grid(row=4, column=1)
+        self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
+
+        self.__root.mainloop()
+
+    def registrarCliente(self):
+        self.__inciarRoot()
+        self.__root.title('Registrar Cliente')
+        self.__temFarmacia()
+        self.__usuarioTipoGerenteOuAtendente()
+
+        Label(self.__root, text="Nome:").grid(row=0)
+        campo_nome = Entry(self.__root, width=25, borderwidth=1)
+        campo_nome.grid(row=0, column=1, columnspan=2)
+
+        Label(self.__root, text="CPF:").grid(row=1)
+        campo_cpf = Entry(self.__root, width=25, borderwidth=1)
+        campo_cpf.grid(row=1, column=1, columnspan=2)
+
+        Label(self.__root, text="Data de Nascimento:").grid(row=2)
+        campo_dataNasc = Entry(self.__root, width=25, borderwidth=1)
+        Label(self.__root, text="Ex.: 00-00-0000").grid(row=2, column=3)
+        campo_dataNasc.grid(row=2, column=1, columnspan=2)
+
+        def instanciar():
+            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarCliente, 'nome')
+            cpf = campo_cpf.get()
+            data_nascimento = datetime.strptime(campo_dataNasc.get(), "%d-%m-%Y") if campo_dataNasc.get() else None
+
+            try:
+                self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).registrarCliente(nome, cpf, data_nascimento)
+            except Exception as erro:
+                messagebox.showerror("Erro ao tentar registrar Cliente.", f"{erro}")
+                self.registrarCliente()
+
+            campo_nome.delete(0, END)
+            campo_cpf.delete(0, END)
+            campo_dataNasc.delete(0, END)
+            self.__root.destroy()
+            self.interface()
+
+        self.__botaoPadrao('Registrar Cliente', instanciar).grid(row=4, column=1)
         self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
 
         self.__root.mainloop()
