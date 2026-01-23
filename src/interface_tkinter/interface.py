@@ -374,6 +374,7 @@ class Interface:
         self.__temFarmacia()
         self.__usuarioTipoGerenteOuAtendente()
         print(self.__farmacia.getListaVendas())
+        print(self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).getVendasRealizadas())
 
         if not id_venda:
             try:

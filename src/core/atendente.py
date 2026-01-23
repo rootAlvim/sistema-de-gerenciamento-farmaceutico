@@ -30,6 +30,10 @@ class Atendente(Funcionario,GerenciarVendaMixin):
         '''Adiciona nova venda realizada a lista de vendas do funcionario.'''
         self.__vendasRealizadas.append(venda)
     
+    def removerVendaRealizada(self, farmacia, venda):
+        '''Método usado por farmacia. Recebe como parametros um objeto de farmacia e venda.'''
+        self.__vendasRealizadas.remove(venda)
+    
     def setPorcentagemBonus(self, gerente, porcentagem: float):
         '''Recebe um objeto de gerente para validação e um novo valor para porcentagem de bonus salarial.'''
         validar_gerente(gerente)

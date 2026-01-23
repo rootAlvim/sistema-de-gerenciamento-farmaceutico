@@ -25,6 +25,10 @@ class Gerente(Funcionario,FuncionalidadesGerente,GerenciarEstoqueMixin,Gerenciar
         '''Adiciona nova venda realizada a lista de vendas do funcionario.'''
         self.__vendasRealizadas.append(venda)
 
+    def removerVendaRealizada(self, farmacia, venda):
+        '''Método usado por farmacia. Recebe como parametros um objeto de farmacia e venda.'''
+        self.__vendasRealizadas.remove(venda)
+
     def cadrastar_funcionario(self, tipo_funcionario : str,  nome : str , cpf : str, data_nasc : datetime, salario : Decimal):
         '''Recebe como um dos parametros se o método deve cadastrar um Atendente('atendente') ou Repositor('repositor'). Cadrasta funcionario e retorna o id do objeto criado'''
         from random import randint

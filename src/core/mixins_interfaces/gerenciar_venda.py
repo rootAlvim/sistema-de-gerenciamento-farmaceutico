@@ -18,7 +18,7 @@ class GerenciarVendaMixin:
 
     def remover_venda(self, id_venda):
         '''Remove venda da lista de vendas de farmacia caso venda ainda não tenha sido finalizada. Recebe id da venda.'''
-        self.getFarmacia().removerVenda(self, id_venda)
+        self.getFarmacia()._removerVenda(self, id_venda)
 
     def finalizar_venda(self):
         '''Finaliza ultima venda realizada pelo funcionario.'''

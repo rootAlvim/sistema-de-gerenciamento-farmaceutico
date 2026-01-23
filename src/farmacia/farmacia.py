@@ -81,11 +81,15 @@ class Farmacia:
 
         return venda.getId()   
     
-    def removerVenda(self, funcionario, id_venda = int):
+    def _removerVenda(self, funcionario, id_venda = int):
         '''Remove venda da lista de vendas de farmacia caso venda ainda não tenha sido finalizada. Recebe id da venda e objeto de funcionario como parametro para validação.'''
         validar_funcionario(funcionario)
+        venda = self.getVendaPorId(id_venda)
+        if venda.getPrecoTotal():
+            raise PermissionError("Venda já foi finalizada. Não é mais possível ser removida")
         
-        self.__vendas.remove(self.getVendaPorId(id_venda))
+        self.__vendas.remove(venda)
+        funcionario.removerVendaRealizada(self, venda)
 
     def _registrarGerente(self, nome, cpf, data_nasc, salario, senha):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
