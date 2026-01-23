@@ -36,6 +36,7 @@ class Interface:
         self.__botaoPadrao("Registrar Produto", self.registrarProduto).grid(row=2, column=1)
         self.__botaoPadrao("Consultar Estoque", self.consultarEstoque).grid(row=3, column=1)
         self.__botaoPadrao("Registrar Cliente", self.registrarCliente).grid(row=4, column=0)
+        self.__botaoPadrao("Registrar Venda", self.registrarVenda).grid(row=4, column=1)
 
         self.__root.mainloop()
 
@@ -364,6 +365,53 @@ class Interface:
 
         self.__botaoPadrao('Registrar Produto', instanciar).grid(row=4, column=1)
         self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
+
+        self.__root.mainloop()
+    
+    def registrarVenda(self, id_venda = None):
+        self.__inciarRoot()
+        self.__root.title('Registrar Venda')
+        self.__temFarmacia()
+        self.__usuarioTipoGerenteOuAtendente()
+        print(self.__farmacia.getListaVendas())
+
+        if not id_venda:
+            try:
+                id_venda = self.__farmacia._criarVenda(self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado))
+            except Exception as erro:
+                messagebox.showerror("Erro ao tentar criar venda.", f"{erro}")
+                self.interface()
+                return
+
+        def adicionarCliente():
+            cpf = cliente_cpf.get() if cliente_cpf.get() else self.__campoVazioMessagem(self.registrarCliente, 'CPF')
+            cliente_cpf.delete(0, END)
+            try:
+                cliente = self.__farmacia.getClientePorCpf(cpf)
+                print(cliente)
+            except Exception as erro:
+                messagebox.showerror("Erro ao procurar cliente por CPF.", f'{erro}')
+                self.registrarVenda(id_venda)
+                return
+            
+            self.__farmacia.getVendaPorId(id_venda).adicionarCliente(cliente)
+            return
+
+        def adicionarProduto():
+            pass
+
+        def voltar():
+            self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).remover_venda(id_venda) 
+            self.interface()
+            return
+
+        Label(self.__root, text="Adicionar cliente via CPF em venda:").grid(row=1)
+        cliente_cpf = Entry(self.__root, width=25, borderwidth=1)
+        cliente_cpf.grid(row=1, column=1)
+        self.__botaoPadrao("Adicionar cliente", adicionarCliente, pady=4).grid(row=1, column=2)
+
+        self.__botaoPadrao('Finalizar Venda', '').grid(row=4, column=1)
+        self.__botaoPadrao("Voltar", voltar).grid(row=4, column=2)
 
         self.__root.mainloop()
 
