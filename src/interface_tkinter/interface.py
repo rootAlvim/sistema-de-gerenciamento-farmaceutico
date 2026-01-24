@@ -370,7 +370,7 @@ class Interface:
     
     def registrarVenda(self, id_venda = None):
         from tkinter import ttk
-        self.__inciarRoot()
+        self.__inciarRoot(tamanho='800x400')
         self.__root.title('Registrar Venda')
         self.__temFarmacia()
         self.__usuarioTipoGerenteOuAtendente()
@@ -390,22 +390,32 @@ class Interface:
             cliente = self.__farmacia.getClientePorCpf(cpf)
             if not cliente:
                 messagebox.showerror("Erro ao procurar cliente por CPF.", f'Cliente com CPF:{cpf} não existe em farmácia.')
-                self.registrarVenda(id_venda)
+                # self.registrarVenda(id_venda)
                 return
             
             funcionario.adicionar_cliente_venda(cliente)
+            Label(self.__root, text=f'{cliente}').grid(row=2, column=2)
             return
+        
+        def show_produtos():
+            if id_venda:
+                _row = 4
+                for produto in self.__farmacia.getVendaPorId(id_venda).getProdutos():
+                    Label(self.__root, text=f'{produto[0].__str__()} | {produto[1]}').grid(row=_row, column=2, padx=(10, 0))
+                    _row += 1
 
         def adicionarProduto():
             funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
             campo_menu = menu.get()
 
+            print(funcionario.getVendasRealizadas())
+            
             if campo_menu == 'Id':
                 try:
                     produto = self.__farmacia._estoque.consultar_produto_por_id(funcionario, int(campo_produto.get()))
                 except Exception as erro:
                     messagebox.showerror(f'Erro ao procurar produto por ID.', f'{erro}')
-                    self.registrarVenda(id_venda)
+                    # self.registrarVenda(id_venda)
                     return
                 
             elif campo_menu == 'Nome':
@@ -413,23 +423,21 @@ class Interface:
                     produto = self.__farmacia._estoque.consultar_produto_por_nome(funcionario, campo_produto.get())
                 except Exception as erro:
                     messagebox.showerror(f'Erro ao procurar produto por Nome.', f'{erro}')
-                    self.registrarVenda(id_venda)
+                    # self.registrarVenda(id_venda)
                     return
 
             if not produto:
                 messagebox.showerror("Erro ao procurar produto.", f'Produto informado não existe ou não está disponível em estoque.')
-                self.registrarVenda(id_venda)
+                # self.registrarVenda(id_venda)
                 return
 
             try:
                 funcionario.adicionar_produto_venda(produto[0], int(campo_qtd.get()))
             except Exception as erro:
                 messagebox.showerror(f'Erro ao tentar adicionar produto.', f'{erro}')
-                self.registrarVenda(id_venda)
                 return
 
-            print(funcionario.getVendasRealizadas()[-1].getProdutos())
-            print(funcionario.getVendasRealizadas()[-1].getCliente())
+            show_produtos()
             campo_produto.delete(0, END)
             campo_qtd.delete(0, END)
             campo_qtd.insert(0, 1)
