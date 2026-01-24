@@ -6,6 +6,7 @@ interface = Interface("Pague menos")
 
 interface.interface()
 
+
 # escolha = 1
 # while escolha > 0:
 #     escolha = int(input("Escolha: "))

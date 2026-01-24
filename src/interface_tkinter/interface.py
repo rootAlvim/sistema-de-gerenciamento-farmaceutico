@@ -213,7 +213,7 @@ class Interface:
         def instanciar():
             nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarAtendente, 'nome')
             cpf = campo_cpf.get()
-            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d-%m-%Y") if campo_dataNasc.get() else None
+            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y") if campo_dataNasc.get() else None
             salario = campo_salario.get() if campo_salario.get() else self.__campoVazioMessagem(self.registrarAtendente, 'salario')
 
             try:
@@ -260,7 +260,7 @@ class Interface:
         def instanciar():
             nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarRepositor, 'nome')
             cpf = campo_cpf.get()
-            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d-%m-%Y") if campo_dataNasc.get() else None
+            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y") if campo_dataNasc.get() else None
             salario = campo_salario.get() if campo_salario.get() else self.__campoVazioMessagem(self.registrarRepositor, 'salario')
 
             try:
@@ -303,7 +303,7 @@ class Interface:
         def instanciar():
             nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarCliente, 'nome')
             cpf = campo_cpf.get()
-            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d-%m-%Y") if campo_dataNasc.get() else None
+            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y") if campo_dataNasc.get() else None
 
             try:
                 self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).registrarCliente(nome, cpf, data_nascimento)
@@ -369,12 +369,11 @@ class Interface:
         self.__root.mainloop()
     
     def registrarVenda(self, id_venda = None):
+        from tkinter import ttk
         self.__inciarRoot()
         self.__root.title('Registrar Venda')
         self.__temFarmacia()
         self.__usuarioTipoGerenteOuAtendente()
-        print(self.__farmacia.getListaVendas())
-        print(self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).getVendasRealizadas())
 
         if not id_venda:
             try:
@@ -385,21 +384,55 @@ class Interface:
                 return
 
         def adicionarCliente():
-            cpf = cliente_cpf.get() if cliente_cpf.get() else self.__campoVazioMessagem(self.registrarCliente, 'CPF')
+            funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+            cpf = cliente_cpf.get()
             cliente_cpf.delete(0, END)
-            try:
-                cliente = self.__farmacia.getClientePorCpf(cpf)
-                print(cliente)
-            except Exception as erro:
-                messagebox.showerror("Erro ao procurar cliente por CPF.", f'{erro}')
+            cliente = self.__farmacia.getClientePorCpf(cpf)
+            if not cliente:
+                messagebox.showerror("Erro ao procurar cliente por CPF.", f'Cliente com CPF:{cpf} não existe em farmácia.')
                 self.registrarVenda(id_venda)
                 return
             
-            self.__farmacia.getVendaPorId(id_venda).adicionarCliente(cliente)
+            funcionario.adicionar_cliente_venda(cliente)
             return
 
         def adicionarProduto():
-            pass
+            funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+            campo_menu = menu.get()
+
+            if campo_menu == 'Id':
+                try:
+                    produto = self.__farmacia._estoque.consultar_produto_por_id(funcionario, int(campo_produto.get()))
+                except Exception as erro:
+                    messagebox.showerror(f'Erro ao procurar produto por ID.', f'{erro}')
+                    self.registrarVenda(id_venda)
+                    return
+                
+            elif campo_menu == 'Nome':
+                try:
+                    produto = self.__farmacia._estoque.consultar_produto_por_nome(funcionario, campo_produto.get())
+                except Exception as erro:
+                    messagebox.showerror(f'Erro ao procurar produto por Nome.', f'{erro}')
+                    self.registrarVenda(id_venda)
+                    return
+
+            if not produto:
+                messagebox.showerror("Erro ao procurar produto.", f'Produto informado não existe ou não está disponível em estoque.')
+                self.registrarVenda(id_venda)
+                return
+
+            try:
+                funcionario.adicionar_produto_venda(produto[0], int(campo_qtd.get()))
+            except Exception as erro:
+                messagebox.showerror(f'Erro ao tentar adicionar produto.', f'{erro}')
+                self.registrarVenda(id_venda)
+                return
+
+            print(funcionario.getVendasRealizadas()[-1].getProdutos())
+            print(funcionario.getVendasRealizadas()[-1].getCliente())
+            campo_produto.delete(0, END)
+            campo_qtd.delete(0, END)
+            campo_qtd.insert(0, 1)
 
         def voltar():
             self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).remover_venda(id_venda) 
@@ -408,11 +441,26 @@ class Interface:
 
         Label(self.__root, text="Adicionar cliente via CPF em venda:").grid(row=1)
         cliente_cpf = Entry(self.__root, width=25, borderwidth=1)
-        cliente_cpf.grid(row=1, column=1)
-        self.__botaoPadrao("Adicionar cliente", adicionarCliente, pady=4).grid(row=1, column=2)
+        cliente_cpf.grid(row=2, column=0)
+        self.__botaoPadrao("Adicionar cliente", adicionarCliente, pady=4).grid(row=3, column=0, pady=10)
 
-        self.__botaoPadrao('Finalizar Venda', '').grid(row=4, column=1)
-        self.__botaoPadrao("Voltar", voltar).grid(row=4, column=2)
+        Label(self.__root, text="Adicionar produto em venda:").grid(row=4, column=0)
+        campo_produto = Entry(self.__root, width=20, borderwidth=1)
+        campo_produto.grid(row=5, column=0, sticky='e')
+
+        opcoes_consulta = ["Id", "Nome"]
+        menu = ttk.Combobox(self.__root, values=opcoes_consulta, state="readonly", width=6)
+        menu.set("Id")
+        menu.grid(row=5, column=0, sticky='w', padx=(5, 0))
+
+        Label(self.__root, text="Quantidade:").grid(row=4, column=1, sticky='w')
+        campo_qtd = Entry(self.__root, width=15, borderwidth=1)
+        campo_qtd.insert(0, '1')
+        campo_qtd.grid(row=5, column=1, padx=5)
+        self.__botaoPadrao("Adicionar Produto", adicionarProduto, pady=4).grid(row=6, column=0, pady=10)
+
+        self.__botaoPadrao('Finalizar Venda', '').grid(row=9, column=0)
+        self.__botaoPadrao("Voltar", voltar).grid(row=9, column=1)
 
         self.__root.mainloop()
 
