@@ -162,17 +162,50 @@ class Interface:
         campo_senha.grid(row=4, column=1, columnspan=2)
 
         def instanciar():
-            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarGerente, 'nome')
-            cpf = campo_cpf.get()
-            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y") if campo_dataNasc.get() else None
-            salario = campo_salario.get() if campo_salario.get() else self.__campoVazioMessagem(self.registrarGerente, 'salario')
-            senha = campo_senha.get() if campo_senha.get() else self.__campoVazioMessagem(self.registrarGerente, 'senha')
+            from src.utils.validacoes import validar_formato_cpf
+            if campo_nome.get():
+                nome = campo_nome.get() 
+            else: 
+                self.__campoVazioMessagem(None, 'nome') 
+                return
+            
+            if campo_cpf.get():
+                try:
+                    cpf = validar_formato_cpf(campo_cpf.get())
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'CPF') 
+                return
+             
+            if campo_dataNasc.get():
+                try:
+                    data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y")
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'Data de Nascimento') 
+                return
+            
+            if campo_salario.get():
+                salario = campo_salario.get()
+            else: 
+                self.__campoVazioMessagem(None, 'salario')
+                return
+            
+            if campo_senha.get():
+                senha = campo_senha.get()
+            else: 
+                self.__campoVazioMessagem(None, 'senha')
+                return
 
             try:
                 self.__farmacia._registrarGerente(nome, cpf, data_nascimento, Decimal(salario), senha)
             except Exception as erro:
                 messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
-                self.registrarGerente()
+                return
             
             self.__idFuncionarioLogado = self.__farmacia.getGerente().get_id()
             campo_nome.delete(0, END)
@@ -211,10 +244,38 @@ class Interface:
         campo_salario.grid(row=3, column=1, columnspan=2)
 
         def instanciar():
-            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarAtendente, 'nome')
-            cpf = campo_cpf.get()
-            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y") if campo_dataNasc.get() else None
-            salario = campo_salario.get() if campo_salario.get() else self.__campoVazioMessagem(self.registrarAtendente, 'salario')
+            from src.utils.validacoes import validar_formato_cpf
+            if campo_nome.get():
+                nome = campo_nome.get() 
+            else: 
+                self.__campoVazioMessagem(None, 'nome') 
+                return
+            
+            if campo_cpf.get():
+                try:
+                    cpf = validar_formato_cpf(campo_cpf.get())
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'CPF') 
+                return
+             
+            if campo_dataNasc.get():
+                try:
+                    data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y")
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'Data de Nascimento') 
+                return
+            
+            if campo_salario.get():
+                salario = campo_salario.get()
+            else: 
+                self.__campoVazioMessagem(None, 'salario')
+                return
 
             try:
                 self.__farmacia.getGerente().cadrastar_funcionario('atendente', nome, cpf, data_nascimento, Decimal(salario))
@@ -258,10 +319,38 @@ class Interface:
         campo_salario.grid(row=3, column=1, columnspan=2)
 
         def instanciar():
-            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarRepositor, 'nome')
-            cpf = campo_cpf.get()
-            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y") if campo_dataNasc.get() else None
-            salario = campo_salario.get() if campo_salario.get() else self.__campoVazioMessagem(self.registrarRepositor, 'salario')
+            from src.utils.validacoes import validar_formato_cpf
+            if campo_nome.get():
+                nome = campo_nome.get() 
+            else: 
+                self.__campoVazioMessagem(None, 'nome') 
+                return
+            
+            if campo_cpf.get():
+                try:
+                    cpf = validar_formato_cpf(campo_cpf.get())
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'CPF') 
+                return
+             
+            if campo_dataNasc.get():
+                try:
+                    data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y")
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'Data de Nascimento') 
+                return
+            
+            if campo_salario.get():
+                salario = campo_salario.get()
+            else: 
+                self.__campoVazioMessagem(None, 'salario')
+                return
 
             try:
                 self.__farmacia.getGerente().cadrastar_funcionario('repositor', nome, cpf, data_nascimento, Decimal(salario))
@@ -301,9 +390,32 @@ class Interface:
         campo_dataNasc.grid(row=2, column=1, columnspan=2)
 
         def instanciar():
-            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarCliente, 'nome')
-            cpf = campo_cpf.get()
-            data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y") if campo_dataNasc.get() else None
+            from src.utils.validacoes import validar_formato_cpf
+            if campo_nome.get():
+                nome = campo_nome.get() 
+            else: 
+                self.__campoVazioMessagem(None, 'nome') 
+                return
+            
+            if campo_cpf.get():
+                try:
+                    cpf = validar_formato_cpf(campo_cpf.get())
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'CPF') 
+                return
+             
+            if campo_dataNasc.get():
+                try:
+                    data_nascimento = datetime.strptime(self.dataNascimentoRegex(campo_dataNasc.get()), "%d%m%Y")
+                except Exception as erro:
+                    messagebox.showerror("Erro ao tentar registrar Gerente.", f"{erro}")
+                    return
+            else:
+                self.__campoVazioMessagem(None, 'Data de Nascimento') 
+                return
 
             try:
                 self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).registrarCliente(nome, cpf, data_nascimento)
@@ -346,8 +458,18 @@ class Interface:
         campo_qtd.grid(row=3, column=1, columnspan=2)
 
         def instanciar():
-            nome = campo_nome.get() if campo_nome.get() else self.__campoVazioMessagem(self.registrarProduto, 'nome')
-            fabricante = campo_fabricante.get() if campo_fabricante.get() else self.__campoVazioMessagem(self.registrarProduto, 'fabricante')
+            if campo_nome.get():
+                nome = campo_nome.get() 
+            else: 
+                self.__campoVazioMessagem(None, 'nome') 
+                return
+             
+            if campo_fabricante.get():
+                fabricante = campo_fabricante.get()
+            else:
+                self.__campoVazioMessagem(None, 'fabricante')
+                return
+            
             preco = campo_preco.get()
             quantidade = campo_qtd.get()
 
@@ -355,7 +477,7 @@ class Interface:
                 self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).adicionar_produto_estoque(Produto(nome, Decimal(preco), fabricante), int(quantidade))
             except Exception as erro:
                 messagebox.showerror("Erro ao tentar registrar Produto.", f"{erro}")
-                self.registrarProduto()
+                return
             
             campo_nome.delete(0, END)
             campo_fabricante.delete(0, END)
@@ -578,9 +700,10 @@ class Interface:
             self.interface()
         return True
     
-    def __campoVazioMessagem(self, funcao, campo = ''):
+    def __campoVazioMessagem(self, funcao = None, campo = ''):
         messagebox.showerror("Erro de Valor", f"Campo {campo} não pode estar vázio.")
-        funcao()
+        if funcao:
+            funcao()
 
     def __autenticacaoValidacao(self):
         if not self.__idFuncionarioLogado:
