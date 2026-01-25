@@ -588,6 +588,17 @@ class Interface:
             self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).remover_venda(id_venda) 
             self.interface()
             return
+        
+        def finalizarVenda():
+            funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+            try:
+                funcionario.finalizar_venda()
+            except Exception as erro:
+                messagebox.showerror("Erro ao tentar finalizar venda.", f"{erro}")
+                return
+            
+            self.interface()
+            return
 
         Label(self.__root, text="Adicionar cliente via CPF em venda:").grid(row=1)
         cliente_cpf = Entry(self.__root, width=25, borderwidth=1)
@@ -609,7 +620,7 @@ class Interface:
         campo_qtd.grid(row=5, column=1, padx=5)
         self.__botaoPadrao("Adicionar Produto", adicionarProduto, pady=4).grid(row=6, column=0, pady=10)
 
-        self.__botaoPadrao('Finalizar Venda', '').grid(row=9, column=0)
+        self.__botaoPadrao('Finalizar Venda', finalizarVenda).grid(row=9, column=0)
         self.__botaoPadrao("Voltar", voltar).grid(row=9, column=1)
 
         self.__root.mainloop()
