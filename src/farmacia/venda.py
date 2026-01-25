@@ -16,15 +16,19 @@ class Venda:
         self.__logAlteracoes = []
 
     def getId(self):
-        '''Retorna ID de venda'''
+        '''Retorna ID de venda.'''
         return self.__id
     
+    def getDataVenda(self):
+        '''Retorna data de criação da venda.'''
+        return self.__dataVenda
+    
     def getFuncionario(self):
-        '''Retorna um objeto do tipo Funcionario'''
+        '''Retorna um objeto do tipo Funcionario.'''
         return self.__funcionario
     
     def getPrecoTotal(self):
-        '''Retorna preço total da Venda'''
+        '''Retorna preço total da Venda.'''
         return self.__precoTotal.quantize(Decimal('0.01'))
     
     def getProdutos(self):
