@@ -489,13 +489,14 @@ class Interface:
         self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
 
         self.__root.mainloop()
-    
+
     def registrarVenda(self, id_venda = None):
         from tkinter import ttk
         self.__inciarRoot(tamanho='800x400')
         self.__root.title('Registrar Venda')
         self.__temFarmacia()
         self.__usuarioTipoGerenteOuAtendente()
+        self.__labels_produto = []
 
         if not id_venda:
             try:
@@ -521,13 +522,16 @@ class Interface:
         
         def show_produtos():
             if id_venda:
+                self.__removerWidgets(self.__labels_produto)
                 _row = 4
                 for itemVenda in self.__farmacia.getVendaPorId(id_venda).getProdutos():
                     produto_label = Label(self.__root, text=itemVenda)
                     produto_label.grid(row=_row, column=2, padx=(10, 0))
 
-                    botao_remover = self.__botaoPadrao("Remover", lambda: removerProduto(itemVenda, produto_label, botao_remover))
+                    botao_remover = self.__botaoPadrao("Remover", lambda: removerProduto(itemVenda))
                     botao_remover.grid(row=_row, column=3)
+                    self.__labels_produto.append(produto_label)
+                    self.__labels_produto.append(botao_remover)
                     _row += 1
 
         def adicionarProduto():
@@ -560,13 +564,13 @@ class Interface:
             except Exception as erro:
                 messagebox.showerror(f'Erro ao tentar adicionar produto.', f'{erro}')
                 return
-
+            
             show_produtos()
             campo_produto.delete(0, END)
             campo_qtd.delete(0, END)
             campo_qtd.insert(0, 1)
 
-        def removerProduto(itemVenda, produto_label, botao_remover):
+        def removerProduto(itemVenda):
             verificacao = messagebox.askyesno("Remover Produto", f"Você realmente deseja remover produto, id={itemVenda.id}?")
 
             if not verificacao:
@@ -577,13 +581,9 @@ class Interface:
             except Exception as erro:
                 messagebox.showerror("Erro ao tentar remover Produto.", f"{erro}")
                 return
-
-            try:
-                produto_label.destroy()
-                botao_remover.destroy()
-            except:
-                return
-
+            
+            show_produtos()
+            
         def voltar():
             self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).remover_venda(id_venda) 
             self.interface()
