@@ -37,6 +37,7 @@ class Interface:
         self.__botaoPadrao("Consultar Estoque", self.consultarEstoque).grid(row=3, column=1)
         self.__botaoPadrao("Registrar Cliente", self.registrarCliente).grid(row=4, column=0)
         self.__botaoPadrao("Registrar Venda", self.registrarVenda).grid(row=4, column=1)
+        self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia).grid(row=5, column=1)
 
         self.__root.mainloop()
 
@@ -45,12 +46,6 @@ class Interface:
         if not self.__idFuncionarioLogado:
             messagebox.showinfo("Logout interrompido", f"Você não está logado.")
             return
-        
-        # if self.__usuarioTipoGerente():
-        #     self.__farmacia.getGerente().desautenticar() 
-        #     self.__idFuncionarioLogado = None
-        #     messagebox.showinfo("Logout Sucesso", f"Você foi deslogado do sistema.")
-        #     return
             
         self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).desautenticar() 
         self.__idFuncionarioLogado = None
@@ -625,6 +620,60 @@ class Interface:
 
         self.__root.mainloop()
 
+    def consultarVendasFarmacia(self):
+        self.__inciarRoot()
+        self.__root.title('Consultar Vendas')
+        self.__temFarmacia()
+        self.__usuarioTipoGerente()
+        self.__labels_venda = []
+
+        vendas = self.__farmacia.getListaVendas()
+        if not vendas:
+            Label(self.__root, text="Nenhuma venda foi feita ainda.").grid(row=2)
+
+        self.__botaoPadrao("Voltar", self.interface).grid(row=2, column=1)
+
+        row_ = 4
+        for venda in vendas:
+            label_venda = Label(self.__root, text=venda)
+            label_venda.grid(row=row_, column=1, columnspan=2)
+
+            botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda), pady=5)
+            botao_venda.grid(row=row_, column=3)
+
+            self.__labels_venda.append(label_venda)
+            self.__labels_venda.append(botao_venda)
+            row_ += 1
+
+        self.__root.mainloop()
+
+    def __showVenda(self, venda):
+        self.__inciarRoot()
+        self.__root.title(f'Venda {venda.getId()}')
+        self.__temFarmacia()
+        self.__usuarioTipoGerente()
+        
+        self.__botaoPadrao("Voltar", self.interface).grid(row=2, column=1)
+        Label(self.__root, text=f"Id: {venda.getId()}").grid(row=3, column=1, sticky='w')
+        Label(self.__root, text=f"Data da Venda: {venda.getDataVenda()}").grid(row=4, column=1, sticky='w')
+        Label(self.__root, text=f"Funcionario: {venda.getFuncionario()}").grid(row=5, column=1, sticky='w')
+        Label(self.__root, text=f"Cliente: {venda.getCliente()}").grid(row=6, column=1, sticky='w')
+        Label(self.__root, text=f"Preço total: {venda.getPrecoTotal()}").grid(row=7, column=1, sticky='w')
+
+        Label(self.__root, text=f"Produtos de venda:").grid(row=8, column=1, sticky='w', pady=(10, 0))
+        row_ = 9
+        for produto in venda.getProdutos():
+            Label(self.__root, text=produto).grid(row=row_, column=1, sticky='w', padx=(10, 0))
+            row_ += 1
+
+        row_ += 1
+        Label(self.__root, text=f"Log de alterações:").grid(row=row_, column=1, sticky='w', pady=(10, 0))
+        for log in venda.getLogAlteracoes():
+            row_ += 1  
+            Label(self.__root, text=log).grid(row=row_, column=1, sticky='w', padx=(10, 0))
+               
+        self.__root.mainloop()
+       
     def consultarEstoque(self):
         from tkinter import ttk
         self.__inciarRoot(tamanho="800x400")
