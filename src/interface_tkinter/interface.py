@@ -26,19 +26,36 @@ class Interface:
             return
 
         self.__root = Tk()
-        self.__root.geometry("500x300")
-        self.__root.title('Interface')
+        self.__root.geometry("900x400")
+        self.__root.title(f'Farmacia {self.__farmacia.nome}')
 
-        self.__botaoPadrao("Login", self.login).grid(row=0, column=0)
-        self.__botaoPadrao("Logout", self.logout).grid(row=0, column=1)
-        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente).grid(row=2, column=0)
-        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor).grid(row=3, column=0)
-        self.__botaoPadrao("Registrar Produto", self.registrarProduto).grid(row=2, column=1)
-        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque).grid(row=3, column=1)
-        self.__botaoPadrao("Registrar Cliente", self.registrarCliente).grid(row=4, column=0)
-        self.__botaoPadrao("Registrar Venda", self.registrarVenda).grid(row=4, column=1)
-        self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia).grid(row=5, column=1)
-        self.__botaoPadrao("Consultar Funcionarios", self.consultarFuncionarios).grid(row=5, column=0)
+        self.__root.rowconfigure(0, weight=1)
+        self.__root.rowconfigure(1, weight=1)
+        self.__root.rowconfigure(2, weight=1)
+        self.__root.rowconfigure(3, weight=1)
+        self.__root.rowconfigure(4, weight=1)
+        self.__root.columnconfigure(0, weight=3)
+        self.__root.columnconfigure(1, weight=1)
+        self.__root.columnconfigure(2, weight=1)
+
+        row_base = 0
+        column_base = 0
+
+        Label(self.__root, text=f"Farmácia {self.__farmacia.nome}", font=("Arial", 25, "bold")).grid(row=row_base+1, column=column_base)
+
+        funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+        Label(self.__root, text=f"Bem vindo, {funcionario.nome}", font=("Arial", 15)).grid(row=row_base+2, column=column_base, sticky='N')
+
+        self.__botaoPadrao("Login", self.login, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW", padx=0)
+        self.__botaoPadrao("Logout", self.logout, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0))
+        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente).grid(row=row_base+1, column=column_base+1, sticky='SE')
+        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor).grid(row=row_base+2, column=column_base+1, sticky='NE', pady=(0,0))
+        self.__botaoPadrao("Registrar Produto", self.registrarProduto).grid(row=row_base+2, column=column_base+1, sticky="SE", pady=(0,0))
+        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque).grid(row=row_base+3, column=column_base+1, sticky="NE")
+        self.__botaoPadrao("Registrar Cliente", self.registrarCliente).grid(row=row_base+1, column=column_base+2,sticky='SW')
+        self.__botaoPadrao("Registrar Venda", self.registrarVenda).grid(row=row_base+2, column=column_base+2,sticky='NW',pady=(0,0))
+        self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia).grid(row=row_base+2, column=column_base+2, sticky="SW", pady=(0,0))
+        self.__botaoPadrao("Consultar Funcionarios", self.consultarFuncionarios).grid(row=row_base+3, column=column_base+2, sticky="NW")
 
         self.__root.mainloop()
 
@@ -68,7 +85,7 @@ class Interface:
         campo_id.grid(row=0, column=1, columnspan=2)
 
         Label(self.__root, text="Senha:").grid(row=1)
-        campo_senha = Entry(self.__root, width=25, borderwidth=1)
+        campo_senha = Entry(self.__root, show="*", width=25, borderwidth=1)
         campo_senha.grid(row=1, column=1, columnspan=2)
 
         def instanciar():
