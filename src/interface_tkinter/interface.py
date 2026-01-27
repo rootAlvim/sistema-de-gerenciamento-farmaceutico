@@ -21,9 +21,11 @@ class Interface:
             self.registrarFarmacia()
             return
         
-        # if not self.__farmacia.getGerente():
-        #     self.registrarGerente()
-        #     return
+        if not self.__farmacia.getGerente():
+            self.registrarGerente()
+            return
+        
+        self.__atendenteRepositorPrimeiroAcesso()
 
         self.__root = Tk()
         self.__root.geometry("900x400")
@@ -53,8 +55,8 @@ class Interface:
         self.__botaoPadrao("Logout", self.logout, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0))
         self.__botaoPadrao("Registrar Atendente", self.registrarAtendente).grid(row=row_base+1, column=column_base+1, sticky='SE')
         self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=12.5).grid(row=row_base+2, column=column_base+1, sticky='NE', pady=(0,0))
-        self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.499).grid(row=row_base+2, column=column_base+1, sticky="SE", pady=(0,0))
-        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque, padx=15.3).grid(row=row_base+3, column=column_base+1, sticky="NE")
+        self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.5).grid(row=row_base+2, column=column_base+1, sticky="SE", pady=(0,0))
+        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque, padx=15.4).grid(row=row_base+3, column=column_base+1, sticky="NE")
         self.__botaoPadrao("Registrar Cliente", self.registrarCliente, padx=21).grid(row=row_base+1, column=column_base+2,sticky='SW')
         self.__botaoPadrao("Registrar Venda", self.registrarVenda, padx=23).grid(row=row_base+2, column=column_base+2,sticky='NW',pady=(0,0))
         self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia, padx=18).grid(row=row_base+2, column=column_base+2, sticky="SW", pady=(0,0))
@@ -72,6 +74,8 @@ class Interface:
         self.__idFuncionarioLogado = None
 
         messagebox.showinfo("Logout Sucesso", f"Você foi deslogado do sistema.")
+        self.interface()
+        return 
 
     def login(self):
         '''Atribui um Id a idFuncionarioLogado.'''
@@ -100,21 +104,25 @@ class Interface:
             except Exception as erro:
                 messagebox.showerror("Erro ao tentar logar.", f"{erro}")
                 self.login()
+                return
 
             if not funcionario:
                 messagebox.showerror("Login erro.", f"Funcionario com Id: {id} não encontrado.")
                 self.login()
+                return
 
             try:
                 funcionario.setAutenticacao(int(id), senha)
             except Exception as erro:
                 messagebox.showerror("Erro ao tentar logar.", f"{erro}")
                 self.login()
+                return
             
             self.__idFuncionarioLogado = int(id)
             messagebox.showinfo("Login Sucesso", f"Login feito com sucesso. {funcionario.nome}")
             self.__root.destroy()
             self.interface()
+            return
 
         self.__botaoPadrao('Logar', instanciar).grid(row=2, column=1)
         self.__botaoPadrao("Voltar", self.interface).grid(row=2, column=2)
@@ -155,6 +163,7 @@ class Interface:
             messagebox.showinfo("Gerente já registrado", "Gerente só pode ser registrado uma única vez.")
             self.__root.destroy()
             self.interface()
+            return
 
         Label(self.__root, text="Nome:").grid(row=0)
         campo_nome = Entry(self.__root, width=25, borderwidth=1)
@@ -753,7 +762,7 @@ class Interface:
 
         funcionarios = self.__farmacia.getFuncionarios()
         if not funcionarios:
-            Label(self.__root, text="Nenhuma funcionario foi cadastrado ainda.").grid(row=2)
+            Label(self.__root, text="Nenhuma funcionario foi cadastrado ainda.").grid(row=2, column=1, columnspan=2)
 
         def consultar():
             consulta_valor = campo_consulta.get()
@@ -812,14 +821,14 @@ class Interface:
             self.__labels_funcionarios.append(funcionario_label)
             self.__labels_funcionarios.append(botao_remover)
 
-        Label(self.__root, text="Consultar Funcionario:").grid(row=0, column=0, pady=(10, 1), padx=0, sticky='w')
+        Label(self.__root, text="Consultar Funcionario:").grid(row=0, column=0, pady=(10, 0), padx=0, sticky='w')
         opcoes_consulta = ["Id", "Cargo", "Nome"]
         menu = ttk.Combobox(self.__root, values=opcoes_consulta, state="readonly", width=15)
         menu.set("Id")
         menu.grid(row=1, column=1, pady=(0, 20))
 
         campo_consulta = Entry(self.__root, width=25, borderwidth=1)
-        campo_consulta.grid(row=1, column=0, pady=(0, 20))
+        campo_consulta.grid(row=1, column=0, pady=(0, 20), padx=(10, 0))
 
         self.__botaoPadrao("Consultar", consultar, pady=4).grid(row=1, column=2, pady=(0, 20))
         self.__botaoPadrao("Limpar", self.consultarFuncionarios, pady=4).grid(row=1, column=3, pady=(0, 20))
@@ -964,6 +973,17 @@ class Interface:
             self.__root.destroy()
             self.interface()
         return True
+    
+    def __usuarioTipoAtendenteOuRepositor(self, messagemBox = True):
+        funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+        if not (funcionario.__class__.__name__ == 'Repositor' or funcionario.__class__.__name__ == 'Atendente'):
+            if messagemBox:
+                messagebox.showerror("Erro de Autenticação", f"É preciso estar logado como Repositor ou Atendente para conseguir prosseguir.")
+                self.__root.destroy()
+                self.interface()
+                return
+            return False
+        return True
 
     def __botaoPadrao(self, texto, funcao, padx=10, pady=10):
         botao_padrao = Button(
@@ -1070,6 +1090,48 @@ class Interface:
             botao_remover.destroy()
         except:
             return
+        
+    def __atendenteRepositorPrimeiroAcesso(self):
+        self.__temFarmacia()
+        if not self.__usuarioTipoAtendenteOuRepositor(messagemBox=False):
+            return
+    
+        funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+
+        def alterarSenha():
+            try:
+                funcionario.setNovaSenha(senha_antiga.get(), senha_nova.get())
+            except Exception as erro:
+                messagebox.showerror(f"Erro ao tentar alterar senha.", f'{erro}')
+                return
+            self.interface()
+            return 
+
+        if funcionario.get_senha(self.__farmacia) == funcionario.get_cpf():
+            self.__inciarRoot()
+            self.__root.title("Alterar senha")
+            self.__root.rowconfigure(0, weight=0)
+            self.__root.rowconfigure(1, weight=0)
+            self.__root.rowconfigure(2, weight=0)
+            self.__root.rowconfigure(3, weight=0)
+            self.__root.columnconfigure(0, weight=0)
+            self.__root.columnconfigure(1, weight=0)
+
+            Label(self.__root, text="Altere sua senha de primeiro acesso.", font=('',10,'')).grid(row=0, column=0, columnspan=2, sticky='W')
+            Label(self.__root, text="Senha Antiga:").grid(row=1, column=0,sticky='W', pady=(5,2))
+            Label(self.__root, text="Senha Nova:").grid(row=2, column=0,sticky='W',pady=(0,2), padx=(0, 1))
+
+            senha_antiga = Entry(self.__root, show='*', width=25, borderwidth=1)
+            senha_antiga.grid(row=1, column=1,sticky='E',pady=(5,2))
+            senha_nova = Entry(self.__root, show='*', width=25, borderwidth=1)
+            senha_nova.grid(row=2, column=1,sticky='E',pady=(0,2))
+
+            self.__botaoPadrao("Alterar", alterarSenha).grid(row=3, column=1)
+
+            self.__root.mainloop()
+
+        
+    
 
     
 
