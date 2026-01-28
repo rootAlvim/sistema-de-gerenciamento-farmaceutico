@@ -30,8 +30,10 @@ class Interface:
             self.login()
             return
         
-        self.__atendenteRepositorPrimeiroAcesso()
-
+        if self.__atendenteRepositorPrimeiroAcesso(retornarBool=True):
+            self.__atendenteRepositorPrimeiroAcesso()
+            return
+        
         self.__inciarRoot(tamanho="900x400")
         self.__root.title(f'Farmacia {self.__farmacia.nome}')
 
@@ -1206,7 +1208,7 @@ class Interface:
         except:
             return
         
-    def __atendenteRepositorPrimeiroAcesso(self):
+    def __atendenteRepositorPrimeiroAcesso(self, retornarBool = False):
         self.__temFarmacia()
         if not self.__usuarioTipoAtendenteOuRepositor(messagemBox=False):
             return
@@ -1223,14 +1225,13 @@ class Interface:
             return 
 
         if funcionario.get_senha(self.__farmacia) == funcionario.get_cpf():
+            if retornarBool:
+                return True
+            
             self.__inciarRoot()
             self.__root.title("Alterar senha")
             self.__root.rowconfigure(0, weight=0)
-            self.__root.rowconfigure(1, weight=0)
-            self.__root.rowconfigure(2, weight=0)
-            self.__root.rowconfigure(3, weight=0)
             self.__root.columnconfigure(0, weight=0)
-            self.__root.columnconfigure(1, weight=0)
 
             Label(self.__root, text="Altere sua senha de primeiro acesso.", font=('',10,'')).grid(row=0, column=0, columnspan=2, sticky='W')
             Label(self.__root, text="Senha Antiga:").grid(row=1, column=0,sticky='W', pady=(5,2))
@@ -1244,6 +1245,7 @@ class Interface:
             self.__botaoPadrao("Alterar", alterarSenha).grid(row=3, column=1)
 
             self.__root.mainloop()
+
 
         
     
