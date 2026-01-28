@@ -24,7 +24,7 @@ class Farmacia:
         '''Retorna uma lista contendo todos os objetos de Funcionarios'''
         return self.__funcionarios
 
-    def getFuncionarioPorId(self, id):
+    def getFuncionarioPorId(self, id: int):
         '''Retorna objeto de Funcionario caso exista um com o mesmo id recebido.'''
         for funcionario in self.__funcionarios:
             if funcionario.get_id() == id:
@@ -37,7 +37,7 @@ class Farmacia:
         '''Retorna uma lista contendo todos os objetos de Venda registrados.'''
         return self.__vendas
     
-    def getVendaPorId(self, id):
+    def getVendaPorId(self, id: int):
         '''Retorna objeto de Venda caso exista uma venda com o mesmo Id.'''
         for venda in self.__vendas:
             if venda.getId() == id:
@@ -47,7 +47,7 @@ class Farmacia:
         '''Retorna uma lista contendo todos os objetos de Cliente registrados'''
         return self.__clientes
     
-    def getClientePorCpf(self, cpf):
+    def getClientePorCpf(self, cpf: str):
         '''Retorna objeto de cliente caso exista um com o mesmo cpf recebido.'''
         import re
         cpf = re.sub(r'\D', '', cpf)
@@ -57,12 +57,13 @@ class Farmacia:
             if cpf == cpf_cliente:
                 return cliente
             
-    def getLogAlteracoes(self):
-        '''Retorna lista de tuplas sobre alterações em Farmacia'''
+    def getLogAlteracoes(self, gerente):
+        '''Recebe objeto de Gerente para validação. Retorna lista de tuplas sobre alterações em Farmacia'''
+        validar_gerente(gerente)
         return self.__logAlteracoes
 
     def _criarVenda(self, funcionario):
-        '''Cria um objeto do tipo Venda. Adiciona obejto em Lista de Vendas e retorna seu indice'''
+        '''Cria um objeto do tipo Venda. Adiciona objeto em Lista de Vendas e retorna seu id'''
         from src.farmacia.venda import Venda
         validar_funcionario(funcionario)
         
@@ -74,14 +75,25 @@ class Farmacia:
         log =(
             f'criarVenda()',
             f'Data:{datetime.now()}',
-            f'{venda.__repr__()}'
+            f'{funcionario.__str__()}',
+            f'{venda.__repr__()}',
         )
 
         self.__logAlteracoes.append(log)
 
         return venda.getId()   
+    
+    def _removerVenda(self, funcionario, id_venda: int):
+        '''Remove venda da lista de vendas de farmacia caso venda ainda não tenha sido finalizada. Recebe id da venda e objeto de funcionario como parametro para validação.'''
+        validar_funcionario(funcionario)
+        venda = self.getVendaPorId(id_venda)
+        if venda.getPrecoTotal():
+            raise PermissionError("Venda já foi finalizada. Não é mais possível ser removida")
+        
+        self.__vendas.remove(venda)
+        funcionario.removerVendaRealizada(self, venda)
 
-    def _registrarGerente(self, nome, cpf, data_nasc, salario, senha):
+    def _registrarGerente(self, nome: str, cpf: str, data_nasc: datetime, salario: Decimal, senha: str):
         '''Recebe como parametros atributos de um Gerente e cria um novo objeto do tipo Gerente.'''
         from src.core.gerente import Gerente
         self.__idFuncionarios += 1
@@ -115,7 +127,7 @@ class Farmacia:
 
         return atendente.get_id()
     
-    def _registrarRepositor(self, gerente, nome : str , cpf : str, data_nasc : datetime , salario : Decimal, senha):
+    def _registrarRepositor(self, gerente, nome : str , cpf : str, data_nasc : datetime, salario : Decimal, senha):
         '''Recebe como parametros um objeto de Gerente para controle e atributos de um Atendente, e cria um novo objeto do tipo Atendente. Retorna seu id.'''
         validar_gerente(gerente)
         from src.core.repositor import Repositor
@@ -146,6 +158,7 @@ class Farmacia:
         log =(
             f'registrarCliente()', 
             f'Data:{datetime.now()}',
+            f'{funcionario.__str__()}',
             f'{cliente.__repr__()}'
         )
 

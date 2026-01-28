@@ -17,7 +17,7 @@ class Atendente(Funcionario,GerenciarVendaMixin):
     
     def get_comissao(self):
         '''Retorna valor total de comissões de vendas realizadas pelo funcionario de acordo com uma porcentagem interna.'''
-        comissao = 0
+        comissao = Decimal(0)
         for venda in self.getVendasRealizadas():
             comissao += venda.getPrecoTotal() * Decimal(self.__porcetagemComissaoVenda)
         return comissao.quantize(Decimal('0.01'))
@@ -29,6 +29,10 @@ class Atendente(Funcionario,GerenciarVendaMixin):
     def setVendaRealizada(self, venda):
         '''Adiciona nova venda realizada a lista de vendas do funcionario.'''
         self.__vendasRealizadas.append(venda)
+    
+    def removerVendaRealizada(self, farmacia, venda):
+        '''Método usado por farmacia. Recebe como parametros um objeto de farmacia e venda.'''
+        self.__vendasRealizadas.remove(venda)
     
     def setPorcentagemBonus(self, gerente, porcentagem: float):
         '''Recebe um objeto de gerente para validação e um novo valor para porcentagem de bonus salarial.'''
