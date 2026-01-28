@@ -41,6 +41,7 @@ sistema-de-gerenciamento-farmaceutico/
 │   │   ├── pessoa.py
 │   │   ├── funcionario.py
 │   │   ├── atendente.py
+|   |   ├── repositor.py
 │   │   ├── gerente.py
 │   │   ├── cliente.py
 │   │   ├── interface.py
