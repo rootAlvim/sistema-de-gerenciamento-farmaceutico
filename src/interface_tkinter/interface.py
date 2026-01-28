@@ -59,7 +59,8 @@ class Interface:
         
         self.__botaoPadrao("Meu Perfil", self.perfilFuncionario, pady=3, padx=5).grid(row=row_base, column=column_base+1, sticky='N')
         self.__botaoPadrao("Login", self.login, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW", padx=0)
-        self.__botaoPadrao("Logout", self.logout, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0))
+        self.__botaoPadrao("Logout", self.logout, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0)) 
+        
         self.__botaoPadrao("Registrar Atendente", self.registrarAtendente).grid(row=row_base+1, column=column_base+1, sticky='SE')
         self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=12.5).grid(row=row_base+2, column=column_base+1, sticky='NE', pady=(0,0))
         self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.5).grid(row=row_base+2, column=column_base+1, sticky="SE", pady=(0,0))
