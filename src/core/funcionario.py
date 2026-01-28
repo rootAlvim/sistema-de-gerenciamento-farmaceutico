@@ -3,6 +3,7 @@ from datetime import datetime
 from abc import abstractmethod
 from decimal import Decimal
 from src.core.pessoa import Pessoa
+from src.utils.validacoes import validar_farmacia
 
 class Funcionario(Pessoa):
     def __init__(self, nome:str, cpf:str, data_nascimento:datetime, salario_base:Decimal, id:int,farmacia, senha:str):
@@ -29,6 +30,12 @@ class Funcionario(Pessoa):
         '''Retorna Id do funcionario'''
         return self.__id
     
+    def get_senha(self, farmacia):
+        '''Recebe objeto de Farmácia como validação. Retorna senha atual do funcionário.'''
+        validar_farmacia(farmacia)
+        senha = self.__senha
+        return senha
+
     def get_isautenticado(self):
         '''Retorna True para autenticado False para não autenticado'''
         return self.__autenticado

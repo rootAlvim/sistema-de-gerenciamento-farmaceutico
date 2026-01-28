@@ -11,33 +11,54 @@ farmacia = Farmacia("Farmácia Popular")
 
 farm = Farmacia("Pague mais")
 farm._registrarGerente('testegerente', '055.678.501-08', datetime(2000, 8, 25), 8599.78, '123456')
-id_funcionario1 = farm.getGerente().cadrastar_funcionario('teste', '055.678.501-08', datetime(2000, 8, 25), 1800)
+id_funcionario1 = farm.getGerente().cadrastar_funcionario('atendente', 'teste', '055.678.501-08', datetime(2000, 8, 25),1800)
+id_funcionario2 = farm.getGerente().cadrastar_funcionario('repositor', 'teste', '055.678.501-08', datetime(2000, 8, 25),1800)
 
-print(farm.getListaVendas())
-id_venda1 = farm._criarVenda(farm.getFuncionarioPorId(id_funcionario1))
+id_venda1 = farm.getFuncionarioPorId(id_funcionario1).registrar_venda()
 
 produto_teste = Produto('Amitril',2.90,'Cimed')
 produto_teste2 = Produto('Cesol',8.25,'Farmacol')
 
-farm.getVendaPorId(id_venda1).adicionarProduto(produto_teste, 1)
+farm.getFuncionarioPorId(id_funcionario2).adicionar_produto_estoque(produto_teste, 3)
+farm.getFuncionarioPorId(id_funcionario2).adicionar_produto_estoque(produto_teste2, 3)
 
-print(farm.getVendaPorId(id_venda1).getProdutos())
+farm.getFuncionarioPorId(id_funcionario1).adicionar_produto_venda(produto_teste, 1)
 
-farm.getVendaPorId(id_venda1).adicionarProduto(produto_teste, 1)
-print(farm.getVendaPorId(id_venda1).getProdutos())
+# # print(farm.getVendaPorId(id_venda1).getProdutos())
 
-farm.getVendaPorId(id_venda1).adicionarProduto(produto_teste2, 2)
-print(farm.getVendaPorId(id_venda1).getProdutos())
+farm.getFuncionarioPorId(id_funcionario1).adicionar_produto_venda(produto_teste, 1)
+# print(farm.getVendaPorId(id_venda1).getProdutos())
+
+farm.getFuncionarioPorId(id_funcionario1).adicionar_produto_venda(produto_teste2, 2)
+# print(farm.getVendaPorId(id_venda1).getProdutos())
 
 cliente = Cliente('teste', '123.458.136-08', 12)
-farm.getVendaPorId(id_venda1).adicionarCliente(cliente)
-print(farm.getVendaPorId(id_venda1).getCliente())
-print(cliente.getCompras())
-print(farm.getVendaPorId(id_venda1).getLogAlteracoes())
+farm.getFuncionarioPorId(id_funcionario1).adicionar_cliente_venda(cliente)
+# print(farm.getVendaPorId(id_venda1).getCliente())
+# print(cliente.getCompras())
+
+print('----------------')
+for produto in farm.getVendaPorId(id_venda1).getProdutos():
+    print(produto)
+farm.getFuncionarioPorId(id_funcionario1).remover_produto_venda(produto_teste2.getId(), 1)
+
+print('----------------')
+for produto in farm.getVendaPorId(id_venda1).getProdutos():
+    print(produto)
+
+# print(farm.getVendaPorId(id_venda1).getLogAlteracoes())
+
+print("----------------------*-----------------")
+print(farm.getFuncionarioPorId(id_funcionario2).consultar_estoque())
+print("----------------------*-----------------")
 
 print(farm.getVendaPorId(id_venda1).getPrecoTotal()) 
-farm.getVendaPorId(id_venda1).finalizarVenda() # finalizando venda
+farm.getFuncionarioPorId(id_funcionario1).finalizar_venda() # finalizando venda
 print(farm.getVendaPorId(id_venda1).getPrecoTotal()) 
+
+print("----------------------*-----------------")
+print(farm.getFuncionarioPorId(id_funcionario2).consultar_estoque())
+print("----------------------*-----------------")
 
 # farm.getListaVendas()[0].adicionarProduto(produto_teste2, 2) # testando erro de tentar adicionar produto com venda finalizada
 

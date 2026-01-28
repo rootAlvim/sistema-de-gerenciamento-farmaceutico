@@ -7,10 +7,10 @@ from src.core.mixins_interfaces.gerenciar_estoque import GerenciarEstoqueMixin
 class Repositor(Funcionario,GerenciarEstoqueMixin):
     def __init__(self, nome, cpf, data_nascimento, salario_base, id: int,farmacia, senha:str):
         super().__init__(nome, cpf, data_nascimento, salario_base, id,farmacia, senha)
-        self.__porcentagemBonusRepositor = 0.015
+        self.__porcentagemBonusRepositor = 0.025
   
     def get_bonus(self):
-        '''Recebe bonus de 1.5% do salario base acrescentado ao bonus base de funcionario.'''
+        '''Recebe bonus de 2.5% do salario base acrescentado ao bonus base de funcionario.'''
         calculo = super().get_bonus() + (self.get_salario_base() * Decimal(self.__porcentagemBonusRepositor))
         return calculo.quantize(Decimal('0.01')) 
     

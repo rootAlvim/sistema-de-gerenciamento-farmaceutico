@@ -11,10 +11,15 @@ def validar_formato_cpf(cpf: str):
         return cpf
     raise ValueError("Formato de CPF incorreto")
 
+def validar_farmacia(farmacia):
+    from src.farmacia.farmacia import Farmacia
+    if not isinstance(farmacia, Farmacia):
+        raise TypeError('Método deve receber um objeto do tipo Farmacia')
+
 def validar_funcionario(funcionario):
     from src.core.funcionario import Funcionario
     if not isinstance(funcionario, Funcionario):
-        raise TypeError('Método deve receber um objeto do tipo Funcionario (Gerente ou Atendente)')
+        raise TypeError('Método deve receber um objeto do tipo Funcionario (Gerente, Atendente ou Repositor)')
     
 def validar_cliente(cliente):
     from src.core.cliente import Cliente

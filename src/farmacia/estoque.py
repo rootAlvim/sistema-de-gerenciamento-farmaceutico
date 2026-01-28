@@ -31,7 +31,7 @@ class Estoque:
         for id_produto in produtos_estoque.keys():
             if id_produto == id:
                 if quantidade and quantidade > 0:
-                    if self.produto_disponibilidade(produtos_estoque[id]["produto"], quantidade): #dupla verificacao, reutilizando metodo, pra caso seja um valor positivo, porem acima de permitido.
+                    if self.produto_disponibilidade(id, quantidade): #dupla verificacao, reutilizando metodo, pra caso seja um valor positivo, porem acima de permitido.
                         produtos_estoque[id]["quantidade"] -= quantidade
                         return True
                     raise ValueError("Produto em quantidade indisponível.")
@@ -63,10 +63,9 @@ class Estoque:
         
         # return False fica redundante
 
-    def produto_disponibilidade(self, produto, quantidade):
-        '''Checa se produto em quantidade passada está disponível para ser vendido. Retorna valor booleano.'''
-        validar_produto(produto)
-        produto_estoque = self.__produtos.get(produto.getId())
+    def produto_disponibilidade(self, id_produto, quantidade):
+        '''Recebe Id de produto e sua quantidade. Checa se produto em quantidade passada está disponível para ser vendido. Retorna valor booleano.'''
+        produto_estoque = self.__produtos.get(id_produto)
         if produto_estoque:
             if produto_estoque.get("quantidade") >= quantidade:
                 return True
