@@ -1,16 +1,17 @@
 # usar para tests: python -m tests.test_farmacia
 from src.farmacia.farmacia import Farmacia
 from src.farmacia.produto import Produto
+from src.farmacia.salvar_farmacia import salvar_farmacia, carregar_farmacia
 
 farmacia = Farmacia("Pague mais")
 
-farmacia._registrarGerente("Teste Gerente", '598.487.125-08', '02072004', 1899) # teste registro de gerente
+farmacia._registrarGerente("Teste Gerente", '598.487.125-08', '02072004', 1899, '123456') # teste registro de gerente
 print(farmacia.getGerente())
 
-id_funcionario = farmacia._registrarAtendente("Teste Atendente", '64785412698', '01061999', 1550) # teste registro de Atendente
+id_funcionario = farmacia.getGerente().cadrastar_funcionario("atendente", 'Att', '12345678998', '111999', 1550) # teste registro de Atendente
 print(farmacia.getFuncionarioPorId(id_funcionario))
 
-farmacia.getFuncionarioPorId(id_funcionario).registrar_cliente(farmacia, "Teste Cliente", '142.648.139-26') # teste registro cliente 
+farmacia.getFuncionarioPorId(id_funcionario).registrarCliente("Teste Cliente", '14264813926', '111999') # teste registro cliente 
 
 print(farmacia.getClientes())
 print(farmacia.getClientePorCpf('142.648.139-26')) # teste pegar cliente por cpf
@@ -23,22 +24,25 @@ print(farmacia.getVendaPorId(id_venda1)) #teste pegar venda por id
 produto1 = Produto("Teste Produto", 14.5, "Tester")
 print(produto1.getId()) 
 
-farmacia._estoque.adicionar_produto(produto1, 168) # teste adicionar produto
-print(farmacia._estoque.get_produtos())
+farmacia.getGerente().adicionar_produto_estoque(produto1, 168) # teste adicionar produto
+# print(farmacia._estoque.get_produtos())
 
 produto2 = Produto("Teste Produto 2", 19.5, "Tester2")
 print(produto2.getId()) 
 
-farmacia._estoque.adicionar_produto(produto2, 308) # teste adicionar produto 2
-print(farmacia._estoque.get_produtos())
-print('\n')
-logs = farmacia.getLogAlteracoes()
-for log in logs:
-    print(log, end=2*'\n')
+# farmacia._estoque.adicionar_produto(produto2, 308) # teste adicionar produto 2
+# print(farmacia._estoque.get_produtos())
+# print('\n')
+# logs = farmacia.getLogAlteracoes()
+# for log in logs:
+#     print(log, end=2*'\n')
 
+#teste pickle salvar farmacia
+salvar_farmacia(farmacia)
 
-
-
+farma = carregar_farmacia()
+print(farma.getGerente().nome)
+# print(farmacia.getClientes())
 
 # funcionario =  farmacia._registrarAtendente('Alvim','130.654.134-42','28-07-2006',900) #Registra Atendente
 # gerente = farmacia._registrarGerente('Nikolas','890.987.098-21','17-09-2000',890) #Registra Gerente
@@ -66,3 +70,4 @@ for log in logs:
 # print(f'Cliente por cpf: {farmacia.getClientePorCpf(cliente.get_cpf())}')
 # #print(f'Log de alteracoes: {farmacia.getLogAlteracoes()}')
 # print(50*'=')
+
