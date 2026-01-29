@@ -49,7 +49,14 @@ class Interface:
         row_base = 0
         column_base = 0
 
-        Label(self.__root, text=f"Farmácia {self.__farmacia.nome}", font=("Arial", 25, "bold")).grid(row=row_base+1, column=column_base)
+        try:
+            #src\interface_tkinter\img\logo.png
+            img = PhotoImage(file=r"src\interface_tkinter\img\logo.png")
+            Label(self.__root, image=img).grid(row=row_base+1, column=column_base, sticky='NE', columnspan=2, rowspan=2, padx=(0,130))
+        except Exception as erro:
+            pass
+
+        Label(self.__root, text=f"Farmácia {self.__farmacia.nome}", font=("Arial", 25, "bold")).grid(row=row_base+1, column=column_base, padx=(50,1), pady=(19, 0), sticky='W')
 
         try:
             funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
@@ -61,14 +68,14 @@ class Interface:
         self.__botaoPadrao("Login", self.login, pady=3, padx=5,corFundo='#32a858',corTexto='white', fonte=('Arial',9,'bold')).grid(row=row_base, column=column_base+2, sticky="NW", padx=0)
         self.__botaoPadrao("Logout", self.logout, pady=3, padx=5, corFundo='#f03e3e', corTexto='white', fonte=('',9,'bold')).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0)) 
         
-        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente, padx=10).grid(row=row_base+1, column=column_base+1, sticky='SE')
-        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=13).grid(row=row_base+2, column=column_base+1, sticky='NE', pady=(0,0))
-        self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.5).grid(row=row_base+2, column=column_base+1, sticky="SE", pady=(0,0))
-        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque, padx=15.4).grid(row=row_base+3, column=column_base+1, sticky="NE")
-        self.__botaoPadrao("Registrar Cliente", self.registrarCliente, padx=21).grid(row=row_base+1, column=column_base+2,sticky='SW')
-        self.__botaoPadrao("Registrar Venda", self.registrarVenda, padx=23).grid(row=row_base+2, column=column_base+2,sticky='NW',pady=(0,0))
-        self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia, padx=18).grid(row=row_base+2, column=column_base+2, sticky="SW", pady=(0,0))
-        self.__botaoPadrao("Consultar Funcionarios", self.consultarFuncionarios, padx=3).grid(row=row_base+3, column=column_base+2, sticky="NW")
+        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente, padx=10).grid(row=row_base+1, column=column_base+1, sticky='NE')
+        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=13).grid(row=row_base+1, column=column_base+1, sticky='NE', pady=(32,0))
+        self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.5).grid(row=row_base+1, column=column_base+1, sticky="SE", pady=(0,0))
+        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque, padx=15.4).grid(row=row_base+2, column=column_base+1, sticky="NE")
+        self.__botaoPadrao("Registrar Cliente", self.registrarCliente, padx=21).grid(row=row_base+1, column=column_base+2,sticky='NW')
+        self.__botaoPadrao("Registrar Venda", self.registrarVenda, padx=23).grid(row=row_base+1, column=column_base+2,sticky='NW', pady=(32,0))
+        self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia, padx=18).grid(row=row_base+1, column=column_base+2, sticky="SW", pady=(0,0))
+        self.__botaoPadrao("Consultar Funcionarios", self.consultarFuncionarios, padx=3).grid(row=row_base+2, column=column_base+2, sticky="NW")
 
         self.__root.mainloop()
 
@@ -92,16 +99,19 @@ class Interface:
             messagebox.showinfo("Login interrompido", f"Você já está logado.")
             return
         
-        self.__inciarRoot()
+        self.__inciarRoot(tamanho='450x300')
         self.__root.title('Login')
 
-        Label(self.__root, text="ID de Funcionário:").grid(row=0)
-        campo_id = Entry(self.__root, width=25, borderwidth=1)
-        campo_id.grid(row=0, column=1, columnspan=2)
+        frame = Frame(self.__root).grid(row=2, column=0, padx=(70,0))
 
-        Label(self.__root, text="Senha:").grid(row=1)
-        campo_senha = Entry(self.__root, show="*", width=25, borderwidth=1)
-        campo_senha.grid(row=1, column=1, columnspan=2)
+        Label(frame, text=f"Login - Farmácia {self.__farmacia.nome}", font=('', 17, 'bold')).grid(row=0, columnspan=5, padx=(50,0), pady=(20, 10))
+        Label(frame, text="ID de Funcionário:", font=('', 9, '')).grid(row=1, column=0)
+        campo_id = Entry(frame, width=25, borderwidth=1)
+        campo_id.grid(row=1, column=1, columnspan=2)
+
+        Label(frame, text="Senha:", font=('', 9, '')).grid(row=2, column=0)
+        campo_senha = Entry(frame, show="*", width=25, borderwidth=1)
+        campo_senha.grid(row=2, column=1, columnspan=2)
 
         def instanciar():
             id = campo_id.get() if campo_id.get() else self.__campoVazioMessagem(self.login, 'id')
@@ -132,7 +142,7 @@ class Interface:
             self.interface()
             return
 
-        self.__botaoPadrao('Logar', instanciar ,pady=5).grid(row=2, column=1, sticky='W', pady=(10,0))
+        self.__botaoPadrao('Logar', instanciar ,pady=5, corFundo='#32a858', corTexto="#f7f7f7", fonte=('',9,'bold')).grid(row=3, column=1, sticky='W', pady=(10,0))
 
         self.__root.mainloop()
 
