@@ -57,12 +57,12 @@ class Interface:
         except:
             pass
         
-        self.__botaoPadrao("Meu Perfil", self.perfilFuncionario, pady=3, padx=5).grid(row=row_base, column=column_base+1, sticky='N')
-        self.__botaoPadrao("Login", self.login, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW", padx=0)
-        self.__botaoPadrao("Logout", self.logout, pady=3, padx=5).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0)) 
+        self.__botaoPadrao("Meu Perfil", self.perfilFuncionario, pady=3, padx=5,corFundo="#2baca2",corTexto='white', fonte=('Arial',9,'bold')).grid(row=row_base, column=column_base+1, sticky='N')
+        self.__botaoPadrao("Login", self.login, pady=3, padx=5,corFundo='#32a858',corTexto='white', fonte=('Arial',9,'bold')).grid(row=row_base, column=column_base+2, sticky="NW", padx=0)
+        self.__botaoPadrao("Logout", self.logout, pady=3, padx=5, corFundo='#f03e3e', corTexto='white', fonte=('',9,'bold')).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0)) 
         
-        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente).grid(row=row_base+1, column=column_base+1, sticky='SE')
-        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=12.5).grid(row=row_base+2, column=column_base+1, sticky='NE', pady=(0,0))
+        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente, padx=10).grid(row=row_base+1, column=column_base+1, sticky='SE')
+        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=13).grid(row=row_base+2, column=column_base+1, sticky='NE', pady=(0,0))
         self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.5).grid(row=row_base+2, column=column_base+1, sticky="SE", pady=(0,0))
         self.__botaoPadrao("Consultar Estoque", self.consultarEstoque, padx=15.4).grid(row=row_base+3, column=column_base+1, sticky="NE")
         self.__botaoPadrao("Registrar Cliente", self.registrarCliente, padx=21).grid(row=row_base+1, column=column_base+2,sticky='SW')
@@ -1103,12 +1103,16 @@ class Interface:
             return False
         return True
 
-    def __botaoPadrao(self, texto, funcao, padx=10, pady=10):
+    def __botaoPadrao(self, texto, funcao, padx=8, pady=5, corTexto = None, corFundo = "#e1e1e1", fonte = None):
         botao_padrao = Button(
             self.__root, 
             text=texto, 
             padx=padx, 
-            pady=pady, 
+            pady=pady,
+            fg=corTexto,
+            bg=corFundo,
+            font=fonte,
+            borderwidth=0.5,
             command=funcao)
         return botao_padrao
     

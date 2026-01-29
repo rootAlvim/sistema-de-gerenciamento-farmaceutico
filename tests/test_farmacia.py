@@ -30,6 +30,8 @@ farmacia.getGerente().adicionar_produto_estoque(produto1, 168) # teste adicionar
 produto2 = Produto("Teste Produto 2", 19.5, "Tester2")
 print(produto2.getId()) 
 
+print(farmacia.__dict__)
+
 # farmacia._estoque.adicionar_produto(produto2, 308) # teste adicionar produto 2
 # print(farmacia._estoque.get_produtos())
 # print('\n')
