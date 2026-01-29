@@ -742,14 +742,14 @@ class Interface:
             self.__labels_venda.append(label_venda)
             self.__labels_venda.append(botao_venda)
 
-        Label(self.__root, text="Consultar Venda:").grid(row=0, column=0, pady=(10, 1), padx=0, sticky='w')
+        Label(self.__root, text="Consultar Venda:").grid(row=0, column=0, pady=(10, 1), padx=(10,0), sticky='w')
         opcoes_consulta = ["Id", "Funcionario ID", "Data"]
         menu = ttk.Combobox(self.__root, values=opcoes_consulta, state="readonly", width=15)
         menu.set("Id")
         menu.grid(row=1, column=1, pady=(0, 20))
 
         campo_consulta = Entry(self.__root, width=25, borderwidth=1)
-        campo_consulta.grid(row=1, column=0, pady=(0, 20))
+        campo_consulta.grid(row=1, column=0, pady=(0, 20), padx=(12,0))
 
         self.__botaoPadrao("Consultar", consultar, pady=4).grid(row=1, column=2, pady=(0, 20))
         self.__botaoPadrao("Limpar", self.consultarVendasFarmacia, pady=4).grid(row=1, column=3, pady=(0, 20))
@@ -1178,30 +1178,30 @@ class Interface:
         self.__root.mainloop()
 
     def __showVenda(self, venda):
-        self.__inciarRoot()
+        self.__inciarRoot(tamanho='850x400')
         self.__root.title(f'Venda {venda.getId()}')
         self.__temFarmacia()
         self.__usuarioTipoGerente()
         
-        self.__botaoPadrao("Voltar", self.consultarVendasFarmacia).grid(row=2, column=0, padx=(10,0))
-        Label(self.__root, text="Dados de Venda:", font=('', 18, 'bold')).grid(row=2, column=0, columnspan=2, sticky='E',padx=(10,0))
-        Label(self.__root, text=f"ID: {venda.getId()}").grid(row=3, column=1, sticky='w', pady=(20, 0))
-        Label(self.__root, text=f"Data da Venda: {venda.getDataVenda()}").grid(row=4, column=1, sticky='w')
-        Label(self.__root, text=f"Funcionario: {venda.getFuncionario()}").grid(row=5, column=1, sticky='w')
-        Label(self.__root, text=f"Cliente: {venda.getCliente()}").grid(row=6, column=1, sticky='w')
-        Label(self.__root, text=f"Preço total: {venda.getPrecoTotal()}").grid(row=7, column=1, sticky='w')
+        self.__botaoPadrao("Voltar", self.consultarVendasFarmacia).grid(row=2, column=0, sticky='W', padx=(4,0), pady=(4,0))
+        Label(self.__root, text="Dados de Venda:", font=('', 18, 'bold')).grid(row=2, column=0, padx=(0,20))
+        Label(self.__root, text=f"ID: {venda.getId()}").grid(row=3, column=0, sticky='w', pady=(20, 0), padx=(0,0))
+        Label(self.__root, text=f"Data da Venda: {venda.getDataVenda()}").grid(row=4, column=0, sticky='w')
+        Label(self.__root, text=f"Funcionario: {venda.getFuncionario()}").grid(row=5, column=0, sticky='w')
+        Label(self.__root, text=f"Cliente: {venda.getCliente()}").grid(row=6, column=0, sticky='w')
+        Label(self.__root, text=f"Preço total: {venda.getPrecoTotal()}").grid(row=7, column=0, sticky='w')
 
-        Label(self.__root, text=f"Produtos de venda:").grid(row=8, column=1, sticky='w', pady=(10, 0))
+        Label(self.__root, text=f"Produtos de venda:").grid(row=8, column=0, sticky='w', pady=(10, 0))
         row_ = 9
         for produto in venda.getProdutos():
-            Label(self.__root, text=produto).grid(row=row_, column=1, sticky='w', padx=(10, 0))
+            Label(self.__root, text=produto).grid(row=row_, column=0, sticky='w', padx=(10, 0))
             row_ += 1
 
         row_ += 1
-        Label(self.__root, text=f"Log de alterações:").grid(row=row_, column=1, sticky='w', pady=(10, 0))
+        Label(self.__root, text=f"Log de alterações:").grid(row=row_, column=0, sticky='w', pady=(10, 0))
         for log in venda.getLogAlteracoes():
             row_ += 1  
-            Label(self.__root, text=log).grid(row=row_, column=1, sticky='w', padx=(10, 0))
+            Label(self.__root, text=log).grid(row=row_, column=0, sticky='w', padx=(10, 0))
                
         self.__root.mainloop()
 
