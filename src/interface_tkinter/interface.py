@@ -659,7 +659,7 @@ class Interface:
 
     def consultarVendasFarmacia(self):
         from tkinter import ttk
-        self.__inciarRoot(tamanho='700x300')
+        self.__inciarRoot(tamanho='800x300')
         self.__root.title('Consultar Vendas')
         self.__temFarmacia()
         self.__usuarioTipoGerente()
@@ -713,10 +713,10 @@ class Interface:
                 row_ = 4
                 for venda in vendas_consulta:
                     label_venda = Label(self.__root, text=venda)
-                    label_venda.grid(row=row_, columnspan=10, padx=(25, 10))
+                    label_venda.grid(row=row_, columnspan=17, padx=(25, 10), sticky='W')
 
                     botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda), pady=5)
-                    botao_venda.grid(row=row_, column=11)
+                    botao_venda.grid(row=row_, column=14, padx=(200, 0))
 
                     self.__labels_venda.append(label_venda)
                     self.__labels_venda.append(botao_venda)
@@ -724,10 +724,10 @@ class Interface:
                 return
 
             label_venda = Label(self.__root, text=venda_consulta)
-            label_venda.grid(row=4, columnspan=10, padx=(25, 10))
+            label_venda.grid(row=4, columnspan=17, padx=(25, 10), sticky='W')
 
             botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda_consulta), pady=5)
-            botao_venda.grid(row=4, column=11)
+            botao_venda.grid(row=4, column=14, padx=(200, 0))
 
             self.__labels_venda.append(label_venda)
             self.__labels_venda.append(botao_venda)
@@ -748,10 +748,10 @@ class Interface:
         row_ = 4
         for venda in vendas:
             label_venda = Label(self.__root, text=venda)
-            label_venda.grid(row=row_, columnspan=10, padx=(25, 10))
+            label_venda.grid(row=row_, columnspan=17, padx=(25, 10), sticky="W")
 
             botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda), pady=5)
-            botao_venda.grid(row=row_, column=11)
+            botao_venda.grid(row=row_, column=14, padx=(200, 0))
 
             self.__labels_venda.append(label_venda)
             self.__labels_venda.append(botao_venda)
@@ -1173,8 +1173,9 @@ class Interface:
         self.__temFarmacia()
         self.__usuarioTipoGerente()
         
-        self.__botaoPadrao("Voltar", self.consultarVendasFarmacia).grid(row=2, column=1)
-        Label(self.__root, text=f"Id: {venda.getId()}").grid(row=3, column=1, sticky='w')
+        self.__botaoPadrao("Voltar", self.consultarVendasFarmacia).grid(row=2, column=0, padx=(10,0))
+        Label(self.__root, text="Dados de Venda:", font=('', 18, 'bold')).grid(row=2, column=0, columnspan=2, sticky='E',padx=(10,0))
+        Label(self.__root, text=f"ID: {venda.getId()}").grid(row=3, column=1, sticky='w', pady=(20, 0))
         Label(self.__root, text=f"Data da Venda: {venda.getDataVenda()}").grid(row=4, column=1, sticky='w')
         Label(self.__root, text=f"Funcionario: {venda.getFuncionario()}").grid(row=5, column=1, sticky='w')
         Label(self.__root, text=f"Cliente: {venda.getCliente()}").grid(row=6, column=1, sticky='w')
