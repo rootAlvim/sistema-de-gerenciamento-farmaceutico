@@ -972,7 +972,7 @@ class Interface:
             Label(self.__root, text=f'Comissões por vendas: R${funcionario.get_comissao()}').grid(row=row_base+9, column=column_base, sticky='W', padx=(20,0))
 
             Label(self.__root, text=f'Login:', font=('', 12)).grid(row=row_base+10, column=column_base, columnspan=2, pady=(20,5))
-            Button(self.__root, text="Alterar Senha", command=self.__alterarSenhaFuncionario, pady=3, padx=5, bg="#dfd118", fg='white', font=('','10','bold')).grid(row=row_base+11, column=column_base, padx=(3,0))
+            Button(self.__root, text="Alterar Senha", command=self.__alterarSenhaFuncionario, pady=3, padx=5, bg="#dfd118", fg='white', font=('','10','bold')).grid(row=row_base+11, column=column_base, padx=(20,0))
 
             vendas = funcionario.getVendasRealizadas()
             row_base += 1
@@ -1260,7 +1260,7 @@ class Interface:
                 return
             
             messagebox.showinfo(f'Alteração de senha.', f'Senha alterada com sucesso!')
-            self.perfilFuncionario()
+            self.perfilFuncionario() if not primeiro_acesso else self.interface()
             return 
 
         if primeiro_acesso:
