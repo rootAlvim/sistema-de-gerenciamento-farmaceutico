@@ -971,6 +971,9 @@ class Interface:
         if self.__usuarioTipoAtendente(messagemBox=False):
             Label(self.__root, text=f'Comissões por vendas: R${funcionario.get_comissao()}').grid(row=row_base+9, column=column_base, sticky='W', padx=(20,0))
 
+            Label(self.__root, text=f'Login:', font=('', 12)).grid(row=row_base+10, column=column_base, columnspan=2, pady=(20,5))
+            Button(self.__root, text="Alterar Senha", command=self.__alterarSenhaFuncionario, pady=3, padx=5, bg="#dfd118", fg='white', font=('','10','bold')).grid(row=row_base+11, column=column_base, padx=(3,0))
+
             vendas = funcionario.getVendasRealizadas()
             row_base += 1
             Label(self.__root, text=f'Suas Vendas (Total: {len(vendas)}):', font=('', 12)).grid(row=row_base, column=column_base+2, columnspan=2, pady=(20, 5))
@@ -1234,36 +1237,50 @@ class Interface:
     
         funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
 
+        if funcionario.get_senha(self.__farmacia) == funcionario.get_cpf():
+            if retornarBool:
+                return True
+            self.__alterarSenhaFuncionario(primeiro_acesso=True)
+            return
+
+    def __alterarSenhaFuncionario(self, primeiro_acesso = False):
+        self.__inciarRoot()
+        self.__root.title("Alterar senha")
+        self.__root.rowconfigure(0, weight=0)
+        self.__root.columnconfigure(0, weight=0)
+
+        funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+        label_text ="Alterar senha de login."
+
         def alterarSenha():
             try:
                 funcionario.setNovaSenha(senha_antiga.get(), senha_nova.get())
             except Exception as erro:
                 messagebox.showerror(f"Erro ao tentar alterar senha.", f'{erro}')
                 return
-            self.interface()
+            
+            messagebox.showinfo(f'Alteração de senha.', f'Senha alterada com sucesso!')
+            self.perfilFuncionario()
             return 
 
-        if funcionario.get_senha(self.__farmacia) == funcionario.get_cpf():
-            if retornarBool:
-                return True
-            
-            self.__inciarRoot()
-            self.__root.title("Alterar senha")
-            self.__root.rowconfigure(0, weight=0)
-            self.__root.columnconfigure(0, weight=0)
+        if primeiro_acesso:
+            label_text = "Altere sua senha de primeiro acesso."
 
-            Label(self.__root, text="Altere sua senha de primeiro acesso.", font=('',10,'')).grid(row=0, column=0, columnspan=2, sticky='W')
-            Label(self.__root, text="Senha Antiga:").grid(row=1, column=0,sticky='W', pady=(5,2))
-            Label(self.__root, text="Senha Nova:").grid(row=2, column=0,sticky='W',pady=(0,2), padx=(0, 1))
+        Label(self.__root, text=label_text, font=('',10,'')).grid(row=0, column=0, columnspan=2, sticky='W')
+        Label(self.__root, text="Senha Antiga:").grid(row=1, column=0,sticky='W', pady=(5,2))
+        Label(self.__root, text="Senha Nova:").grid(row=2, column=0,sticky='W',pady=(0,2), padx=(0, 1))
 
-            senha_antiga = Entry(self.__root, show='*', width=25, borderwidth=1)
-            senha_antiga.grid(row=1, column=1,sticky='E',pady=(5,2))
-            senha_nova = Entry(self.__root, show='*', width=25, borderwidth=1)
-            senha_nova.grid(row=2, column=1,sticky='E',pady=(0,2))
+        senha_antiga = Entry(self.__root, show='*', width=25, borderwidth=1)
+        senha_antiga.grid(row=1, column=1,sticky='E',pady=(5,2))
+        senha_nova = Entry(self.__root, show='*', width=25, borderwidth=1)
+        senha_nova.grid(row=2, column=1,sticky='E',pady=(0,2))
 
-            self.__botaoPadrao("Alterar", alterarSenha).grid(row=3, column=1)
+        self.__botaoPadrao("Alterar", alterarSenha).grid(row=3, column=1, sticky='W')
+        if not primeiro_acesso:
+            self.__botaoPadrao("Voltar", self.perfilFuncionario).grid(row=3, column=1, sticky='E')
 
-            self.__root.mainloop()
+        self.__root.mainloop()
+
 
 
         
