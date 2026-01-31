@@ -82,7 +82,7 @@ sistema-de-gerenciamento-farmaceutico/
 
 ### 👤 Pessoas e Usuários
 - Cadastro de clientes
-- Funcionários com hierarquia (Atendente e Gerente)
+- Funcionários com hierarquia (Gerente, Atendente e Repositor)
 - Sistema de autenticação simples
 
 ### 📦 Produtos e Estoque
