@@ -971,7 +971,7 @@ class Interface:
         self.__root.mainloop()
 
     def perfilFuncionario(self):
-        self.__inciarRoot(tamanho='780x400')
+        self.__inciarRoot(tamanho='780x450')
         self.__root.title("Meu Perfil")
         self.__temFarmacia()
         self.__autenticacaoValidacao()
@@ -1014,11 +1014,27 @@ class Interface:
 
             txt_logs.configure(state='disabled')
 
-        if self.__usuarioTipoAtendente(messagemBox=False):
-            Label(self.__root, text=f'Comissões por vendas: R${funcionario.get_comissao()}').grid(row=row_base+9, column=column_base, sticky='W', padx=(20,0))
+            Label(self.__root, text=f'Chamados Farmácia:', font=('', 12)).grid(row=row_base+1, column=column_base+5, columnspan=2, pady=(20,5), padx=(20,0))
 
+            row_ = row_base + 2
+            for chamado in self.__farmacia.getGerente().consultar_chamados():
+                label_chamado = Label(self.__root, text=f'ID: {chamado['id']} | Status: {chamado['status']} | Funcionário: {chamado['funcionario']}', font=('', '9'), wraplength=190, justify='left')
+                label_chamado.grid(row=row_, column=column_base+5, sticky='W', padx=(0, 10))
+
+                botao_chamado = self.__botaoPadrao("Ver", lambda c=chamado: self.__showChamado(c), padx=6, pady= 4, corFundo="#dbdf0c")
+                botao_chamado.grid(row=row_, column=column_base+6, sticky='W', padx=(20, 0))
+
+                row_ += 1
+        
+        if self.__usuarioTipoAtendenteOuRepositor(messagemBox=False):
             Label(self.__root, text=f'Login:', font=('', 12)).grid(row=row_base+10, column=column_base, columnspan=2, pady=(20,5))
             Button(self.__root, text="Alterar Senha", command=self.__alterarSenhaFuncionario, pady=3, padx=5, bg="#dfd118", fg='white', font=('','10','bold')).grid(row=row_base+11, column=column_base, padx=(20,0))
+
+            Label(self.__root, text=f'Farmácia:', font=('', 12)).grid(row=row_base+12, column=column_base, columnspan=2, pady=(20,5))
+            Button(self.__root, text="Abrir chamado", command=self.__abrirChamado, pady=3, padx=5, bg="#4ca70f", fg='white', font=('','10','bold')).grid(row=row_base+13, column=column_base, padx=(20,0))
+
+        if self.__usuarioTipoAtendente(messagemBox=False):
+            Label(self.__root, text=f'Comissões por vendas: R${funcionario.get_comissao()}').grid(row=row_base+9, column=column_base, sticky='W', padx=(20,0))
 
             vendas = funcionario.getVendasRealizadas()
             row_base += 1
@@ -1326,6 +1342,73 @@ class Interface:
         self.__botaoPadrao("Alterar", alterarSenha).grid(row=3, column=1, sticky='W')
         if not primeiro_acesso:
             self.__botaoPadrao("Voltar", self.perfilFuncionario).grid(row=3, column=1, sticky='E')
+
+        self.__root.mainloop()
+
+    def __abrirChamado(self):
+        self.__inciarRoot()
+        self.__root.title("Abrir chamado")
+        self.__root.rowconfigure(0, weight=0)
+        self.__root.columnconfigure(0, weight=0)
+
+        def criarChamado():
+            mensagem = campo_mensagem.get("1.0", "end-1c")
+
+            try:
+                self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).abrir_chamado(mensagem)
+            except Exception as erro:
+                messagebox.showerror(f'Erro ao tentar abrir chamado.', f'{erro}')
+                return
+            
+            messagebox.showinfo("Abrir chamado.", f'Chamado aberto com sucesso!')
+            self.perfilFuncionario()
+            return
+            
+        Label(self.__root, text="Abrir um chamado", font=('', '15', 'bold')).grid(row=0, columnspan=2, pady=(20, 10))
+
+        Label(self.__root, text="Mensagem:").grid(row=1, sticky='NE')
+        campo_mensagem = Text(self.__root, height=5, width=30)
+        campo_mensagem.grid(row=1, column=1, columnspan=2, pady=(0,5), sticky='E')
+
+        self.__botaoPadrao('Abrir chamado', criarChamado, pady=4, corFundo="#319412", corTexto='white').grid(row=2, column=1, sticky='W')
+        self.__botaoPadrao('Voltar', self.perfilFuncionario, pady=4, corFundo="#C2BF14", corTexto='white').grid(row=2, column=1, sticky='E')
+
+        self.__root.mainloop()
+
+    def __showChamado(self, chamado):
+        self.__inciarRoot(tamanho='600x300')
+        self.__root.title("Visualizar chamado")
+        self.__root.rowconfigure(0, weight=0)
+        self.__root.columnconfigure(0, weight=0)
+
+        if chamado['status'] == 'Aberto':
+            try:
+                self.__farmacia.getGerente().alterar_status_chamado(chamado['id'], 'Em processo')
+            except:
+                pass
+
+        def finalizarChamado():
+            try:
+                self.__farmacia.getGerente().alterar_status_chamado(chamado['id'], 'Finalizado')
+            except Exception as erro:
+                messagebox.showerror(f'Erro ao tentar finalizar chamado.', f'{erro}')
+                return
+            
+            messagebox.showinfo(f"Finalizar chamado.", f'Chamado ID: {chamado['id']} finalizado com sucesso!')
+            self.perfilFuncionario()
+            return
+
+        Label(self.__root, text=f'Chamado {chamado['id']} - Status: {chamado['status']}', font=('', 18, 'bold')).grid(row=0, column=1, columnspan=6, pady=(10, 20))
+
+        Label(self.__root, text=f'ID: {chamado['id']}', font=('', 11)).grid(row=1, column=0, columnspan=6, padx=(30, 0), sticky='W')
+
+        Label(self.__root, text=f'Funcionário: {chamado['funcionario']}', font=('', 11), wraplength=600).grid(row=2, column=0, columnspan=6, padx=(30, 0), sticky='W')
+
+        Label(self.__root, text=f'Mensagem:', font=('', 11)).grid(row=3, column=0, columnspan=6, padx=(30, 100), sticky='W', pady=(0,20))
+        Label(self.__root, text=f'{chamado['mensagem']}', font=('', 10), wraplength=400, justify='left').grid(row=3, column=0, columnspan=6, sticky='W', padx=(110, 0), pady=(0,20))
+
+        self.__botaoPadrao('Finalizar Chamado', finalizarChamado, pady=4, corFundo="#319412", corTexto='white').grid(row=4, column=1, sticky='W')
+        self.__botaoPadrao('Voltar', self.perfilFuncionario, pady=4, corFundo="#C2BF14", corTexto='white').grid(row=4, column=1, sticky='E')
 
         self.__root.mainloop()
 
