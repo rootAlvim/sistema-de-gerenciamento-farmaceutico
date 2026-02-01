@@ -926,10 +926,11 @@ class Interface:
                 produto_label = Label(self.__root, text=f"{produto[0]} | Quantidade: {produto[1]}")
                 produto_label.grid(row=2, column=0, columnspan=3)
 
-                botao_editar_preco = self.__botaoPadrao("Edit Preço", lambda: self.__editarPrecoProduto(produto[0]), pady=2, padx=6)
-                botao_editar_preco.grid(row=2, column=4)
+                botao_editar_preco = self.__botaoPadrao("Edit Preço", lambda: self.__editarPrecoProduto(produto[0]), pady=2, padx=6, corFundo="#ffca3a", corTexto='white',)
+                
+                botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto[0].getId(), produto_label, botao_remover, botao_editar_preco), pady=4, corFundo="#ff3a3a", corTexto='white')
 
-                botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto[0].getId(), produto_label, botao_remover, botao_editar_preco), pady=4)
+                botao_editar_preco.grid(row=2, column=4)
                 botao_remover.grid(row=2, column=5)
 
                 produto_labels.append(produto_label)
@@ -955,15 +956,17 @@ class Interface:
             produto_label = Label(self.__root, text=f"{produto} | Quantidade: {qtd}")
             produto_label.grid(row=row_, column=0, columnspan=3)
 
-            botao_editar_preco = self.__botaoPadrao("Edit Preço", lambda: self.__editarPrecoProduto(produto), pady=2, padx=6)
-            botao_editar_preco.grid(row=row_, column=4)
+            botao_editar_preco = self.__botaoPadrao("Edit Preço",None, pady=2, padx=6, corFundo="#ffca3a", corTexto='white')
+            botao_remover = self.__botaoPadrao("Remover",None, pady=2, corFundo="#ff3a3a", corTexto='white')
 
-            botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto.getId(), produto_label, botao_remover, botao_editar_preco), pady=2)
+            botao_editar_preco.configure(command=lambda p=produto: self.__editarPrecoProduto(p))
+            botao_remover.configure(command=lambda p=produto, pl=produto_label, br=botao_remover,bep=botao_editar_preco: self.__removerProduto(p.getId(), pl, br, bep))
+
+            botao_editar_preco.grid(row=row_, column=4)
             botao_remover.grid(row=row_, column=5)
 
             produto_labels.append(produto_label)
-            botoes_remover.append(botao_remover)
-            botoes_remover.append(botao_editar_preco)
+            botoes_remover.extend([botao_remover, botao_editar_preco])
             row_ += 1
             
         self.__root.mainloop()
@@ -1223,7 +1226,8 @@ class Interface:
         campo_preco = Entry(self.__root, width=25, borderwidth=1)
         campo_preco.grid(row=1, column=1, columnspan=1)
 
-        self.__botaoPadrao("Alterar", setPreco, pady=4).grid(row=2, column=1)
+        self.__botaoPadrao("Alterar", setPreco, pady=4).grid(row=2, column=1, sticky='W')
+        self.__botaoPadrao("voltar", self.consultarEstoque, pady=4).grid(row=2, column=1, sticky='E')
 
         self.__root.mainloop()
 
