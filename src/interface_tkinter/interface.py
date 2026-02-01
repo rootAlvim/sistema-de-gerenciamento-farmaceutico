@@ -582,7 +582,7 @@ class Interface:
             
             if campo_menu == 'Id':
                 try:
-                    produto = self.__farmacia._estoque.consultar_produto_por_id(funcionario, int(campo_produto.get()))
+                    produto = self.__farmacia.__estoque.consultar_produto_por_id(funcionario, int(campo_produto.get()))
                 except Exception as erro:
                     messagebox.showerror(f'Erro ao procurar produto por ID.', f'{erro}')
                     # self.registrarVenda(id_venda)
@@ -590,7 +590,7 @@ class Interface:
                 
             elif campo_menu == 'Nome':
                 try:
-                    produto = self.__farmacia._estoque.consultar_produto_por_nome(funcionario, campo_produto.get())
+                    produto = self.__farmacia.__estoque.consultar_produto_por_nome(funcionario, campo_produto.get())
                 except Exception as erro:
                     messagebox.showerror(f'Erro ao procurar produto por Nome.', f'{erro}')
                     # self.registrarVenda(id_venda)

@@ -8,7 +8,7 @@ class Farmacia:
     def __init__(self, nome : str):
         self.nome = nome
         self.__vendas = []
-        self._estoque = Estoque()
+        self.__estoque = Estoque()
         self.__gerente = None
         self.__funcionarios = []
         self.__clientes = []
@@ -20,6 +20,10 @@ class Farmacia:
     def getGerente(self):
         '''Retorna um objeto de Gerente.'''
         return self.__gerente
+    
+    def getEstoque(self):
+        '''Retorna um objeto de Estoque.'''
+        return self.__estoque
     
     def getFuncionarios(self):
         '''Retorna uma lista contendo todos os objetos de Funcionarios'''

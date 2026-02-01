@@ -74,4 +74,4 @@ class Funcionario(Pessoa):
         return True
     
     def __str__(self):
-        return f"ID {self.__id} | Nome: {self.nome} | Cargo: {self.__class__.__name__} | Salário: R$ {self.__salario_base:.2f}"
+        return f"ID {self.__id}, Nome: {self.nome}, Cargo: {self.__class__.__name__}, Salário: R$ {self.__salario_base:.2f}"

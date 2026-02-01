@@ -12,7 +12,7 @@ from src.farmacia.estoque import Estoque
 from src.farmacia.produto import Produto
 from src.farmacia.venda import Venda
 farmacia = Farmacia('Farmacia Holanda')
-estoque = farmacia._estoque
+estoque = farmacia.__estoque
 gerente = farmacia._registrarGerente('Carlos','13032112390','1-1-8909',1200,123)
 def limpar_tela():
     """Função auxiliar para limpar o console e deixar o menu bonito."""
