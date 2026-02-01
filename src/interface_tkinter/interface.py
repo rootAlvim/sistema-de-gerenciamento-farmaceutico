@@ -725,22 +725,20 @@ class Interface:
                     label_venda = Label(self.__root, text=venda)
                     label_venda.grid(row=row_, columnspan=17, padx=(25, 10), sticky='W')
 
-                    botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda), pady=5)
+                    botao_venda = self.__botaoPadrao("Ver venda", lambda v=venda: self.__showVenda(v), pady=5)
                     botao_venda.grid(row=row_, column=14, padx=(200, 0))
 
-                    self.__labels_venda.append(label_venda)
-                    self.__labels_venda.append(botao_venda)
+                    self.__labels_venda.extend([label_venda, botao_venda])
                     row_ += 1
                 return
 
             label_venda = Label(self.__root, text=venda_consulta)
             label_venda.grid(row=4, columnspan=17, padx=(25, 10), sticky='W')
 
-            botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda_consulta), pady=5)
+            botao_venda = self.__botaoPadrao("Ver venda", lambda v=venda_consulta: self.__showVenda(v), pady=5)
             botao_venda.grid(row=4, column=14, padx=(200, 0))
 
-            self.__labels_venda.append(label_venda)
-            self.__labels_venda.append(botao_venda)
+            self.__labels_venda.extend([label_venda, botao_venda])
 
         Label(self.__root, text="Consultar Venda:").grid(row=0, column=0, pady=(10, 1), padx=(10,0), sticky='w')
         opcoes_consulta = ["Id", "Funcionario ID", "Data"]
@@ -760,11 +758,12 @@ class Interface:
             label_venda = Label(self.__root, text=venda)
             label_venda.grid(row=row_, columnspan=17, padx=(25, 10), sticky="W")
 
-            botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda), pady=5)
+            botao_venda = self.__botaoPadrao("Ver venda", None, pady=5)
+            botao_venda.configure(command=lambda v=venda: self.__showVenda(v))
+
             botao_venda.grid(row=row_, column=14, padx=(200, 0))
 
-            self.__labels_venda.append(label_venda)
-            self.__labels_venda.append(botao_venda)
+            self.__labels_venda.extend([label_venda, botao_venda])
             row_ += 1
 
         self.__root.mainloop()
