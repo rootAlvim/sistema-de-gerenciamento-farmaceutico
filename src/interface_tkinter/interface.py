@@ -783,7 +783,7 @@ class Interface:
 
         def resetSenha(funcionario):
             verificacao = messagebox.askyesno("Resetar senha de funcionário.", f"Você realmente deseja resetar a senha do funcionario de ID {funcionario.get_id()}?")
-
+            print(funcionario)
             if not verificacao:
                 return
             
@@ -836,22 +836,32 @@ class Interface:
                     funcionario_label = Label(self.__root, text=funcionario)
                     funcionario_label.grid(row=row_, columnspan=10, padx=(25, 10))
 
-                    botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario, funcionario_label, botao_remover), pady=5)
-                    botao_remover.grid(row=row_, column=11)
+                    botao_remover = self.__botaoPadrao("Excluir", None, corFundo="#ff3a3a", corTexto='white', pady=5)
+                    botao_resetSenha = self.__botaoPadrao("Reset senha", None, corFundo="#ffca3a", corTexto='white', pady=5)
 
-                    self.__labels_funcionarios.append(funcionario_label)
-                    self.__labels_funcionarios.append(botao_remover)
+                    botao_remover.configure(command=lambda f=funcionario, lb=funcionario_label, br=botao_remover, bs=botao_resetSenha: 
+                                                    self.__removerFuncionario(f, lb, br, bs))
+                    
+                    botao_resetSenha.configure(command=lambda f=funcionario: resetSenha(f))
+
+                    botao_remover.grid(row=row_, column=11)
+                    botao_resetSenha.grid(row=row_, column=12)
+
+                    self.__labels_funcionarios.extend([funcionario_label, botao_remover, botao_resetSenha])
                     row_ += 1
+
                 return
 
             funcionario_label = Label(self.__root, text=funcionario_consulta)
             funcionario_label.grid(row=4, columnspan=10, padx=(25, 10))
 
-            botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario, funcionario_label, botao_remover), pady=5)
+            botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario_consulta, funcionario_label, botao_remover, botao_resetSenha), corFundo="#ff3a3a", corTexto='white', pady=5)
             botao_remover.grid(row=4, column=11)
 
-            self.__labels_funcionarios.append(funcionario_label)
-            self.__labels_funcionarios.append(botao_remover)
+            botao_resetSenha = self.__botaoPadrao("Reset senha", lambda: resetSenha(funcionario_consulta), corFundo="#ffca3a", corTexto='white', pady=5)
+            botao_resetSenha.grid(row=4, column=12)
+
+            self.__labels_funcionarios.extend([funcionario_label, botao_remover, botao_resetSenha])
 
         Label(self.__root, text="Consultar Funcionario:").grid(row=0, column=0, pady=(10, 0), padx=0, sticky='w')
         opcoes_consulta = ["Id", "Cargo", "Nome"]
@@ -871,14 +881,18 @@ class Interface:
             funcionario_label = Label(self.__root, text=funcionario)
             funcionario_label.grid(row=row_, columnspan=10, padx=(25, 10))
 
-            botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario, funcionario_label, botao_remover), corFundo="#ff3a3a", corTexto='white', pady=5)
-            botao_remover.grid(row=row_, column=11)
+            botao_remover = self.__botaoPadrao("Excluir", None, corFundo="#ff3a3a", corTexto='white', pady=5)
+            botao_resetSenha = self.__botaoPadrao("Reset senha", None, corFundo="#ffca3a", corTexto='white', pady=5)
 
-            botao_resetSenha = self.__botaoPadrao("Reset senha", lambda: resetSenha(funcionario), corFundo="#ffca3a", corTexto='white', pady=5)
+            botao_remover.configure(command=lambda f=funcionario, lb=funcionario_label, br=botao_remover, bs=botao_resetSenha: 
+                                            self.__removerFuncionario(f, lb, br, bs))
+            
+            botao_resetSenha.configure(command=lambda f=funcionario: resetSenha(f))
+
+            botao_remover.grid(row=row_, column=11)
             botao_resetSenha.grid(row=row_, column=12)
 
-            self.__labels_funcionarios.append(funcionario_label)
-            self.__labels_funcionarios.append(botao_remover)
+            self.__labels_funcionarios.extend([funcionario_label, botao_remover, botao_resetSenha])
             row_ += 1
 
         self.__root.mainloop() 
@@ -1241,7 +1255,7 @@ class Interface:
                
         self.__root.mainloop()
 
-    def __removerFuncionario(self, funcionario, funcionario_label, botao_remover):
+    def __removerFuncionario(self, funcionario, funcionario_label, botao_remover, botao_resetSenha):
         verificacao = messagebox.askyesno("Remover Funcionario", f"Você realmente deseja remover funcionario, id={funcionario.get_id()}?")
 
         if not verificacao:
@@ -1257,6 +1271,7 @@ class Interface:
         try:
             funcionario_label.destroy()
             botao_remover.destroy()
+            botao_resetSenha.destroy()
         except:
             return
         
