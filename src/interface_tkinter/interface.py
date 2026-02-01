@@ -955,7 +955,7 @@ class Interface:
         self.__root.mainloop()
 
     def perfilFuncionario(self):
-        self.__inciarRoot(tamanho='600x400')
+        self.__inciarRoot(tamanho='780x400')
         self.__root.title("Meu Perfil")
         self.__temFarmacia()
         self.__autenticacaoValidacao()
@@ -983,8 +983,20 @@ class Interface:
         Label(self.__root, text=f'Bonus salarial: R${funcionario.get_bonus()}').grid(row=row_base+8, column=column_base, sticky='W', padx=(20,0))
 
         if self.__usuarioTipoGerente(messagemBox=False):
+            from tkinter import scrolledtext
             Label(self.__root, text=f'Controle Farmácia:', font=('', 12)).grid(row=row_base+9, column=column_base, columnspan=2, pady=(20,5))
             Button(self.__root, text="Excluir Farmacia", command=self.__excluirFarmacia, pady=3, padx=5, bg='red', fg='white', font=('','10','bold')).grid(row=row_base+10, column=column_base, sticky='E')
+
+            Label(self.__root, text=f'Logs de Alteração:', font=('', 12)).grid(row=row_base+1, column=column_base+3, columnspan=2, pady=(20,5), padx=(20,0))
+
+            txt_logs = scrolledtext.ScrolledText(self.__root, width=45, height=20, font=('', 8))
+            txt_logs.grid(row=row_base+2, column=column_base+3, rowspan=25, sticky='NSE', padx=(40, 0))
+            txt_logs.configure(state='normal') 
+
+            for log in self.__farmacia.getGerente().consultar_log_alteracoes_farmacia():
+                txt_logs.insert(END, f"{log}\n\n")
+
+            txt_logs.configure(state='disabled')
 
         if self.__usuarioTipoAtendente(messagemBox=False):
             Label(self.__root, text=f'Comissões por vendas: R${funcionario.get_comissao()}').grid(row=row_base+9, column=column_base, sticky='W', padx=(20,0))
