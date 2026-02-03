@@ -999,6 +999,8 @@ class Interface:
 
         if self.__usuarioTipoGerente(messagemBox=False):
             from tkinter import scrolledtext
+            self.__root.geometry('810x450')
+
             Label(self.__root, text=f'Controle Farmácia:', font=('', 12)).grid(row=row_base+9, column=column_base, columnspan=2, pady=(20,5))
             Button(self.__root, text="Excluir Farmacia", command=self.__excluirFarmacia, pady=3, padx=5, bg='red', fg='white', font=('','10','bold')).grid(row=row_base+10, column=column_base)
 
@@ -1012,17 +1014,21 @@ class Interface:
                 txt_logs.insert(END, f"{log}\n\n")
 
             txt_logs.configure(state='disabled')
+            
+            frame_chamados = Frame(self.__root)
+            frame_chamados.grid(row=row_base+1, column=column_base+5, padx=20, pady=20, rowspan=50, sticky='N')
 
-            Label(self.__root, text=f'Chamados Farmácia:', font=('', 12)).grid(row=row_base+1, column=column_base+5, columnspan=2, pady=(20,5), padx=(20,0))
+            Label(frame_chamados, text=f'Chamados Farmácia:', font=('', 12)).grid(row=row_base+1, column=column_base+5, columnspan=2, pady=(0,5), padx=(20,0))
 
             row_ = row_base + 2
             for chamado in self.__farmacia.getGerente().consultar_chamados():
                 if chamado['status'] == 'Finalizado':
                     continue
-                label_chamado = Label(self.__root, text=f'ID: {chamado['id']} | Status: {chamado['status']} | Funcionário: {chamado['funcionario']}', font=('', '9'), wraplength=190, justify='left')
+                label_chamado = Label(frame_chamados, text=f'ID: {chamado['id']} | Status: {chamado['status']} | Funcionário: {chamado['funcionario']}', font=('', '9'), wraplength=190, justify='left')
                 label_chamado.grid(row=row_, column=column_base+5, sticky='W', padx=(0, 10))
 
-                botao_chamado = self.__botaoPadrao("Ver", lambda c=chamado: self.__showChamado(c), padx=6, pady= 4, corFundo="#dbdf0c")
+                botao_chamado = Button(frame_chamados, text="ver", command=lambda c=chamado: self.__showChamado(c), padx=6, pady= 4, bg="#dbdf0c", borderwidth=0.5)
+            
                 botao_chamado.grid(row=row_, column=column_base+6, sticky='W', padx=(20, 0))
 
                 row_ += 1
@@ -1039,13 +1045,13 @@ class Interface:
 
             vendas = funcionario.getVendasRealizadas()
             row_base += 1
-            Label(self.__root, text=f'Suas Vendas (Total: {len(vendas)}):', font=('', 12)).grid(row=row_base, column=column_base+2, columnspan=2, pady=(20, 5))
+            Label(self.__root, text=f'Suas Vendas (Total: {len(vendas)}):', font=('', 12)).grid(row=row_base, column=column_base+3, columnspan=1, pady=(20, 5))
             if vendas:
                 for venda in vendas:
                     row_base += 1
-                    Label(self.__root, text=f'Venda: Id={venda.getId()}| Data={venda.getDataVenda().date()}| Preço={venda.getPrecoTotal()}').grid(row=row_base, column=column_base+2, columnspan=4, sticky='W', padx=(0,0))
+                    Label(self.__root, text=f'Venda: Id={venda.getId()}| Data={venda.getDataVenda().date()}| Preço={venda.getPrecoTotal()}').grid(row=row_base, column=column_base+3, columnspan=4, sticky='W', padx=(0,0))
             else:
-                Label(self.__root, text=f'Nenhuma Venda feita ainda.').grid(row=row_base+1, column=column_base+2, sticky='W', padx=(0,0))
+                Label(self.__root, text=f'Nenhuma Venda feita ainda.').grid(row=row_base+1, column=column_base+3, sticky='W', padx=(0,0))
 
         self.__root.mainloop()
     
