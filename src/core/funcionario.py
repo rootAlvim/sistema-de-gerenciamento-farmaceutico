@@ -40,6 +40,10 @@ class Funcionario(Pessoa):
         '''Retorna True para autenticado False para não autenticado'''
         return self.__autenticado
     
+    def abrir_chamado(self, mensagem: str):
+        '''Recebe uma mensagem e abre um chamado em farmácia.'''
+        self.getFarmacia()._criarChamado(self, mensagem)
+    
     def setAutenticacao(self, id:int, senha:str):
         '''Recebe Id e senha de Funcionario e verifica se são validos. Retorna true e altera atributo privado caso dados sejam verdadeiros.'''
         if not id == self.__id: # Se o id passado não for igual ao id do funcionario
@@ -57,9 +61,12 @@ class Funcionario(Pessoa):
 
     def setNovaSenha(self, senhaAntiga:str, senhaNova:str):
         '''Altera senha de funcionario. Recebe confirmacao de senha antiga e uma nova senha, ambas strings.'''
-        if not senhaAntiga == self.__senha: # Verifica se a senha passada e a senha do usuarui 
+        if not senhaAntiga == self.__senha:
             raise ValueError("Confirmação de senha não corresponde à senha antiga")
         
+        if not senhaAntiga != senhaNova:
+            raise ValueError("A senha nova não pode ser igual à senha antiga")
+
         if not len(senhaNova) >= 5:
             raise ValueError("Nova senha deve conter no mínimo 5 caracteres")
         
@@ -67,4 +74,4 @@ class Funcionario(Pessoa):
         return True
     
     def __str__(self):
-        return f"ID {self.__id} | Nome: {self.nome} | Cargo: {self.__class__.__name__} | Salário: R$ {self.__salario_base:.2f}"
+        return f"ID {self.__id}, Nome: {self.nome}, Cargo: {self.__class__.__name__}, Salário: R$ {self.__salario_base:.2f}"

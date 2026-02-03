@@ -70,6 +70,7 @@ class Estoque:
             if produto_estoque.get("quantidade") >= quantidade:
                 return True
         # return False fica redundante
+        #.get()usado para buscar um valor pela chave
 
 
     

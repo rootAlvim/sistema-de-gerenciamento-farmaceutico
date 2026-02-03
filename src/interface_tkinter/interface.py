@@ -49,7 +49,14 @@ class Interface:
         row_base = 0
         column_base = 0
 
-        Label(self.__root, text=f"Farmácia {self.__farmacia.nome}", font=("Arial", 25, "bold")).grid(row=row_base+1, column=column_base)
+        try:
+            #src\interface_tkinter\img\logo.png
+            img = PhotoImage(file=r"src\interface_tkinter\img\logo.png")
+            Label(self.__root, image=img).grid(row=row_base+1, column=column_base, sticky='NE', columnspan=2, rowspan=2, padx=(0,130))
+        except Exception as erro:
+            pass
+
+        Label(self.__root, text=f"Farmácia {self.__farmacia.nome}", font=("Arial", 25, "bold")).grid(row=row_base+1, column=column_base, padx=(50,1), pady=(19, 0), sticky='W')
 
         try:
             funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
@@ -61,14 +68,14 @@ class Interface:
         self.__botaoPadrao("Login", self.login, pady=3, padx=5,corFundo='#32a858',corTexto='white', fonte=('Arial',9,'bold')).grid(row=row_base, column=column_base+2, sticky="NW", padx=0)
         self.__botaoPadrao("Logout", self.logout, pady=3, padx=5, corFundo='#f03e3e', corTexto='white', fonte=('',9,'bold')).grid(row=row_base, column=column_base+2, sticky="NW",padx=(60, 0)) 
         
-        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente, padx=10).grid(row=row_base+1, column=column_base+1, sticky='SE')
-        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=13).grid(row=row_base+2, column=column_base+1, sticky='NE', pady=(0,0))
-        self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.5).grid(row=row_base+2, column=column_base+1, sticky="SE", pady=(0,0))
-        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque, padx=15.4).grid(row=row_base+3, column=column_base+1, sticky="NE")
-        self.__botaoPadrao("Registrar Cliente", self.registrarCliente, padx=21).grid(row=row_base+1, column=column_base+2,sticky='SW')
-        self.__botaoPadrao("Registrar Venda", self.registrarVenda, padx=23).grid(row=row_base+2, column=column_base+2,sticky='NW',pady=(0,0))
-        self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia, padx=18).grid(row=row_base+2, column=column_base+2, sticky="SW", pady=(0,0))
-        self.__botaoPadrao("Consultar Funcionarios", self.consultarFuncionarios, padx=3).grid(row=row_base+3, column=column_base+2, sticky="NW")
+        self.__botaoPadrao("Registrar Atendente", self.registrarAtendente, padx=10).grid(row=row_base+1, column=column_base+1, sticky='NE')
+        self.__botaoPadrao("Registrar Repositor", self.registrarRepositor, padx=13).grid(row=row_base+1, column=column_base+1, sticky='NE', pady=(32,0))
+        self.__botaoPadrao("Registrar Produto", self.registrarProduto, padx=16.5).grid(row=row_base+1, column=column_base+1, sticky="SE", pady=(0,0))
+        self.__botaoPadrao("Consultar Estoque", self.consultarEstoque, padx=15.4).grid(row=row_base+2, column=column_base+1, sticky="NE")
+        self.__botaoPadrao("Registrar Cliente", self.registrarCliente, padx=21).grid(row=row_base+1, column=column_base+2,sticky='NW')
+        self.__botaoPadrao("Registrar Venda", self.registrarVenda, padx=23).grid(row=row_base+1, column=column_base+2,sticky='NW', pady=(32,0))
+        self.__botaoPadrao("Consultar Vendas", self.consultarVendasFarmacia, padx=18).grid(row=row_base+1, column=column_base+2, sticky="SW", pady=(0,0))
+        self.__botaoPadrao("Consultar Funcionarios", self.consultarFuncionarios, padx=3).grid(row=row_base+2, column=column_base+2, sticky="NW")
 
         self.__root.mainloop()
 
@@ -92,16 +99,19 @@ class Interface:
             messagebox.showinfo("Login interrompido", f"Você já está logado.")
             return
         
-        self.__inciarRoot()
+        self.__inciarRoot(tamanho='450x300')
         self.__root.title('Login')
 
-        Label(self.__root, text="ID de Funcionário:").grid(row=0)
-        campo_id = Entry(self.__root, width=25, borderwidth=1)
-        campo_id.grid(row=0, column=1, columnspan=2)
+        frame = Frame(self.__root).grid(row=2, column=0, padx=(70,0))
 
-        Label(self.__root, text="Senha:").grid(row=1)
-        campo_senha = Entry(self.__root, show="*", width=25, borderwidth=1)
-        campo_senha.grid(row=1, column=1, columnspan=2)
+        Label(frame, text=f"Login - Farmácia {self.__farmacia.nome}", font=('', 17, 'bold')).grid(row=0, columnspan=5, padx=(50,0), pady=(20, 10))
+        Label(frame, text="ID de Funcionário:", font=('', 9, '')).grid(row=1, column=0)
+        campo_id = Entry(frame, width=25, borderwidth=1)
+        campo_id.grid(row=1, column=1, columnspan=2)
+
+        Label(frame, text="Senha:", font=('', 9, '')).grid(row=2, column=0)
+        campo_senha = Entry(frame, show="*", width=25, borderwidth=1)
+        campo_senha.grid(row=2, column=1, columnspan=2)
 
         def instanciar():
             id = campo_id.get() if campo_id.get() else self.__campoVazioMessagem(self.login, 'id')
@@ -132,7 +142,7 @@ class Interface:
             self.interface()
             return
 
-        self.__botaoPadrao('Logar', instanciar ,pady=5).grid(row=2, column=1, sticky='W', pady=(10,0))
+        self.__botaoPadrao('Logar', instanciar ,pady=5, corFundo='#32a858', corTexto="#f7f7f7", fonte=('',9,'bold')).grid(row=3, column=1, sticky='W', pady=(10,0))
 
         self.__root.mainloop()
 
@@ -157,7 +167,7 @@ class Interface:
                 self.__root.destroy()
                 self.interface()
 
-        self.__botaoPadrao('Registrar Farmácia', instanciar).grid(row=1, column=1)
+        self.__botaoPadrao('Registrar Farmácia', instanciar, corFundo="#51c41c").grid(row=1, column=1, pady=(10,0))
         
         self.__root.mainloop()
 
@@ -247,7 +257,7 @@ class Interface:
             self.__root.destroy()
             self.interface()
 
-        self.__botaoPadrao('Registrar Gerente', instanciar).grid(row=5, column=1)
+        self.__botaoPadrao('Registrar Gerente', instanciar, corFundo="#51c41c").grid(row=5, column=1, pady=(10,0))
 
         self.__root.mainloop()
 
@@ -322,8 +332,8 @@ class Interface:
             self.__root.destroy()
             self.interface()
 
-        self.__botaoPadrao('Registrar Atendente', instanciar).grid(row=4, column=1)
-        self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
+        self.__botaoPadrao('Registrar Atendente', instanciar, corFundo="#51c41c").grid(row=4, column=1, pady=(10,0))
+        self.__botaoPadrao("Voltar", self.interface, corFundo="#C2BF14").grid(row=4, column=2, pady=(10,0))
 
         self.__root.mainloop()
 
@@ -397,8 +407,8 @@ class Interface:
             self.__root.destroy()
             self.interface()
 
-        self.__botaoPadrao('Registrar Repositor', instanciar).grid(row=4, column=1)
-        self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
+        self.__botaoPadrao('Registrar Repositor', instanciar, corFundo="#51c41c").grid(row=4, column=1, pady=(10,0))
+        self.__botaoPadrao("Voltar", self.interface, corFundo="#C2BF14").grid(row=4, column=2, pady=(10,0))
 
         self.__root.mainloop()
 
@@ -461,8 +471,8 @@ class Interface:
             self.__root.destroy()
             self.interface()
 
-        self.__botaoPadrao('Registrar Cliente', instanciar).grid(row=4, column=1)
-        self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
+        self.__botaoPadrao('Registrar Cliente', instanciar, corFundo="#51c41c").grid(row=4, column=1, pady=(10,0))
+        self.__botaoPadrao("Voltar", self.interface, corFundo="#C2BF14").grid(row=4, column=2, pady=(10,0))
 
         self.__root.mainloop()
 
@@ -517,8 +527,8 @@ class Interface:
             self.__root.destroy()
             self.interface()
 
-        self.__botaoPadrao('Registrar Produto', instanciar).grid(row=4, column=1)
-        self.__botaoPadrao("Voltar", self.interface).grid(row=4, column=2)
+        self.__botaoPadrao('Registrar Produto', instanciar, corFundo="#51c41c").grid(row=4, column=1, pady=(10,0))
+        self.__botaoPadrao("Voltar", self.interface, corFundo="#C2BF14").grid(row=4, column=2, pady=(10,0))
 
         self.__root.mainloop()
 
@@ -560,10 +570,9 @@ class Interface:
                     produto_label = Label(self.__root, text=itemVenda)
                     produto_label.grid(row=_row, column=2, padx=(10, 0))
 
-                    botao_remover = self.__botaoPadrao("Remover", lambda: removerProduto(itemVenda))
+                    botao_remover = self.__botaoPadrao("Remover", lambda iv=itemVenda: removerProduto(iv), corFundo="#ee5151")
                     botao_remover.grid(row=_row, column=3)
-                    self.__labels_produto.append(produto_label)
-                    self.__labels_produto.append(botao_remover)
+                    self.__labels_produto.extend([produto_label, botao_remover])
                     _row += 1
 
         def adicionarProduto():
@@ -572,7 +581,7 @@ class Interface:
             
             if campo_menu == 'Id':
                 try:
-                    produto = self.__farmacia._estoque.consultar_produto_por_id(funcionario, int(campo_produto.get()))
+                    produto = self.__farmacia.getEstoque().consultar_produto_por_id(funcionario, int(campo_produto.get()))
                 except Exception as erro:
                     messagebox.showerror(f'Erro ao procurar produto por ID.', f'{erro}')
                     # self.registrarVenda(id_venda)
@@ -580,7 +589,7 @@ class Interface:
                 
             elif campo_menu == 'Nome':
                 try:
-                    produto = self.__farmacia._estoque.consultar_produto_por_nome(funcionario, campo_produto.get())
+                    produto = self.__farmacia.getEstoque().consultar_produto_por_nome(funcionario, campo_produto.get())
                 except Exception as erro:
                     messagebox.showerror(f'Erro ao procurar produto por Nome.', f'{erro}')
                     # self.registrarVenda(id_venda)
@@ -635,7 +644,7 @@ class Interface:
         Label(self.__root, text="Adicionar cliente via CPF em venda:").grid(row=1)
         cliente_cpf = Entry(self.__root, width=25, borderwidth=1)
         cliente_cpf.grid(row=2, column=0)
-        self.__botaoPadrao("Adicionar cliente", adicionarCliente, pady=4).grid(row=3, column=0, pady=10)
+        self.__botaoPadrao("Adicionar cliente", adicionarCliente, pady=4, corFundo="#7bc79b").grid(row=3, column=0, pady=10)
 
         Label(self.__root, text="Adicionar produto em venda:").grid(row=4, column=0)
         campo_produto = Entry(self.__root, width=20, borderwidth=1)
@@ -650,16 +659,16 @@ class Interface:
         campo_qtd = Entry(self.__root, width=15, borderwidth=1)
         campo_qtd.insert(0, '1')
         campo_qtd.grid(row=5, column=1, padx=5)
-        self.__botaoPadrao("Adicionar Produto", adicionarProduto, pady=4).grid(row=6, column=0, pady=10)
+        self.__botaoPadrao("Adicionar Produto", adicionarProduto, pady=4, corFundo="#7bc79b").grid(row=6, column=0, pady=10)
 
-        self.__botaoPadrao('Finalizar Venda', finalizarVenda).grid(row=9, column=0)
-        self.__botaoPadrao("Voltar", voltar).grid(row=9, column=1)
+        self.__botaoPadrao('Finalizar Venda', finalizarVenda, corFundo="#47e661").grid(row=9, column=0)
+        self.__botaoPadrao("Voltar", voltar, corFundo="#C2BF14").grid(row=9, column=1)
 
         self.__root.mainloop()
 
     def consultarVendasFarmacia(self):
         from tkinter import ttk
-        self.__inciarRoot(tamanho='700x300')
+        self.__inciarRoot(tamanho='800x300')
         self.__root.title('Consultar Vendas')
         self.__temFarmacia()
         self.__usuarioTipoGerente()
@@ -712,49 +721,48 @@ class Interface:
             if vendas_consulta:
                 row_ = 4
                 for venda in vendas_consulta:
-                    label_venda = Label(self.__root, text=venda)
-                    label_venda.grid(row=row_, columnspan=10, padx=(25, 10))
+                    label_venda = Label(self.__root, text=venda, wraplength=580)
+                    label_venda.grid(row=row_, columnspan=17, padx=(25, 10), sticky='W')
 
-                    botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda), pady=5)
-                    botao_venda.grid(row=row_, column=11)
+                    botao_venda = self.__botaoPadrao("Ver venda", lambda v=venda: self.__showVenda(v), pady=5,corFundo="#37c271")
+                    botao_venda.grid(row=row_, column=18)
 
-                    self.__labels_venda.append(label_venda)
-                    self.__labels_venda.append(botao_venda)
+                    self.__labels_venda.extend([label_venda, botao_venda])
                     row_ += 1
                 return
 
-            label_venda = Label(self.__root, text=venda_consulta)
-            label_venda.grid(row=4, columnspan=10, padx=(25, 10))
+            label_venda = Label(self.__root, text=venda_consulta,wraplength=580)
+            label_venda.grid(row=4, columnspan=17, padx=(25, 10), sticky='W')
 
-            botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda_consulta), pady=5)
-            botao_venda.grid(row=4, column=11)
+            botao_venda = self.__botaoPadrao("Ver venda", lambda v=venda_consulta: self.__showVenda(v), pady=5, corFundo="#37c271")
+            botao_venda.grid(row=4, column=18)
 
-            self.__labels_venda.append(label_venda)
-            self.__labels_venda.append(botao_venda)
+            self.__labels_venda.extend([label_venda, botao_venda])
 
-        Label(self.__root, text="Consultar Venda:").grid(row=0, column=0, pady=(10, 1), padx=0, sticky='w')
+        Label(self.__root, text="Consultar Venda:").grid(row=0, column=0, pady=(10, 1), padx=(10,0), sticky='w')
         opcoes_consulta = ["Id", "Funcionario ID", "Data"]
         menu = ttk.Combobox(self.__root, values=opcoes_consulta, state="readonly", width=15)
         menu.set("Id")
         menu.grid(row=1, column=1, pady=(0, 20))
 
         campo_consulta = Entry(self.__root, width=25, borderwidth=1)
-        campo_consulta.grid(row=1, column=0, pady=(0, 20))
+        campo_consulta.grid(row=1, column=0, pady=(0, 20), padx=(12,0))
 
-        self.__botaoPadrao("Consultar", consultar, pady=4).grid(row=1, column=2, pady=(0, 20))
-        self.__botaoPadrao("Limpar", self.consultarVendasFarmacia, pady=4).grid(row=1, column=3, pady=(0, 20))
-        self.__botaoPadrao("Voltar", self.interface, pady=4).grid(row=1, column=4, pady=(0, 20))
+        self.__botaoPadrao("Consultar", consultar, pady=4, corFundo="#37c271").grid(row=1, column=2, pady=(0, 20))
+        self.__botaoPadrao("Limpar", self.consultarVendasFarmacia, pady=4, corFundo="#cc5450").grid(row=1, column=3, pady=(0, 20))
+        self.__botaoPadrao("Voltar", self.interface, pady=4, corFundo="#C2BF14").grid(row=1, column=4, pady=(0, 20))
 
         row_ = 4
         for venda in vendas:
-            label_venda = Label(self.__root, text=venda)
-            label_venda.grid(row=row_, columnspan=10, padx=(25, 10))
+            label_venda = Label(self.__root, text=venda, wraplength=580)
+            label_venda.grid(row=row_, columnspan=17, padx=(25, 10), sticky="W")
 
-            botao_venda = self.__botaoPadrao("Ver venda", lambda: self.__showVenda(venda), pady=5)
-            botao_venda.grid(row=row_, column=11)
+            botao_venda = self.__botaoPadrao("Ver venda", None, pady=5, corFundo="#37c271")
+            botao_venda.configure(command=lambda v=venda: self.__showVenda(v))
 
-            self.__labels_venda.append(label_venda)
-            self.__labels_venda.append(botao_venda)
+            botao_venda.grid(row=row_, column=18)
+
+            self.__labels_venda.extend([label_venda, botao_venda])
             row_ += 1
 
         self.__root.mainloop()
@@ -770,6 +778,21 @@ class Interface:
         funcionarios = self.__farmacia.getFuncionarios()
         if not funcionarios:
             Label(self.__root, text="Nenhuma funcionario foi cadastrado ainda.").grid(row=2, column=1, columnspan=2)
+
+        def resetSenha(funcionario):
+            verificacao = messagebox.askyesno("Resetar senha de funcionário.", f"Você realmente deseja resetar a senha do funcionario de ID {funcionario.get_id()}?")
+            print(funcionario)
+            if not verificacao:
+                return
+            
+            try:
+                funcionario.setNovaSenha(funcionario.get_senha(self.__farmacia), funcionario.get_cpf())
+            except Exception as erro:
+                messagebox.showerror(f'Erro ao tentar resetar senha.', erro)
+                return
+            
+            messagebox.showinfo(f"Resetar senha.", f'Senha resetada com sucesso, funcionario de ID {funcionario.get_id()}.')
+            return
 
         def consultar():
             consulta_valor = campo_consulta.get()
@@ -811,22 +834,32 @@ class Interface:
                     funcionario_label = Label(self.__root, text=funcionario)
                     funcionario_label.grid(row=row_, columnspan=10, padx=(25, 10))
 
-                    botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario, funcionario_label, botao_remover), pady=5)
-                    botao_remover.grid(row=row_, column=11)
+                    botao_remover = self.__botaoPadrao("Excluir", None, corFundo="#ff3a3a", corTexto='white', pady=5)
+                    botao_resetSenha = self.__botaoPadrao("Reset senha", None, corFundo="#ffca3a", corTexto='white', pady=5)
 
-                    self.__labels_funcionarios.append(funcionario_label)
-                    self.__labels_funcionarios.append(botao_remover)
+                    botao_remover.configure(command=lambda f=funcionario, lb=funcionario_label, br=botao_remover, bs=botao_resetSenha: 
+                                                    self.__removerFuncionario(f, lb, br, bs))
+                    
+                    botao_resetSenha.configure(command=lambda f=funcionario: resetSenha(f))
+
+                    botao_remover.grid(row=row_, column=11)
+                    botao_resetSenha.grid(row=row_, column=12)
+
+                    self.__labels_funcionarios.extend([funcionario_label, botao_remover, botao_resetSenha])
                     row_ += 1
+
                 return
 
             funcionario_label = Label(self.__root, text=funcionario_consulta)
             funcionario_label.grid(row=4, columnspan=10, padx=(25, 10))
 
-            botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario, funcionario_label, botao_remover), pady=5)
+            botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario_consulta, funcionario_label, botao_remover, botao_resetSenha), corFundo="#ff3a3a", corTexto='white', pady=5)
             botao_remover.grid(row=4, column=11)
 
-            self.__labels_funcionarios.append(funcionario_label)
-            self.__labels_funcionarios.append(botao_remover)
+            botao_resetSenha = self.__botaoPadrao("Reset senha", lambda: resetSenha(funcionario_consulta), corFundo="#ffca3a", corTexto='white', pady=5)
+            botao_resetSenha.grid(row=4, column=12)
+
+            self.__labels_funcionarios.extend([funcionario_label, botao_remover, botao_resetSenha])
 
         Label(self.__root, text="Consultar Funcionario:").grid(row=0, column=0, pady=(10, 0), padx=0, sticky='w')
         opcoes_consulta = ["Id", "Cargo", "Nome"]
@@ -837,20 +870,27 @@ class Interface:
         campo_consulta = Entry(self.__root, width=25, borderwidth=1)
         campo_consulta.grid(row=1, column=0, pady=(0, 20), padx=(10, 0))
 
-        self.__botaoPadrao("Consultar", consultar, pady=4).grid(row=1, column=2, pady=(0, 20))
-        self.__botaoPadrao("Limpar", self.consultarFuncionarios, pady=4).grid(row=1, column=3, pady=(0, 20))
-        self.__botaoPadrao("Voltar", self.interface, pady=4).grid(row=1, column=4, pady=(0, 20))
+        self.__botaoPadrao("Consultar", consultar, pady=4, corFundo="#37c271").grid(row=1, column=2, pady=(0, 20))
+        self.__botaoPadrao("Limpar", self.consultarFuncionarios, pady=4, corFundo="#cc5450").grid(row=1, column=3, pady=(0, 20))
+        self.__botaoPadrao("Voltar", self.interface, pady=4, corFundo="#C2BF14").grid(row=1, column=4, pady=(0, 20), padx=(5,0))
 
         row_ = 4
         for funcionario in funcionarios:
             funcionario_label = Label(self.__root, text=funcionario)
             funcionario_label.grid(row=row_, columnspan=10, padx=(25, 10))
 
-            botao_remover = self.__botaoPadrao("Excluir", lambda: self.__removerFuncionario(funcionario, funcionario_label, botao_remover), pady=5)
-            botao_remover.grid(row=row_, column=11)
+            botao_remover = self.__botaoPadrao("Excluir", None, corFundo="#ff3a3a", corTexto='white', pady=5)
+            botao_resetSenha = self.__botaoPadrao("Reset senha", None, corFundo="#ffca3a", corTexto='white', pady=5)
 
-            self.__labels_funcionarios.append(funcionario_label)
-            self.__labels_funcionarios.append(botao_remover)
+            botao_remover.configure(command=lambda f=funcionario, lb=funcionario_label, br=botao_remover, bs=botao_resetSenha: 
+                                            self.__removerFuncionario(f, lb, br, bs))
+            
+            botao_resetSenha.configure(command=lambda f=funcionario: resetSenha(f))
+
+            botao_remover.grid(row=row_, column=11)
+            botao_resetSenha.grid(row=row_, column=12)
+
+            self.__labels_funcionarios.extend([funcionario_label, botao_remover, botao_resetSenha])
             row_ += 1
 
         self.__root.mainloop() 
@@ -881,53 +921,56 @@ class Interface:
                 self.__removerWidgets(produto_labels)
                 self.__removerWidgets(botoes_remover)
 
-                produto_label = Label(self.__root, text=f"{produto[0]} | Quantidade: {produto[1]}")
-                produto_label.grid(row=2, column=0, columnspan=3)
+                produto_label = Label(self.__root, text=f"{produto[0]} | Quantidade: {produto[1]}",wraplength=480)
+                produto_label.grid(row=2, column=0, columnspan=10, padx=(25, 10))
 
-                botao_editar_preco = self.__botaoPadrao("Edit Preço", lambda: self.__editarPrecoProduto(produto[0]), pady=2, padx=6)
-                botao_editar_preco.grid(row=2, column=4)
+                botao_editar_preco = self.__botaoPadrao("Edit Preço", lambda: self.__editarPrecoProduto(produto[0]), pady=4, padx=6, corFundo="#ffca3a", corTexto='white',)
+                
+                botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto[0].getId(), produto_label, botao_remover, botao_editar_preco), pady=4, corFundo="#ff3a3a", corTexto='white')
 
-                botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto[0].getId(), produto_label, botao_remover, botao_editar_preco), pady=4)
-                botao_remover.grid(row=2, column=5)
+                botao_editar_preco.grid(row=2, column=11)
+                botao_remover.grid(row=2, column=12)
 
                 produto_labels.append(produto_label)
                 return
             return
 
         consulta_campo = Entry(self.__root, width=25, borderwidth=1)
-        consulta_campo.grid(row=1, column=0, columnspan=1)
+        consulta_campo.grid(row=1, column=1, columnspan=1,pady=(0, 20))
 
-        Label(self.__root, text="Consultar por:").grid(row=0, column=2)
+        Label(self.__root, text="Consultar Produto:").grid(row=0, column=1)
         opcoes_consulta = ["Id", "Nome"]
-        menu = ttk.Combobox(self.__root, values=opcoes_consulta, state="readonly")
+        menu = ttk.Combobox(self.__root, values=opcoes_consulta, state="readonly", width=10)
         menu.set("Id")
-        menu.grid(row=1, column=2)
+        menu.grid(row=1, column=2,pady=(0, 20))
 
-        self.__botaoPadrao("Consultar", consultar, pady=4).grid(row=1, column=4)
-        self.__botaoPadrao("Limpar", self.consultarEstoque, pady=4).grid(row=1, column=5)
-        self.__botaoPadrao("Voltar", self.interface, pady=4).grid(row=1, column=6)
+        self.__botaoPadrao("Consultar", consultar, pady=4, corFundo="#37c271").grid(row=1, column=4,pady=(0, 20))
+        self.__botaoPadrao("Limpar", self.consultarEstoque, pady=4, corFundo="#cc5450").grid(row=1, column=5,pady=(0, 20))
+        self.__botaoPadrao("Voltar", self.interface, pady=4, corFundo="#C2BF14").grid(row=1, column=6, padx=(5,0),pady=(0, 20))
 
         produtos = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).consultar_estoque()
         row_ = 2
         for produto, qtd in produtos.items():
-            produto_label = Label(self.__root, text=f"{produto} | Quantidade: {qtd}")
-            produto_label.grid(row=row_, column=0, columnspan=3)
+            produto_label = Label(self.__root, text=f"{produto} | Quantidade: {qtd}",wraplength=480)
+            produto_label.grid(row=row_, column=0, columnspan=10, padx=(25, 10))
 
-            botao_editar_preco = self.__botaoPadrao("Edit Preço", lambda: self.__editarPrecoProduto(produto), pady=2, padx=6)
-            botao_editar_preco.grid(row=row_, column=4)
+            botao_editar_preco = self.__botaoPadrao("Edit Preço",None, pady=2, padx=6, corFundo="#ffca3a", corTexto='white')
+            botao_remover = self.__botaoPadrao("Remover",None, pady=2, corFundo="#ff3a3a", corTexto='white')
 
-            botao_remover = self.__botaoPadrao("Remover", lambda: self.__removerProduto(produto.getId(), produto_label, botao_remover, botao_editar_preco), pady=2)
-            botao_remover.grid(row=row_, column=5)
+            botao_editar_preco.configure(command=lambda p=produto: self.__editarPrecoProduto(p))
+            botao_remover.configure(command=lambda p=produto, pl=produto_label, br=botao_remover,bep=botao_editar_preco: self.__removerProduto(p.getId(), pl, br, bep))
+
+            botao_editar_preco.grid(row=row_, column=11)
+            botao_remover.grid(row=row_, column=12)
 
             produto_labels.append(produto_label)
-            botoes_remover.append(botao_remover)
-            botoes_remover.append(botao_editar_preco)
+            botoes_remover.extend([botao_remover, botao_editar_preco])
             row_ += 1
             
         self.__root.mainloop()
 
     def perfilFuncionario(self):
-        self.__inciarRoot(tamanho='600x400')
+        self.__inciarRoot(tamanho='780x450')
         self.__root.title("Meu Perfil")
         self.__temFarmacia()
         self.__autenticacaoValidacao()
@@ -955,32 +998,89 @@ class Interface:
         Label(self.__root, text=f'Bonus salarial: R${funcionario.get_bonus()}').grid(row=row_base+8, column=column_base, sticky='W', padx=(20,0))
 
         if self.__usuarioTipoGerente(messagemBox=False):
+            from tkinter import scrolledtext
+            self.__root.geometry('810x450')
+
             Label(self.__root, text=f'Controle Farmácia:', font=('', 12)).grid(row=row_base+9, column=column_base, columnspan=2, pady=(20,5))
-            Button(self.__root, text="Excluir Farmacia", command=self.__excluirFarmacia, pady=3, padx=5, bg='red', fg='white', font=('','10','bold')).grid(row=row_base+10, column=column_base, sticky='E')
+            Button(self.__root, text="Excluir Farmacia", command=self.__excluirFarmacia, pady=3, padx=5, bg='red', fg='white', font=('','10','bold')).grid(row=row_base+10, column=column_base)
+
+            Label(self.__root, text=f'Logs de Alteração:', font=('', 12)).grid(row=row_base+1, column=column_base+3, columnspan=2, pady=(20,5), padx=(20,0))
+
+            txt_logs = scrolledtext.ScrolledText(self.__root, width=45, height=20, font=('', 8))
+            txt_logs.grid(row=row_base+2, column=column_base+3, rowspan=25, sticky='NSE', padx=(40, 0))
+            txt_logs.configure(state='normal') 
+
+            for log in self.__farmacia.getGerente().consultar_log_alteracoes_farmacia():
+                txt_logs.insert(END, f"{log}\n\n")
+
+            txt_logs.configure(state='disabled')
+            
+            frame_chamados = Frame(self.__root)
+            frame_chamados.grid(row=row_base+1, column=column_base+5, padx=20, pady=20, rowspan=50, sticky='N')
+
+            Label(frame_chamados, text=f'Chamados Farmácia:', font=('', 12)).grid(row=row_base+1, column=column_base+5, columnspan=2, pady=(0,5), padx=(20,0))
+
+            row_ = row_base + 2
+            for chamado in self.__farmacia.getGerente().consultar_chamados():
+                if chamado['status'] == 'Finalizado':
+                    continue
+                label_chamado = Label(frame_chamados, text=f'ID: {chamado['id']} | Status: {chamado['status']} | Funcionário: {chamado['funcionario']}', font=('', '9'), wraplength=190, justify='left')
+                label_chamado.grid(row=row_, column=column_base+5, sticky='W', padx=(0, 10))
+
+                botao_chamado = Button(frame_chamados, text="ver", command=lambda c=chamado: self.__showChamado(c), padx=6, pady= 4, bg="#dbdf0c", borderwidth=0.5)
+            
+                botao_chamado.grid(row=row_, column=column_base+6, sticky='W', padx=(20, 0))
+
+                row_ += 1
+        
+        if self.__usuarioTipoAtendenteOuRepositor(messagemBox=False):
+            Label(self.__root, text=f'Login:', font=('', 12)).grid(row=row_base+10, column=column_base, columnspan=2, pady=(20,5))
+            Button(self.__root, text="Alterar Senha", command=self.__alterarSenhaFuncionario, pady=3, padx=5, bg="#dfd118", fg='white', font=('','10','bold')).grid(row=row_base+11, column=column_base, padx=(0,10), sticky='E')
+
+            Label(self.__root, text=f'Farmácia:', font=('', 12)).grid(row=row_base+12, column=column_base, columnspan=2, pady=(20,5))
+            Button(self.__root, text="Abrir chamado", command=self.__abrirChamado, pady=3, padx=5, bg="#4ca70f", fg='white', font=('','10','bold')).grid(row=row_base+13, column=column_base, padx=(0,10), sticky='E')
 
         if self.__usuarioTipoAtendente(messagemBox=False):
             Label(self.__root, text=f'Comissões por vendas: R${funcionario.get_comissao()}').grid(row=row_base+9, column=column_base, sticky='W', padx=(20,0))
 
             vendas = funcionario.getVendasRealizadas()
             row_base += 1
-            Label(self.__root, text=f'Suas Vendas (Total: {len(vendas)}):', font=('', 12)).grid(row=row_base, column=column_base+2, columnspan=2, pady=(20, 5))
+            Label(self.__root, text=f'Suas Vendas (Total: {len(vendas)}):', font=('', 12)).grid(row=row_base, column=column_base+3, columnspan=1, pady=(20, 5))
             if vendas:
                 for venda in vendas:
                     row_base += 1
-                    Label(self.__root, text=f'Venda: Id={venda.getId()}| Data={venda.getDataVenda().date()}| Preço={venda.getPrecoTotal()}').grid(row=row_base, column=column_base+2, columnspan=4, sticky='W', padx=(0,0))
+                    Label(self.__root, text=f'Venda: Id={venda.getId()}| Data={venda.getDataVenda().date()}| Preço={venda.getPrecoTotal()}').grid(row=row_base, column=column_base+3, columnspan=4, sticky='W', padx=(0,0))
             else:
-                Label(self.__root, text=f'Nenhuma Venda feita ainda.').grid(row=row_base+1, column=column_base+2, sticky='W', padx=(0,0))
+                Label(self.__root, text=f'Nenhuma Venda feita ainda.').grid(row=row_base+1, column=column_base+3, sticky='W', padx=(0,0))
 
         self.__root.mainloop()
-        
+    
     def __inciarRoot(self, tamanho = "500x300"):
         try:
             self.__root.destroy()
-        except:
-            pass
+        except: pass
         self.__root = Tk()
+        try:
+            # self.__root.iconphoto(True, PhotoImage(file=r"src\interface_tkinter\img\logo.png"))
+            self.__root.iconbitmap(r"src\interface_tkinter\img\favicon.ico")
+        except: pass
         self.__root.protocol("WM_DELETE_WINDOW", self.__salvarFarmacia)
         self.__root.geometry(tamanho)
+
+        tamanho = tamanho.split('x')
+        largura_janela = tamanho[0]
+        altura_janela = tamanho[1]
+
+        self.__centralizarJanela(int(largura_janela), int(altura_janela))
+    
+    def __centralizarJanela(self, largura, altura):
+        screen_width = self.__root.winfo_screenwidth()
+        screen_height = self.__root.winfo_screenheight()
+
+        x = (screen_width // 2) - (largura // 2)
+        y = (screen_height // 2) - (altura // 2)
+
+        self.__root.geometry(f'{largura}x{altura}+{x}+{y}')
 
     def __salvarFarmacia(self):
         salvar_farmacia(self.__farmacia)
@@ -1163,38 +1263,40 @@ class Interface:
         campo_preco = Entry(self.__root, width=25, borderwidth=1)
         campo_preco.grid(row=1, column=1, columnspan=1)
 
-        self.__botaoPadrao("Alterar", setPreco, pady=4).grid(row=2, column=1)
+        self.__botaoPadrao("Alterar", setPreco, pady=4).grid(row=2, column=1, sticky='W')
+        self.__botaoPadrao("voltar", self.consultarEstoque, pady=4).grid(row=2, column=1, sticky='E')
 
         self.__root.mainloop()
 
     def __showVenda(self, venda):
-        self.__inciarRoot()
+        self.__inciarRoot(tamanho='850x400')
         self.__root.title(f'Venda {venda.getId()}')
         self.__temFarmacia()
         self.__usuarioTipoGerente()
         
-        self.__botaoPadrao("Voltar", self.consultarVendasFarmacia).grid(row=2, column=1)
-        Label(self.__root, text=f"Id: {venda.getId()}").grid(row=3, column=1, sticky='w')
-        Label(self.__root, text=f"Data da Venda: {venda.getDataVenda()}").grid(row=4, column=1, sticky='w')
-        Label(self.__root, text=f"Funcionario: {venda.getFuncionario()}").grid(row=5, column=1, sticky='w')
-        Label(self.__root, text=f"Cliente: {venda.getCliente()}").grid(row=6, column=1, sticky='w')
-        Label(self.__root, text=f"Preço total: {venda.getPrecoTotal()}").grid(row=7, column=1, sticky='w')
+        self.__botaoPadrao("Voltar", self.consultarVendasFarmacia).grid(row=2, column=0, sticky='W', padx=(4,0), pady=(4,0))
+        Label(self.__root, text="Dados de Venda:", font=('', 18, 'bold')).grid(row=2, column=0, padx=(0,20))
+        Label(self.__root, text=f"ID: {venda.getId()}").grid(row=3, column=0, sticky='w', pady=(20, 0), padx=(0,0))
+        Label(self.__root, text=f"Data da Venda: {venda.getDataVenda()}").grid(row=4, column=0, sticky='w')
+        Label(self.__root, text=f"Funcionario: {venda.getFuncionario()}").grid(row=5, column=0, sticky='w')
+        Label(self.__root, text=f"Cliente: {venda.getCliente()}").grid(row=6, column=0, sticky='w')
+        Label(self.__root, text=f"Preço total: {venda.getPrecoTotal()}").grid(row=7, column=0, sticky='w')
 
-        Label(self.__root, text=f"Produtos de venda:").grid(row=8, column=1, sticky='w', pady=(10, 0))
+        Label(self.__root, text=f"Produtos de venda:").grid(row=8, column=0, sticky='w', pady=(10, 0))
         row_ = 9
         for produto in venda.getProdutos():
-            Label(self.__root, text=produto).grid(row=row_, column=1, sticky='w', padx=(10, 0))
+            Label(self.__root, text=produto).grid(row=row_, column=0, sticky='w', padx=(10, 0))
             row_ += 1
 
         row_ += 1
-        Label(self.__root, text=f"Log de alterações:").grid(row=row_, column=1, sticky='w', pady=(10, 0))
+        Label(self.__root, text=f"Log de alterações:").grid(row=row_, column=0, sticky='w', pady=(10, 0))
         for log in venda.getLogAlteracoes():
             row_ += 1  
-            Label(self.__root, text=log).grid(row=row_, column=1, sticky='w', padx=(10, 0))
+            Label(self.__root, text=log).grid(row=row_, column=0, sticky='w', padx=(10, 0))
                
         self.__root.mainloop()
 
-    def __removerFuncionario(self, funcionario, funcionario_label, botao_remover):
+    def __removerFuncionario(self, funcionario, funcionario_label, botao_remover, botao_resetSenha):
         verificacao = messagebox.askyesno("Remover Funcionario", f"Você realmente deseja remover funcionario, id={funcionario.get_id()}?")
 
         if not verificacao:
@@ -1210,6 +1312,7 @@ class Interface:
         try:
             funcionario_label.destroy()
             botao_remover.destroy()
+            botao_resetSenha.destroy()
         except:
             return
         
@@ -1220,36 +1323,117 @@ class Interface:
     
         funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
 
+        if funcionario.get_senha(self.__farmacia) == funcionario.get_cpf():
+            if retornarBool:
+                return True
+            self.__alterarSenhaFuncionario(primeiro_acesso=True)
+            return
+
+    def __alterarSenhaFuncionario(self, primeiro_acesso = False):
+        self.__inciarRoot()
+        self.__root.title("Alterar senha")
+        self.__root.rowconfigure(0, weight=0)
+        self.__root.columnconfigure(0, weight=0)
+
+        funcionario = self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado)
+        label_text ="Alterar senha de login."
+
         def alterarSenha():
             try:
                 funcionario.setNovaSenha(senha_antiga.get(), senha_nova.get())
             except Exception as erro:
                 messagebox.showerror(f"Erro ao tentar alterar senha.", f'{erro}')
                 return
-            self.interface()
+            
+            messagebox.showinfo(f'Alteração de senha.', f'Senha alterada com sucesso!')
+            self.perfilFuncionario() if not primeiro_acesso else self.interface()
             return 
 
-        if funcionario.get_senha(self.__farmacia) == funcionario.get_cpf():
-            if retornarBool:
-                return True
+        if primeiro_acesso:
+            label_text = "Altere sua senha de primeiro acesso."
+
+        Label(self.__root, text=label_text, font=('',10,'')).grid(row=0, column=0, columnspan=2, sticky='W')
+        Label(self.__root, text="Senha Antiga:").grid(row=1, column=0,sticky='W', pady=(5,2))
+        Label(self.__root, text="Senha Nova:").grid(row=2, column=0,sticky='W',pady=(0,2), padx=(0, 1))
+
+        senha_antiga = Entry(self.__root, show='*', width=25, borderwidth=1)
+        senha_antiga.grid(row=1, column=1,sticky='E',pady=(5,2))
+        senha_nova = Entry(self.__root, show='*', width=25, borderwidth=1)
+        senha_nova.grid(row=2, column=1,sticky='E',pady=(0,2))
+
+        self.__botaoPadrao("Alterar", alterarSenha).grid(row=3, column=1, sticky='W')
+        if not primeiro_acesso:
+            self.__botaoPadrao("Voltar", self.perfilFuncionario).grid(row=3, column=1, sticky='E')
+
+        self.__root.mainloop()
+
+    def __abrirChamado(self):
+        self.__inciarRoot()
+        self.__root.title("Abrir chamado")
+        self.__root.rowconfigure(0, weight=0)
+        self.__root.columnconfigure(0, weight=0)
+
+        def criarChamado():
+            mensagem = campo_mensagem.get("1.0", "end-1c")
+
+            try:
+                self.__farmacia.getFuncionarioPorId(self.__idFuncionarioLogado).abrir_chamado(mensagem)
+            except Exception as erro:
+                messagebox.showerror(f'Erro ao tentar abrir chamado.', f'{erro}')
+                return
             
-            self.__inciarRoot()
-            self.__root.title("Alterar senha")
-            self.__root.rowconfigure(0, weight=0)
-            self.__root.columnconfigure(0, weight=0)
+            messagebox.showinfo("Abrir chamado.", f'Chamado aberto com sucesso!')
+            self.perfilFuncionario()
+            return
+            
+        Label(self.__root, text="Abrir um chamado", font=('', '15', 'bold')).grid(row=0, columnspan=2, pady=(20, 10))
 
-            Label(self.__root, text="Altere sua senha de primeiro acesso.", font=('',10,'')).grid(row=0, column=0, columnspan=2, sticky='W')
-            Label(self.__root, text="Senha Antiga:").grid(row=1, column=0,sticky='W', pady=(5,2))
-            Label(self.__root, text="Senha Nova:").grid(row=2, column=0,sticky='W',pady=(0,2), padx=(0, 1))
+        Label(self.__root, text="Mensagem:").grid(row=1, sticky='NE')
+        campo_mensagem = Text(self.__root, height=5, width=30)
+        campo_mensagem.grid(row=1, column=1, columnspan=2, pady=(0,5), sticky='E')
 
-            senha_antiga = Entry(self.__root, show='*', width=25, borderwidth=1)
-            senha_antiga.grid(row=1, column=1,sticky='E',pady=(5,2))
-            senha_nova = Entry(self.__root, show='*', width=25, borderwidth=1)
-            senha_nova.grid(row=2, column=1,sticky='E',pady=(0,2))
+        self.__botaoPadrao('Abrir chamado', criarChamado, pady=4, corFundo="#319412", corTexto='white').grid(row=2, column=1, sticky='W')
+        self.__botaoPadrao('Voltar', self.perfilFuncionario, pady=4, corFundo="#C2BF14", corTexto='white').grid(row=2, column=1, sticky='E')
 
-            self.__botaoPadrao("Alterar", alterarSenha).grid(row=3, column=1)
+        self.__root.mainloop()
 
-            self.__root.mainloop()
+    def __showChamado(self, chamado):
+        self.__inciarRoot(tamanho='600x300')
+        self.__root.title("Visualizar chamado")
+        self.__root.rowconfigure(0, weight=0)
+        self.__root.columnconfigure(0, weight=0)
+
+        if chamado['status'] == 'Aberto':
+            try:
+                self.__farmacia.getGerente().alterar_status_chamado(chamado['id'], 'Em processo')
+            except:
+                pass
+
+        def finalizarChamado():
+            try:
+                self.__farmacia.getGerente().alterar_status_chamado(chamado['id'], 'Finalizado')
+            except Exception as erro:
+                messagebox.showerror(f'Erro ao tentar finalizar chamado.', f'{erro}')
+                return
+            
+            messagebox.showinfo(f"Finalizar chamado.", f'Chamado ID: {chamado['id']} finalizado com sucesso!')
+            self.perfilFuncionario()
+            return
+
+        Label(self.__root, text=f'Chamado {chamado['id']} - Status: {chamado['status']}', font=('', 18, 'bold')).grid(row=0, column=1, columnspan=6, pady=(10, 20))
+
+        Label(self.__root, text=f'ID: {chamado['id']}', font=('', 11)).grid(row=1, column=0, columnspan=6, padx=(30, 0), sticky='W')
+
+        Label(self.__root, text=f'Funcionário: {chamado['funcionario']}', font=('', 11), wraplength=600).grid(row=2, column=0, columnspan=6, padx=(30, 0), sticky='W')
+
+        Label(self.__root, text=f'Mensagem:', font=('', 11)).grid(row=3, column=0, columnspan=6, padx=(30, 100), sticky='W', pady=(0,20))
+        Label(self.__root, text=f'{chamado['mensagem']}', font=('', 10), wraplength=400, justify='left').grid(row=3, column=0, columnspan=6, sticky='W', padx=(110, 0), pady=(0,20))
+
+        self.__botaoPadrao('Finalizar Chamado', finalizarChamado, pady=4, corFundo="#319412", corTexto='white').grid(row=4, column=1, sticky='W')
+        self.__botaoPadrao('Voltar', self.perfilFuncionario, pady=4, corFundo="#C2BF14", corTexto='white').grid(row=4, column=1, sticky='E')
+
+        self.__root.mainloop()
+
 
 
         

@@ -5,7 +5,7 @@ class GerenciarVendaMixin:
     
     def adicionar_produto_venda(self, produto, quantidade):
         '''Adiciona produto em venda, ultima realizada por funcionario, caso produto esteja disponivel no estoque.'''
-        estoque = self.getFarmacia()._estoque
+        estoque = self.getFarmacia().getEstoque()
 
         _quantidade = quantidade
         for itemVenda in self.getVendasRealizadas()[-1].getProdutos():
@@ -33,7 +33,7 @@ class GerenciarVendaMixin:
 
     def finalizar_venda(self):
         '''Finaliza última venda realizada pelo funcionario. Checa se itens de venda estão disponíveis no estoque para dar baixa, caso não, retorna ValueError.'''
-        estoque = self.getFarmacia()._estoque
+        estoque = self.getFarmacia().getEstoque()
         for itemVenda in self.getVendasRealizadas()[-1].getProdutos():
             if not estoque.produto_disponibilidade(itemVenda.id, itemVenda.quantidade):
                 raise ValueError(f"Produto Id:{itemVenda.id} em quantidade indisponível no estoque")

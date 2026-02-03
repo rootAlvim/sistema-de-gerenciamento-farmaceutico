@@ -60,13 +60,25 @@ class Gerente(Funcionario,FuncionalidadesGerente,GerenciarEstoqueMixin,Gerenciar
         '''Recebe atributos de cliente, registra um novo cliente em farmacia e retorna seu id'''
         return self.getFarmacia()._registrarCliente(self, nome, cpf, data_nascimento)
 
-    def alterar_preco_produto(self, produto, preco: Decimal): #precisei implementar para testar algumas coisas em produto
+    def alterar_preco_produto(self, produto, preco: Decimal):
         '''Alterar preço de produto. Recebe preço em Decimal e objeto de Produto'''
-        validar_produto(produto) #Valida se foi passado um objeto funcionario
-        if not produto.getId() in self.getFarmacia()._estoque.get_produtos(self):
+        validar_produto(produto)
+        if not produto.getId() in self.getFarmacia().getEstoque().get_produtos(self):
             raise ValueError("Produto não existe em estoque")
         
         produto.setPreco(self, preco)
+
+    def consultar_log_alteracoes_farmacia(self):
+        '''Retorna lista de tuplas sobre alterações em Farmácia.'''
+        return self.getFarmacia().getLogAlteracoes(self)
+    
+    def consultar_chamados(self):
+        '''Retorna lista de chamados em Farmácia.'''
+        return self.getFarmacia().getChamados(self)
+    
+    def alterar_status_chamado(self, id: int, status: str):
+        '''Recebe o id do chamado e um status (Aberto, Em processo ou Finalizado). Altera o status de um chamado em Farmácia.'''
+        self.getFarmacia().setChamadoStatus(self, int(id), status)
         
     def __repr__(self):
         return f'Gerente("{self.nome}", {self.get_cpf()}, "{self.get_data_nascimento()}", {self.get_salario_base()}, {self.get_id()})'
